@@ -85,7 +85,12 @@ public class Controller implements Initializable {
         series.getData().add(new XYChart.Data<>("Nov", 168));
         series.getData().add(new XYChart.Data<>("Dez", 125));
 
+        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+        series2.getData().add(new XYChart.Data<>("Jan", 200));
+        series2.getData().add(new XYChart.Data<>("Dez", 200));
+
         lchConsumoAgua.getData().add(series);
+        lchConsumoAgua.getData().add(series2);
     }
 
 }

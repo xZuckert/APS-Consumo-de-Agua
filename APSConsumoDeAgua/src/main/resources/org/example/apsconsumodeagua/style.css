@@ -43,3 +43,8 @@
 
 }
 .grafico .default-color0.chart-line-symbol { -fx-background-color: blue; }
+
+.grafico .default-color1.chart-series-line { -fx-stroke: red; }{
+
+}
+.grafico .default-color1.chart-line-symbol { -fx-background-color: red; }
