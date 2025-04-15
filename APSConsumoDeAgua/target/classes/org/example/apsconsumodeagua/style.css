@@ -1,0 +1,41 @@
+.but{
+    -fx-background-color:
+            #000000,
+            linear-gradient(#7ebcea, #2f4b8f),
+            linear-gradient(#426ab7, #263e75),
+            linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+.MyTabPane .tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+.tab {
+    -fx-background-color: #e8e8e8;
+    -fx-pref-width: 114px;
+}
+
+.MyTabPane .tab-pane .tab:selected {
+    -fx-background-color: #c0c0c0;
+}
+
+.MyTabPane .tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #3c3c3c;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.MyTabPane .tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: blue;
+}
+.MyTabPane .tab-pane:bottom *.tab-header-area {
+    -fx-padding: 0 0 0 0;
+}
+.addConta{
+    -fx-background-color: #cecece;
+}

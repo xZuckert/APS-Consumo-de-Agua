@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="paneInterface" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="360.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controllers.Controller">
+   <children>
+       <TabPane fx:id="tbpTelaInicial" layoutX="-2.0" prefHeight="640.0" prefWidth="360.0" side="BOTTOM" styleClass="MyTabPane" tabClosingPolicy="UNAVAILABLE">
+           <tabs>
+               <Tab text="Opções">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                   </content>
+               </Tab>
+               <Tab text="Menu">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                               <Button fx:id="btnAdicionarConta" layoutY="566.0" mnemonicParsing="false" onAction="#onBTNAdicionarContaClick" prefHeight="40.0" prefWidth="200.0" styleClass="but" text="Adicionar conta" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                               <Label layoutX="15.0" layoutY="4.0" prefHeight="562.0" prefWidth="330.0" />
+                               <TextArea fx:id="txtRecomendacao" disable="true" layoutX="24.0" layoutY="333.0" prefHeight="215.0" prefWidth="312.0" />
+                               <LineChart fx:id="lchConsumoAgua" layoutX="13.0" layoutY="46.0" prefHeight="260.0" prefWidth="306.0">
+                                   <xAxis>
+                                       <CategoryAxis />
+                                   </xAxis>
+                                   <yAxis>
+                                       <NumberAxis />
+                                   </yAxis>
+                               </LineChart>
+                               <Label layoutX="24.0" layoutY="306.0" text="Dicas:" />
+                               <Label layoutX="106.0" layoutY="18.0" text="Consumo de Água">
+                                   <font>
+                                       <Font size="18.0" />
+                                   </font>
+                               </Label>
+                               <Label fx:id="lblRecomendacao" alignment="TOP_LEFT" layoutX="24.0" layoutY="225.0" prefHeight="215.0" prefWidth="312.0" />
+                        <AnchorPane fx:id="apnAdicionarConta" layoutX="40.0" layoutY="296.0" prefHeight="200.0" prefWidth="280.0" styleClass="addConta" visible="false">
+                           <children>
+                              <Button fx:id="btnAdicionar" layoutX="80.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBTNAdicionar" prefHeight="26.0" prefWidth="120.0" text="Registrar" />
+                              <TextField fx:id="txtConsumo" layoutX="19.0" layoutY="44.0" prefHeight="26.0" prefWidth="242.0" />
+                              <DatePicker fx:id="dtpDataConta" layoutX="21.0" layoutY="96.0" prefHeight="26.0" prefWidth="242.0" />
+                              <Label layoutX="21.0" layoutY="27.0" text="Consumo de água em m³:" />
+                              <Label layoutX="21.0" layoutY="79.0" text="Data da Conta:" />
+                              <Label layoutX="80.0" layoutY="141.0" text="Digite um Valor Válido!" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="apnSucesso" layoutX="72.0" layoutY="277.0" prefHeight="112.0" prefWidth="216.0" visible="false">
+                           <children>
+                              <Button fx:id="btnSucesso" layoutX="78.0" layoutY="76.0" mnemonicParsing="false" onAction="#onBTNSucessoClick" prefHeight="26.0" prefWidth="59.0" text="Voltar" />
+                              <Label layoutY="37.0" prefHeight="18.0" prefWidth="216.0" text="Conta de Água Registrada com sucesso!" />
+                           </children>
+                        </AnchorPane>
+                           </children></AnchorPane>
+                   </content>
+               </Tab>
+               <Tab text="Usuário">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                               <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="24.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" styleClass="imageV" />
+                               <TextField disable="true" layoutX="187.0" layoutY="49.0" prefHeight="26.0" prefWidth="149.0" />
+                               <TextField disable="true" layoutX="187.0" layoutY="99.0" prefHeight="26.0" prefWidth="149.0" />
+                               <Label layoutX="187.0" layoutY="31.0" text="Nome:" />
+                               <Label layoutX="187.0" layoutY="81.0" text="Sobrenome:" />
+                               <Label layoutX="187.0" layoutY="131.0" text="Sexo: " />
+                               <TextField disable="true" layoutX="187.0" layoutY="149.0" prefHeight="26.0" prefWidth="149.0" />
+                               <TextField disable="true" layoutX="24.0" layoutY="299.0" prefHeight="26.0" prefWidth="312.0" />
+                               <Label layoutX="24.0" layoutY="281.0" text="Endereço:" />
+                               <TextField disable="true" layoutX="24.0" layoutY="199.0" prefHeight="26.0" prefWidth="312.0" />
+                               <Label layoutX="24.0" layoutY="181.0" text="CPF:" />
+                               <Label layoutX="24.0" layoutY="331.0" text="Cidade:" />
+                               <Label layoutX="24.0" layoutY="381.0" text="Estado:" />
+                               <Label layoutX="203.0" layoutY="381.0" text="CEP:" />
+                               <TextField disable="true" layoutX="25.0" layoutY="349.0" prefHeight="26.0" prefWidth="312.0" />
+                               <TextField disable="true" layoutX="25.0" layoutY="399.0" prefHeight="26.0" prefWidth="160.0" />
+                               <TextField disable="true" layoutX="203.0" layoutY="399.0" prefHeight="26.0" prefWidth="133.0" />
+                               <Label layoutX="24.0" layoutY="231.0" text="Telefone:" />
+                               <TextField disable="true" layoutX="24.0" layoutY="249.0" prefHeight="26.0" prefWidth="312.0" />
+                           </children></AnchorPane>
+                   </content>
+               </Tab>
+           </tabs>
+       </TabPane>
+   </children>
+</AnchorPane>
