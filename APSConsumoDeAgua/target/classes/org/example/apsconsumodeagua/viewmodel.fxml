@@ -22,7 +22,7 @@
                                <Button fx:id="btnAdicionarConta" layoutY="566.0" mnemonicParsing="false" onAction="#onBTNAdicionarContaClick" prefHeight="40.0" prefWidth="200.0" styleClass="but" text="Adicionar conta" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                <Label layoutX="15.0" layoutY="4.0" prefHeight="562.0" prefWidth="330.0" />
                                <TextArea fx:id="txtRecomendacao" disable="true" layoutX="24.0" layoutY="333.0" prefHeight="215.0" prefWidth="312.0" />
-                               <LineChart fx:id="lchConsumoAgua" layoutX="13.0" layoutY="46.0" prefHeight="260.0" prefWidth="306.0">
+                               <LineChart fx:id="lchConsumoAgua" layoutX="13.0" layoutY="46.0" prefHeight="260.0" prefWidth="306.0" styleClass="grafico">
                                    <xAxis>
                                        <CategoryAxis />
                                    </xAxis>

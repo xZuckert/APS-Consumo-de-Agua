@@ -39,3 +39,7 @@
 .addConta{
     -fx-background-color: #cecece;
 }
+.grafico .default-color0.chart-series-line { -fx-stroke: blue; }{
+
+}
+.grafico .default-color0.chart-line-symbol { -fx-background-color: blue; }
