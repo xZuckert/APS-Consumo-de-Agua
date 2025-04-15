@@ -47,13 +47,8 @@
                               <Label layoutX="80.0" layoutY="141.0" text="Digite um Valor Válido!" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="apnSucesso" layoutX="72.0" layoutY="277.0" prefHeight="112.0" prefWidth="216.0" visible="false">
-                           <children>
-                              <Button fx:id="btnSucesso" layoutX="78.0" layoutY="76.0" mnemonicParsing="false" onAction="#onBTNSucessoClick" prefHeight="26.0" prefWidth="59.0" text="Voltar" />
-                              <Label layoutY="37.0" prefHeight="18.0" prefWidth="216.0" text="Conta de Água Registrada com sucesso!" />
                            </children>
-                        </AnchorPane>
-                           </children></AnchorPane>
+                       </AnchorPane>
                    </content>
                </Tab>
                <Tab text="Usuário">

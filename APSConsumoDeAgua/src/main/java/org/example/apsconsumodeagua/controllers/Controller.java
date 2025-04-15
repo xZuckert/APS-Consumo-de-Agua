@@ -44,11 +44,6 @@ public class Controller implements Initializable {
     }
     @FXML
     private void onBTNAdicionar (ActionEvent event) {
-        apnSucesso.setVisible(true);
-    }
-    @FXML
-    private void onBTNSucessoClick (ActionEvent event) {
-        apnSucesso.setVisible(false);
         apnAdicionarConta.setVisible(false);
     }
 
