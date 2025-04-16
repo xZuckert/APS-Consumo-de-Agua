@@ -56,34 +56,10 @@ public class Controller implements Initializable {
         String ano = Validadores.pegarAno(dataConsumo);
         String mes = Validadores.pegarMes(dataConsumo);
         listaDeGraficos.adicionarDado(ano,mes,consumo);
-        if (!tabExiste(ano)) {
-            Grafico grafico = listaDeGraficos.getGrafico(ano);
-            LineChart<String, Number> chart = grafico.getLineChart();
-
-            chart.getStyleClass().add("grafico");
-
-            VBox vbox = new VBox();
-
-            Region topSpacer = new Region();
-            Region bottomSpacer = new Region();
-
-            VBox.setVgrow(topSpacer, javafx.scene.layout.Priority.ALWAYS);
-            VBox.setVgrow(bottomSpacer, javafx.scene.layout.Priority.ALWAYS);
-            vbox.getChildren().addAll(topSpacer, chart, bottomSpacer);
-
-            AnchorPane graficoContainer = new AnchorPane(vbox);
-            AnchorPane.setTopAnchor(vbox, 10.0);
-            AnchorPane.setBottomAnchor(vbox, 10.0);
-            AnchorPane.setLeftAnchor(vbox, 10.0);
-            AnchorPane.setRightAnchor(vbox, 10.0);
-
-            Tab tab = new Tab(ano);
-            tab.setContent(graficoContainer);
-            tabPaneGraficos.getTabs().add(tab);
-            Toast.mostrarToast(paneInterface,"Grafico adicionado!", Toast.tipoToast.SUCESSO,100,320);
-        }else{
-            Toast.mostrarToast(paneInterface,"Grafico atualizado!", Toast.tipoToast.SUCESSO);
-        }
+        gerenciarTab(ano);
+        consumoField.clear();
+        dateField.setValue(null);
+        addConsumo.setVisible(false);
     }
     private void tabToggle(ToggleButton toggleButton) {
         switch (toggleButton.getId()) {
@@ -120,7 +96,7 @@ public class Controller implements Initializable {
         }
     }
 
-    public void mostrarDeslizando(Pane pane) {
+    private void mostrarDeslizando(Pane pane) {
         pane.setTranslateY(pane.getHeight());     // começa deslocado pra baixo
         pane.setOpacity(0);
         pane.setVisible(true);
@@ -136,6 +112,37 @@ public class Controller implements Initializable {
         ParallelTransition animation = new ParallelTransition(slideIn, fadeIn);
         animation.play();
     }
+    private void gerenciarTab(String ano){
+        if (!tabExiste(ano)) {
+            Grafico grafico = listaDeGraficos.getGrafico(ano);
+            LineChart<String, Number> chart = grafico.getLineChart();
+
+            chart.getStyleClass().add("grafico");
+
+            VBox vbox = new VBox();
+
+            Region topSpacer = new Region();
+            Region bottomSpacer = new Region();
+
+            VBox.setVgrow(topSpacer, javafx.scene.layout.Priority.ALWAYS);
+            VBox.setVgrow(bottomSpacer, javafx.scene.layout.Priority.ALWAYS);
+            vbox.getChildren().addAll(topSpacer, chart, bottomSpacer);
+
+            AnchorPane graficoContainer = new AnchorPane(vbox);
+            AnchorPane.setTopAnchor(vbox, 10.0);
+            AnchorPane.setBottomAnchor(vbox, 10.0);
+            AnchorPane.setLeftAnchor(vbox, 10.0);
+            AnchorPane.setRightAnchor(vbox, 10.0);
+
+            Tab tab = new Tab(ano);
+            tab.setContent(graficoContainer);
+            tabPaneGraficos.getTabs().add(tab);
+            Toast.mostrarToast(paneInterface,"Grafico adicionado!", Toast.tipoToast.SUCESSO,100,320);
+        }else{
+            Toast.mostrarToast(paneInterface,"Grafico atualizado!", Toast.tipoToast.SUCESSO);
+        }
+    }
+
 
     private boolean tabExiste(String ano) {
         for (Tab tab : tabPaneGraficos.getTabs()) {
