@@ -157,7 +157,7 @@ public class Controller implements Initializable {
             tabPaneGraficos.getTabs().add(tab);
             Toast.mostrarToast(paneInterface,"Grafico adicionado!", Toast.tipoToast.SUCESSO,100,320);
         }else{
-            Toast.mostrarToast(paneInterface,"Grafico atualizado!", Toast.tipoToast.SUCESSO);
+            Toast.mostrarToast(paneInterface,"Grafico atualizado!", Toast.tipoToast.SUCESSO, 100,320);
         }
     }
 
