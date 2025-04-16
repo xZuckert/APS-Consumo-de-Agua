@@ -16,10 +16,8 @@ import javafx.util.Duration;
 import org.example.apsconsumodeagua.models.Grafico;
 import org.example.apsconsumodeagua.models.ListaDeGraficos;
 import org.example.apsconsumodeagua.utils.Toast;
-import org.example.apsconsumodeagua.utils.Validadores;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.Year;
 import java.util.ResourceBundle;
 

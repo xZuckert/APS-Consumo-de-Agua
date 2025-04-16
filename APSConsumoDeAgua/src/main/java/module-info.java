@@ -1,4 +1,5 @@
 module org.example.apsconsumodeagua {
+    requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -15,5 +16,6 @@ module org.example.apsconsumodeagua {
     exports org.example.apsconsumodeagua;
     exports org.example.apsconsumodeagua.controllers;
     exports org.example.apsconsumodeagua.models;
+    exports org.example.apsconsumodeagua.utils;
     opens org.example.apsconsumodeagua.controllers to javafx.fxml;
 }
