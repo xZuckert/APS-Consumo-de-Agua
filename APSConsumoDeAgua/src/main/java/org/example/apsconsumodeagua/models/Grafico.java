@@ -17,6 +17,7 @@ public class Grafico {
         NumberAxis yAxis = new NumberAxis();
 
         lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setTitle(ano);
 
         yAxis.setAutoRanging(false);
         yAxis.setUpperBound(300); // Valor máximo no eixo Y

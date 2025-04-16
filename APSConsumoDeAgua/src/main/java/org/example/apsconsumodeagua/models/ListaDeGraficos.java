@@ -5,6 +5,9 @@ import java.util.Map;
 
 public class ListaDeGraficos {
     private Map<String, Grafico> graficos = new HashMap<>();
+    public void gerarGrafico(String ano){
+        graficos.put(ano, new Grafico(ano));
+    }
     public void adicionarDado(String ano, String mes, int valor) {
         Grafico g;
         if(!graficos.containsKey(ano)){

@@ -19,7 +19,7 @@ public class Login implements Initializable {
     @FXML
     private AnchorPane paneInterface;
     @FXML
-    private  TextField nomeField,sobrenomeField,cepField,enderecoField,estadoField,cidadeField,pessoasField;
+    private  TextField nomeField,sobrenomeField,cpfField,cepField,enderecoField,estadoField,cidadeField,pessoasField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -32,6 +32,7 @@ public class Login implements Initializable {
         Controller controller = novaTela.getController();
         controller.setNomeField(nomeField.getText());
         controller.setSobrenomeField(sobrenomeField.getText());
+        controller.setcpfField(cpfField.getText());
         controller.setCepField(cepField.getText());
         controller.setEnderecoField(enderecoField.getText());
         controller.setEstadoField(estadoField.getText());

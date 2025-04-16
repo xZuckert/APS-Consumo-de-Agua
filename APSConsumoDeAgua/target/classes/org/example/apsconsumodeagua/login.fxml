@@ -28,6 +28,8 @@
             <TextField fx:id="nomeField" prefHeight="26.0" prefWidth="149.0" />
             <Label text="Sobrenome:" />
             <TextField fx:id="sobrenomeField" prefHeight="26.0" prefWidth="149.0" />
+            <Label text="CPF:" />
+            <TextField fx:id="cpfField" prefHeight="26.0" prefWidth="149.0" />
             <Label text="CEP:" />
             <TextField fx:id="cepField" prefHeight="26.0" prefWidth="133.0" />
             <Label text="Endereço:" />

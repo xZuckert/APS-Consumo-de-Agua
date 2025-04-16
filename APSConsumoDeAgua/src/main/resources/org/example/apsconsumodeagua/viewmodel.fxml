@@ -28,6 +28,8 @@
                   <TextField fx:id="nomeField" disable="true" prefHeight="26.0" prefWidth="149.0" />
                   <Label text="Sobrenome:" />
                   <TextField fx:id="sobrenomeField" disable="true" prefHeight="26.0" prefWidth="149.0" />
+                  <Label text="CPF:" />
+                  <TextField fx:id="cpfField" disable="true" prefHeight="26.0" prefWidth="149.0" />
                   <Label text="CEP:" />
                   <TextField fx:id="cepField" disable="true" prefHeight="26.0" prefWidth="133.0" />
                   <Label text="Endereço:" />
@@ -37,7 +39,7 @@
                   <Label text="Cidade:" />
                   <TextField fx:id="cidadeField" disable="true" prefHeight="26.0" prefWidth="312.0" />
                   <Region prefHeight="200.0" prefWidth="200.0" />
-                  <Label text="Quantas pessoas moram na casa:" />
+                  <Label text="Número de Moradores:" />
                   <TextField fx:id="pessoasField" />
                   <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>

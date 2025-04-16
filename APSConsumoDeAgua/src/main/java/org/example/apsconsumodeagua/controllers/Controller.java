@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     public static ListaDeGraficos listaDeGraficos = new ListaDeGraficos();
+
     @FXML
     private VBox homeVBox;
     @FXML
@@ -33,13 +34,14 @@ public class Controller implements Initializable {
     @FXML
     private TabPane tabPaneGraficos;
     @FXML
-    private TextField nomeField, sobrenomeField, cepField, enderecoField,estadoField, cidadeField, pessoasField, consumoField;
+    private TextField nomeField, sobrenomeField, cpfField, cepField, enderecoField,estadoField, cidadeField, pessoasField, consumoField;
     @FXML
     private AnchorPane paneInterface, contentTabUsuario, contentTabHome, contentTabGraficos, addConsumo;
     @FXML
     private ToggleButton tabUsuario, tabHome, tabGraficos;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        gerarGraficoETab(String.valueOf(Year.now().getValue()));
         for(int i = Year.now().getValue(); i >= Year.now().getValue() - 20; i--) {
             boxAnos.getItems().add(String.valueOf(i));
         }
@@ -62,8 +64,7 @@ public class Controller implements Initializable {
         int consumo = Integer.parseInt(consumoField.getText());
         String ano = boxAnos.getValue();
         String mes = boxMeses.getValue();
-        listaDeGraficos.adicionarDado(ano,mes,consumo);
-        gerenciarTab(ano);
+        gerarGraficoETab(ano);
         addConsumo.setVisible(false);
     }
     private void tabToggle(ToggleButton toggleButton) {
@@ -130,35 +131,37 @@ public class Controller implements Initializable {
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
     }
-    private void gerenciarTab(String ano){
-        if (!tabExiste(ano)) {
-            Grafico grafico = listaDeGraficos.getGrafico(ano);
-            LineChart<String, Number> chart = grafico.getLineChart();
+    private void gerarGraficoETab(String ano){
+        if(listaDeGraficos.getGrafico(ano) == null){
+            listaDeGraficos.gerarGrafico(ano);
+            listaDeGraficos.getGrafico(ano).getLineChart().getStyleClass().add("grafico");
+            homeVBox.getChildren().add(listaDeGraficos.getGrafico(ano).getLineChart());
+            if (!tabExiste(ano)) {
+                Grafico grafico = listaDeGraficos.getGrafico(ano);
+                LineChart<String, Number> graficoTab = grafico.getLineChart();
 
-            chart.getStyleClass().add("grafico");
+                VBox vbox = new VBox();
 
-            VBox vbox = new VBox();
+                Region topSpacer = new Region();
+                Region bottomSpacer = new Region();
 
-            Region topSpacer = new Region();
-            Region bottomSpacer = new Region();
+                VBox.setVgrow(topSpacer, javafx.scene.layout.Priority.ALWAYS);
+                VBox.setVgrow(bottomSpacer, javafx.scene.layout.Priority.ALWAYS);
+                vbox.getChildren().addAll(topSpacer, graficoTab, bottomSpacer);
 
-            VBox.setVgrow(topSpacer, javafx.scene.layout.Priority.ALWAYS);
-            VBox.setVgrow(bottomSpacer, javafx.scene.layout.Priority.ALWAYS);
-            vbox.getChildren().addAll(topSpacer, chart, bottomSpacer);
+                AnchorPane graficoContainer = new AnchorPane(vbox);
+                AnchorPane.setTopAnchor(vbox, 10.0);
+                AnchorPane.setBottomAnchor(vbox, 10.0);
+                AnchorPane.setLeftAnchor(vbox, 10.0);
+                AnchorPane.setRightAnchor(vbox, 10.0);
 
-            AnchorPane graficoContainer = new AnchorPane(vbox);
-            AnchorPane.setTopAnchor(vbox, 10.0);
-            AnchorPane.setBottomAnchor(vbox, 10.0);
-            AnchorPane.setLeftAnchor(vbox, 10.0);
-            AnchorPane.setRightAnchor(vbox, 10.0);
-
-            Tab tab = new Tab(ano);
-            tab.setContent(graficoContainer);
-            tabPaneGraficos.getTabs().add(tab);
-            Toast.mostrarToast(paneInterface,"Grafico adicionado!", Toast.tipoToast.SUCESSO,100,320);
-        }else{
-            Toast.mostrarToast(paneInterface,"Grafico atualizado!", Toast.tipoToast.SUCESSO, 100,320);
+                Tab tab = new Tab(ano);
+                tab.setContent(graficoContainer);
+                tabPaneGraficos.getTabs().add(tab);
+                Toast.mostrarToast(paneInterface,"Grafico adicionado!", Toast.tipoToast.SUCESSO,100,320);
+            }
         }
+
     }
 
 
@@ -176,6 +179,9 @@ public class Controller implements Initializable {
     }
     public void setSobrenomeField(String sobrenome) {
         this.sobrenomeField.setText(sobrenome);
+    }
+    public void setcpfField(String cpf) {
+        this.cpfField.setText(cpf);
     }
     public void setCepField(String cep) {
         this.cepField.setText(cep);
