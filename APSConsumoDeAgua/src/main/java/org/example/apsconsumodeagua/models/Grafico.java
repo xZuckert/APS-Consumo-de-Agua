@@ -13,23 +13,18 @@ public class Grafico {
     public Grafico(String ano) {
         this.ano = ano;
 
-        // Primeiro crie os eixos
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
 
-        // Depois crie o gráfico com os eixos
         lineChart = new LineChart<>(xAxis, yAxis);
 
-        // Agora configure os eixos
         yAxis.setAutoRanging(false);
         yAxis.setUpperBound(300); // Valor máximo no eixo Y
         yAxis.setTickUnit(50);    // Intervalos de marcação no eixo Y
         xAxis.setLabel("Mês");
 
-        // Nome da série principal
         series.setName("Consumo");
 
-        // Dados dos meses
         series.getData().add(new XYChart.Data<>("Jan", 0));
         series.getData().add(new XYChart.Data<>("Fev", 0));
         series.getData().add(new XYChart.Data<>("Mar", 0));
@@ -43,12 +38,10 @@ public class Grafico {
         series.getData().add(new XYChart.Data<>("Nov", 0));
         series.getData().add(new XYChart.Data<>("Dez", 0));
 
-        // Linha de referência (ex: média/meta)
         XYChart.Series<String, Number> series2 = new XYChart.Series<>();
         series2.getData().add(new XYChart.Data<>("Jan", 200));
         series2.getData().add(new XYChart.Data<>("Dez", 200));
 
-        // Adiciona as séries ao gráfico
         lineChart.getData().add(series);
         lineChart.getData().add(series2);
     }

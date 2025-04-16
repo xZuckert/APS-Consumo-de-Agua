@@ -22,7 +22,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class Controller2 implements Initializable {
+public class Controller implements Initializable {
     public static ListaDeGraficos listaDeGraficos = new ListaDeGraficos();
     @FXML
     private VBox homeVBox;
