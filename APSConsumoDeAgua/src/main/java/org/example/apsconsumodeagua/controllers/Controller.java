@@ -20,6 +20,7 @@ import org.example.apsconsumodeagua.utils.Validadores;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -27,18 +28,21 @@ public class Controller implements Initializable {
     @FXML
     private VBox homeVBox;
     @FXML
+    private ComboBox<String> boxMeses, boxAnos;
+    @FXML
     private TabPane tabPaneGraficos;
     @FXML
     private TextField nomeField, sobrenomeField, cepField, enderecoField,estadoField, cidadeField, pessoasField, consumoField;
-    @FXML
-    private DatePicker dateField;
     @FXML
     private AnchorPane paneInterface, contentTabUsuario, contentTabHome, contentTabGraficos, addConsumo;
     @FXML
     private ToggleButton tabUsuario, tabHome, tabGraficos;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        boxMeses.getItems().setAll("Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez");
+        for(int i = Year.now().getValue() - 20; i <= Year.now().getValue(); i++) {
+            boxAnos.getItems().add(String.valueOf(i));
+        }
     }
     @FXML
     public void changeTab(ActionEvent event) {
@@ -52,13 +56,10 @@ public class Controller implements Initializable {
     @FXML
     public void registrarConsumo(ActionEvent event) {
         int consumo = Integer.parseInt(consumoField.getText());
-        LocalDate dataConsumo = dateField.getValue();
-        String ano = Validadores.pegarAno(dataConsumo);
-        String mes = Validadores.pegarMes(dataConsumo);
+        String mes = boxMeses.getValue();
+        String ano = boxAnos.getValue();
         listaDeGraficos.adicionarDado(ano,mes,consumo);
         gerenciarTab(ano);
-        consumoField.clear();
-        dateField.setValue(null);
         addConsumo.setVisible(false);
     }
     private void tabToggle(ToggleButton toggleButton) {

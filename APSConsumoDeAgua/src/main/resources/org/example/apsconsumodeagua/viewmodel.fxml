@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -70,8 +71,17 @@
                         <Region prefHeight="200.0" prefWidth="200.0" />
                         <Label text="Consumo de água em m³:" />
                         <TextField fx:id="consumoField" />
-                        <Label text="Data da Conta:" />
-                        <DatePicker fx:id="dateField" maxWidth="1.7976931348623157E308" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <Label text="Mês:" />
+                              <ComboBox fx:id="boxMeses" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <Label layoutX="10.0" layoutY="10.0" text="Ano:" />
+                              <ComboBox fx:id="boxAnos" layoutX="38.0" layoutY="10.0" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
                         <Region prefHeight="200.0" prefWidth="200.0" />
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
