@@ -33,6 +33,7 @@ public class Login implements Initializable {
         controller.setNomeField(nomeField.getText());
         controller.setSobrenomeField(sobrenomeField.getText());
         controller.setcpfField(cpfField.getText());
+        controller.setemailField(emailField.getText());
         controller.setCepField(cepField.getText());
         controller.setEnderecoField(enderecoField.getText());
         controller.setEstadoField(estadoField.getText());

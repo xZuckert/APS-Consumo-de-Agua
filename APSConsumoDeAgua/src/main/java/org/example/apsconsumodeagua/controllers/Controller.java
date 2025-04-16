@@ -34,7 +34,7 @@ public class Controller implements Initializable {
     @FXML
     private TabPane tabPaneGraficos;
     @FXML
-    private TextField nomeField, sobrenomeField, cpfField, cepField, enderecoField,estadoField, cidadeField, pessoasField, consumoField;
+    private TextField nomeField, sobrenomeField, cpfField, emailField, cepField, enderecoField,estadoField, cidadeField, pessoasField, consumoField;
     @FXML
     private AnchorPane paneInterface, contentTabUsuario, contentTabHome, contentTabGraficos, addConsumo;
     @FXML
@@ -189,6 +189,9 @@ public class Controller implements Initializable {
     }
     public void setcpfField(String cpf) {
         this.cpfField.setText(cpf);
+    }
+    public void setemailField(String cpf) {
+        this.emailField.setText(cpf);
     }
     public void setCepField(String cep) {
         this.cepField.setText(cep);
