@@ -25,18 +25,18 @@ public class Grafico {
 
         series.setName("Consumo");
 
-        series.getData().add(new XYChart.Data<>("Jan", 0));
-        series.getData().add(new XYChart.Data<>("Fev", 0));
-        series.getData().add(new XYChart.Data<>("Mar", 0));
-        series.getData().add(new XYChart.Data<>("Abr", 0));
-        series.getData().add(new XYChart.Data<>("Mai", 0));
-        series.getData().add(new XYChart.Data<>("Jun", 0));
-        series.getData().add(new XYChart.Data<>("Jul", 0));
-        series.getData().add(new XYChart.Data<>("Ago", 0));
-        series.getData().add(new XYChart.Data<>("Set", 0));
-        series.getData().add(new XYChart.Data<>("Out", 0));
-        series.getData().add(new XYChart.Data<>("Nov", 0));
-        series.getData().add(new XYChart.Data<>("Dez", 0));
+        series.getData().add(new XYChart.Data<>("Jan", null));
+        series.getData().add(new XYChart.Data<>("Fev", null));
+        series.getData().add(new XYChart.Data<>("Mar", null));
+        series.getData().add(new XYChart.Data<>("Abr", null));
+        series.getData().add(new XYChart.Data<>("Mai", null));
+        series.getData().add(new XYChart.Data<>("Jun", null));
+        series.getData().add(new XYChart.Data<>("Jul", null));
+        series.getData().add(new XYChart.Data<>("Ago", null));
+        series.getData().add(new XYChart.Data<>("Set", null));
+        series.getData().add(new XYChart.Data<>("Out", null));
+        series.getData().add(new XYChart.Data<>("Nov", null));
+        series.getData().add(new XYChart.Data<>("Dez", null));
 
         XYChart.Series<String, Number> series2 = new XYChart.Series<>();
         series2.getData().add(new XYChart.Data<>("Jan", 200));

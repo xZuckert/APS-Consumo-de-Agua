@@ -1,0 +1,50 @@
+.registrar{
+    -fx-background-color:
+            #000000,
+            linear-gradient(#7ebcea, #2f4b8f),
+            linear-gradient(#426ab7, #263e75),
+            linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+.but{
+    -fx-background-color:
+            #000000,
+            linear-gradient(#7ebcea, #2f4b8f),
+            linear-gradient(#426ab7, #263e75),
+            linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+.but:selected{
+    -fx-background-color:
+            #747ec4,
+            linear-gradient(#2b6793, #112964),
+            linear-gradient(#22478d, #122d62),
+            linear-gradient(#123175, #10234f);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 0;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+.MyTabPane .tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.addConta{
+    -fx-background-color: #cecece;
+}
+.grafico .default-color0.chart-series-line { -fx-stroke: blue; }{
+
+}
+.grafico .default-color0.chart-line-symbol { -fx-background-color: blue; }
+
+.grafico .default-color1.chart-series-line { -fx-stroke: red; }{
+
+}
+.grafico .default-color1.chart-line-symbol { -fx-background-color: transparent; }

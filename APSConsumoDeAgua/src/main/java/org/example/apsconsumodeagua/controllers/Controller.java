@@ -18,7 +18,10 @@ import org.example.apsconsumodeagua.models.ListaDeGraficos;
 import org.example.apsconsumodeagua.utils.Toast;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -37,10 +40,13 @@ public class Controller implements Initializable {
     private ToggleButton tabUsuario, tabHome, tabGraficos;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        boxMeses.getItems().setAll("Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez");
-        for(int i = Year.now().getValue() - 20; i <= Year.now().getValue(); i++) {
+        for(int i = Year.now().getValue(); i >= Year.now().getValue() - 20; i--) {
             boxAnos.getItems().add(String.valueOf(i));
         }
+        //atualiza o boxMeses, verifica se é o ano atual e permite selecionar somente até o mes atual
+        boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
+            atualizarBoxMeses(valorNovo);
+        });
     }
     @FXML
     public void changeTab(ActionEvent event) {
@@ -54,8 +60,8 @@ public class Controller implements Initializable {
     @FXML
     public void registrarConsumo(ActionEvent event) {
         int consumo = Integer.parseInt(consumoField.getText());
-        String mes = boxMeses.getValue();
         String ano = boxAnos.getValue();
+        String mes = boxMeses.getValue();
         listaDeGraficos.adicionarDado(ano,mes,consumo);
         gerenciarTab(ano);
         addConsumo.setVisible(false);
@@ -110,6 +116,19 @@ public class Controller implements Initializable {
 
         ParallelTransition animation = new ParallelTransition(slideIn, fadeIn);
         animation.play();
+    }
+    private void atualizarBoxMeses(String ano){
+        List<String> meses = new ArrayList<>();
+        String[] nomeMeses = {"Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"};
+        int limiteMeses = 12;
+        if(ano.equals(String.valueOf(Year.now().getValue()))){
+            limiteMeses = LocalDate.now().getMonth().getValue();
+        }
+        for(int i = 0; i < limiteMeses; i++){
+            meses.add(nomeMeses[i]);
+        }
+        boxMeses.getItems().setAll(meses);
+        boxMeses.setDisable(false);
     }
     private void gerenciarTab(String ano){
         if (!tabExiste(ano)) {
