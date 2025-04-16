@@ -27,9 +27,9 @@ public class Login implements Initializable {
     }
 
     public void entrar(ActionEvent event) throws IOException {
-        FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("viewmodel2.fxml"));
+        FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("viewmodel.fxml"));
         Scene novaCena = new Scene(novaTela.load());
-        Controller2 controller = novaTela.getController();
+        Controller controller = novaTela.getController();
         controller.setNomeField(nomeField.getText());
         controller.setSobrenomeField(sobrenomeField.getText());
         controller.setCepField(cepField.getText());

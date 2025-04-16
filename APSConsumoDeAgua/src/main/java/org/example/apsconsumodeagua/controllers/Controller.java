@@ -1,112 +1,170 @@
 package org.example.apsconsumodeagua.controllers;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
+import org.example.apsconsumodeagua.models.Grafico;
+import org.example.apsconsumodeagua.models.ListaDeGraficos;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.Validadores;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-
+    public static ListaDeGraficos listaDeGraficos = new ListaDeGraficos();
     @FXML
-    private AnchorPane paneInterface;
+    private VBox homeVBox;
     @FXML
-    private TabPane tbpTelaInicial;
-    //Menu
+    private TabPane tabPaneGraficos;
     @FXML
-    private Button btnAdicionarConta;
+    private TextField nomeField, sobrenomeField, cepField, enderecoField,estadoField, cidadeField, pessoasField, consumoField;
     @FXML
-    private Button btnRegistrar;
+    private DatePicker dateField;
     @FXML
-    private Label lblRecomendacao;
+    private AnchorPane paneInterface, contentTabUsuario, contentTabHome, contentTabGraficos, addConsumo;
     @FXML
-    private LineChart<String, Number> lchConsumoAgua;
-    @FXML
-    private AnchorPane apnAdicionarConta;
-    @FXML
-    private AnchorPane apnSucesso;
-    @FXML
-    private Button btnSucesso;
-    @FXML
-    private TextField txtConsumo;
-    @FXML
-    private DatePicker dtpDataConta;
-
-
-    @FXML
-    private void onBTNAdicionarContaClick (ActionEvent event) {
-        apnAdicionarConta.setVisible(true);
-    }
-    @FXML
-    private void onBTNRegistrar(ActionEvent event) {
-        String consumoMes = txtConsumo.getText();
-        LocalDate dataConsumo = dtpDataConta.getValue();
-        try {
-            int consumo = Validadores.pegarConsumo(consumoMes);
-            System.out.println(Validadores.pegarMes(dataConsumo));
-            System.out.println(consumo);
-        } catch (NumberFormatException e) {
-            Toast.mostrarToast(paneInterface, "Inválido", Toast.tipoToast.ERRO);
-        }
-        apnAdicionarConta.setVisible(false);
-        //Toast.mostrarToast(paneInterface,"Adicionado com sucesso", Toast.tipoToast.SUCESSO);
-    }
-
+    private ToggleButton tabUsuario, tabHome, tabGraficos;
     @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    public void initialize(URL location , ResourceBundle resources) {
-        tbpTelaInicial.getSelectionModel().select(1);
+    }
+    @FXML
+    public void changeTab(ActionEvent event) {
+        ToggleButton botaoClicado = (ToggleButton) event.getSource();
+        tabToggle(botaoClicado);
+    }
+    @FXML
+    public void openAddConsumo(ActionEvent event) {
+        mostrarDeslizando(addConsumo);
+    }
+    @FXML
+    public void registrarConsumo(ActionEvent event) {
+        int consumo = Integer.parseInt(consumoField.getText());
+        LocalDate dataConsumo = dateField.getValue();
+        String ano = Validadores.pegarAno(dataConsumo);
+        String mes = Validadores.pegarMes(dataConsumo);
+        listaDeGraficos.adicionarDado(ano,mes,consumo);
+        if (!tabExiste(ano)) {
+            Grafico grafico = listaDeGraficos.getGrafico(ano);
+            LineChart<String, Number> chart = grafico.getLineChart();
 
+            chart.getStyleClass().add("grafico");
 
-        // Configura os eixos
-        CategoryAxis xAxis = (CategoryAxis) lchConsumoAgua.getXAxis();
-        NumberAxis yAxis = (NumberAxis) lchConsumoAgua.getYAxis();
-        yAxis.setAutoRanging(false);
-        yAxis.setUpperBound(300);//Aqui fica o valor maximo da coluna Y
-        yAxis.setTickUnit(50); //Aqui fica o valor da coluna Y
-        xAxis.setLabel("Mês");
+            VBox vbox = new VBox();
 
-        // Criando a série de dados
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Consumo");
+            Region topSpacer = new Region();
+            Region bottomSpacer = new Region();
 
-        series.getData().add(new XYChart.Data<>("Jan", 121));
-        series.getData().add(new XYChart.Data<>("Fev", 135));
-        series.getData().add(new XYChart.Data<>("Mar", 215));
-        series.getData().add(new XYChart.Data<>("Abr", 144));
-        series.getData().add(new XYChart.Data<>("Mai", 115));
-        series.getData().add(new XYChart.Data<>("Jun", 169));
-        series.getData().add(new XYChart.Data<>("Jul", 128));
-        series.getData().add(new XYChart.Data<>("Ago", 115));
-        series.getData().add(new XYChart.Data<>("Set", 106));
-        series.getData().add(new XYChart.Data<>("Out", 105));
-        series.getData().add(new XYChart.Data<>("Nov", 168));
-        series.getData().add(new XYChart.Data<>("Dez", 125));
+            VBox.setVgrow(topSpacer, javafx.scene.layout.Priority.ALWAYS);
+            VBox.setVgrow(bottomSpacer, javafx.scene.layout.Priority.ALWAYS);
+            vbox.getChildren().addAll(topSpacer, chart, bottomSpacer);
 
-        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-        series2.getData().add(new XYChart.Data<>("Jan", 200));
-        series2.getData().add(new XYChart.Data<>("Dez", 200));
+            AnchorPane graficoContainer = new AnchorPane(vbox);
+            AnchorPane.setTopAnchor(vbox, 10.0);
+            AnchorPane.setBottomAnchor(vbox, 10.0);
+            AnchorPane.setLeftAnchor(vbox, 10.0);
+            AnchorPane.setRightAnchor(vbox, 10.0);
 
-        for (XYChart.Data<String, Number> data : series.getData()) {
-            Tooltip tooltip = new Tooltip(
-                    "X: " + data.getXValue() + "\nY: " + data.getYValue()
-            );
-            Tooltip.install(data.getNode(), tooltip);
+            Tab tab = new Tab(ano);
+            tab.setContent(graficoContainer);
+            tabPaneGraficos.getTabs().add(tab);
+            Toast.mostrarToast(paneInterface,"Grafico adicionado!", Toast.tipoToast.SUCESSO,100,320);
+        }else{
+            Toast.mostrarToast(paneInterface,"Grafico atualizado!", Toast.tipoToast.SUCESSO);
         }
+    }
+    private void tabToggle(ToggleButton toggleButton) {
+        switch (toggleButton.getId()) {
+            case "tabUsuario":
+                tabUsuario.setSelected(true);
+                contentTabUsuario.setVisible(true);
 
-        lchConsumoAgua.getData().add(series);
-        lchConsumoAgua.getData().add(series2);
+                tabHome.setSelected(false);
+                contentTabHome.setVisible(false);
+
+                tabGraficos.setSelected(false);
+                contentTabGraficos.setVisible(false);
+                break;
+            case "tabHome":
+                tabUsuario.setSelected(false);
+                contentTabUsuario.setVisible(false);
+
+                tabHome.setSelected(true);
+                contentTabHome.setVisible(true);
+
+                tabGraficos.setSelected(false);
+                contentTabGraficos.setVisible(false);
+                break;
+            case "tabGraficos":
+                tabUsuario.setSelected(false);
+                contentTabUsuario.setVisible(false);
+
+                tabHome.setSelected(false);
+                contentTabHome.setVisible(false);
+
+                tabGraficos.setSelected(true);
+                contentTabGraficos.setVisible(true);
+                break;
+        }
     }
 
+    public void mostrarDeslizando(Pane pane) {
+        pane.setTranslateY(pane.getHeight());     // começa deslocado pra baixo
+        pane.setOpacity(0);
+        pane.setVisible(true);
+
+        TranslateTransition slideIn = new TranslateTransition(Duration.millis(400), pane);
+        slideIn.setFromY(pane.getHeight());
+        slideIn.setToY(0);
+
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(400), pane);
+        fadeIn.setFromValue(0.0);
+        fadeIn.setToValue(1.0);
+
+        ParallelTransition animation = new ParallelTransition(slideIn, fadeIn);
+        animation.play();
+    }
+
+    private boolean tabExiste(String ano) {
+        for (Tab tab : tabPaneGraficos.getTabs()) {
+            if (tab.getText().equals(ano)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setNomeField(String nome) {
+        this.nomeField.setText(nome);
+    }
+    public void setSobrenomeField(String sobrenome) {
+        this.sobrenomeField.setText(sobrenome);
+    }
+    public void setCepField(String cep) {
+        this.cepField.setText(cep);
+    }
+    public void setEnderecoField(String endereco) {
+        this.enderecoField.setText(endereco);
+    }
+    public void setEstadoField(String estado) {
+        this.estadoField.setText(estado);
+    }
+    public void setCidadeField(String cidade) {
+        this.cidadeField.setText(cidade);
+    }
+    public void setPessoasField(String pessoas) {
+        this.pessoasField.setText(pessoas);
+    }
 }

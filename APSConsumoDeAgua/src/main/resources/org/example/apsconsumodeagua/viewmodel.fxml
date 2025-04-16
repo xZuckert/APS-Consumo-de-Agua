@@ -1,96 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="paneInterface" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="360.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controllers.Controller">
+<AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controllers.Controller">
    <children>
-       <TabPane fx:id="tbpTelaInicial" layoutX="-2.0" prefHeight="640.0" prefWidth="360.0" side="BOTTOM" styleClass="MyTabPane" tabClosingPolicy="UNAVAILABLE">
-           <tabs>
-               <Tab text="Opções">
-                   <content>
-                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                   </content>
-               </Tab>
-               <Tab text="Home">
-                   <content>
-                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+      <AnchorPane fx:id="contentTabUsuario" prefHeight="600.0" prefWidth="360.0" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <HBox prefHeight="100.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+                        <Label text="Usuário">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <Label text="Nome:" />
+                  <TextField fx:id="nomeField" disable="true" prefHeight="26.0" prefWidth="149.0" />
+                  <Label text="Sobrenome:" />
+                  <TextField fx:id="sobrenomeField" disable="true" prefHeight="26.0" prefWidth="149.0" />
+                  <Label text="CEP:" />
+                  <TextField fx:id="cepField" disable="true" prefHeight="26.0" prefWidth="133.0" />
+                  <Label text="Endereço:" />
+                  <TextField fx:id="enderecoField" disable="true" prefHeight="26.0" prefWidth="312.0" />
+                  <Label text="Estado:" />
+                  <TextField fx:id="estadoField" disable="true" prefHeight="26.0" prefWidth="160.0" />
+                  <Label text="Cidade:" />
+                  <TextField fx:id="cidadeField" disable="true" prefHeight="26.0" prefWidth="312.0" />
+                  <Region prefHeight="200.0" prefWidth="200.0" />
+                  <Label text="Quantas pessoas moram na casa:" />
+                  <TextField fx:id="pessoasField" />
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="contentTabHome" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="360.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox fx:id="homeVBox" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openAddConsumo" styleClass="but" text="Adicionar Consumo">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+               </children>
+            </VBox>
+            <AnchorPane fx:id="addConsumo" prefHeight="200.0" prefWidth="200.0" styleClass="addConta" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Region prefHeight="200.0" prefWidth="200.0" />
+                        <Label text="Consumo de água em m³:" />
+                        <TextField fx:id="consumoField" />
+                        <Label text="Data da Conta:" />
+                        <DatePicker fx:id="dateField" maxWidth="1.7976931348623157E308" />
+                        <Region prefHeight="200.0" prefWidth="200.0" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                               <Button fx:id="btnAdicionarConta" layoutY="566.0" mnemonicParsing="false" onAction="#onBTNAdicionarContaClick" prefHeight="40.0" prefWidth="200.0" styleClass="but" text="Adicionar conta" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                               <Label layoutX="15.0" layoutY="4.0" prefHeight="562.0" prefWidth="330.0" />
-                               <TextArea fx:id="txtRecomendacao" disable="true" layoutX="24.0" layoutY="333.0" prefHeight="215.0" prefWidth="312.0" />
-                               <LineChart fx:id="lchConsumoAgua" layoutX="13.0" layoutY="46.0" prefHeight="260.0" prefWidth="306.0" styleClass="grafico">
-                                   <xAxis>
-                                       <CategoryAxis />
-                                   </xAxis>
-                                   <yAxis>
-                                       <NumberAxis />
-                                   </yAxis>
-                               </LineChart>
-                               <Label layoutX="24.0" layoutY="306.0" text="Dicas:" />
-                               <Label layoutX="106.0" layoutY="18.0" text="Consumo de Água">
-                                   <font>
-                                       <Font size="18.0" />
-                                   </font>
-                               </Label>
-                               <Label fx:id="lblRecomendacao" alignment="TOP_LEFT" layoutX="24.0" layoutY="225.0" prefHeight="215.0" prefWidth="312.0" />
-                        <AnchorPane fx:id="apnAdicionarConta" layoutX="40.0" layoutY="296.0" prefHeight="200.0" prefWidth="280.0" styleClass="addConta" visible="false">
-                           <children>
-                              <Button fx:id="btnRegistrar" layoutX="80.0" layoutY="159.0" mnemonicParsing="false" onAction="#onBTNRegistrar" prefHeight="26.0" prefWidth="120.0" text="Registrar" />
-                              <TextField fx:id="txtConsumo" layoutX="19.0" layoutY="44.0" prefHeight="26.0" prefWidth="242.0" />
-                              <DatePicker fx:id="dtpDataConta" layoutX="21.0" layoutY="96.0" prefHeight="26.0" prefWidth="242.0" />
-                              <Label layoutX="21.0" layoutY="27.0" text="Consumo de água em m³:" />
-                              <Label layoutX="21.0" layoutY="79.0" text="Data da Conta:" />
-                              <Label layoutX="80.0" layoutY="141.0" text="Digite um Valor Válido!" />
+                              <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" onAction="#registrarConsumo" styleClass="registrar" text="Registrar" />
+                              <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
                            </children>
-                        </AnchorPane>
-                           </children>
-                       </AnchorPane>
-                   </content>
-               </Tab>
-               <Tab text="Usuário">
-                   <content>
-                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                               <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="24.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" styleClass="imageV" />
-                               <TextField disable="true" layoutX="187.0" layoutY="49.0" prefHeight="26.0" prefWidth="149.0" />
-                               <TextField disable="true" layoutX="187.0" layoutY="99.0" prefHeight="26.0" prefWidth="149.0" />
-                               <Label layoutX="187.0" layoutY="31.0" text="Nome:" />
-                               <Label layoutX="187.0" layoutY="81.0" text="Sobrenome:" />
-                               <Label layoutX="187.0" layoutY="131.0" text="Sexo: " />
-                               <TextField disable="true" layoutX="187.0" layoutY="149.0" prefHeight="26.0" prefWidth="149.0" />
-                               <TextField disable="true" layoutX="24.0" layoutY="299.0" prefHeight="26.0" prefWidth="312.0" />
-                               <Label layoutX="24.0" layoutY="281.0" text="Endereço:" />
-                               <TextField disable="true" layoutX="24.0" layoutY="199.0" prefHeight="26.0" prefWidth="312.0" />
-                               <Label layoutX="24.0" layoutY="181.0" text="CPF:" />
-                               <Label layoutX="24.0" layoutY="331.0" text="Cidade:" />
-                               <Label layoutX="24.0" layoutY="381.0" text="Estado:" />
-                               <Label layoutX="203.0" layoutY="381.0" text="CEP:" />
-                               <TextField disable="true" layoutX="25.0" layoutY="349.0" prefHeight="26.0" prefWidth="312.0" />
-                               <TextField disable="true" layoutX="25.0" layoutY="399.0" prefHeight="26.0" prefWidth="160.0" />
-                               <TextField disable="true" layoutX="203.0" layoutY="399.0" prefHeight="26.0" prefWidth="133.0" />
-                               <Label layoutX="24.0" layoutY="231.0" text="Telefone:" />
-                               <TextField disable="true" layoutX="24.0" layoutY="249.0" prefHeight="26.0" prefWidth="312.0" />
-                           </children></AnchorPane>
-                   </content>
-               </Tab>
-            <Tab text="Graficos">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-           </tabs>
-       </TabPane>
+                        </HBox>
+                        <Region prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="contentTabGraficos" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="360.0" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TabPane fx:id="tabPaneGraficos" prefHeight="200.0" prefWidth="200.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" prefHeight="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ToggleButton fx:id="tabUsuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#changeTab" styleClass="but" text="Usuário" HBox.hgrow="ALWAYS">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></ToggleButton>
+            <ToggleButton fx:id="tabHome" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#changeTab" selected="true" styleClass="but" text="Home" HBox.hgrow="ALWAYS">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></ToggleButton>
+            <ToggleButton fx:id="tabGraficos" layoutX="281.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#changeTab" styleClass="but" text="Gráficos" HBox.hgrow="ALWAYS">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></ToggleButton>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

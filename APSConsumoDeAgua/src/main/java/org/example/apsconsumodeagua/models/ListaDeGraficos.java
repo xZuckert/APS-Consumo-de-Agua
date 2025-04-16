@@ -19,19 +19,6 @@ public class ListaDeGraficos {
         return graficos.get(ano);
     }
 
-    public boolean existeAno(String ano) {
-        return graficos.containsKey(ano);
-    }
-
-    public void listarAnos() {
-        for (String ano : graficos.keySet()) {
-            System.out.println("Ano: " + ano);
-        }
-    }
-
-    public int getQuantidade() {
-        return graficos.size();
-    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
