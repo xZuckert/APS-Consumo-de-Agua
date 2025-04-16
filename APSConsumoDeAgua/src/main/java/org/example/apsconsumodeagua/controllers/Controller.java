@@ -42,6 +42,7 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gerarGraficoETab(String.valueOf(Year.now().getValue()));
+        boxGraficos.getItems().addAll(listaDeGraficos.getKeys());
         for(int i = Year.now().getValue(); i >= Year.now().getValue() - 20; i--) {
             boxAnos.getItems().add(String.valueOf(i));
         }
@@ -49,7 +50,9 @@ public class Controller implements Initializable {
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
             atualizarBoxMeses(valorNovo);
         });
-        box
+        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
+
+        });
     }
     @FXML
     public void changeTab(ActionEvent event) {
@@ -68,6 +71,9 @@ public class Controller implements Initializable {
         gerarGraficoETab(ano);
         listaDeGraficos.getGrafico(ano).atualizarValorMes(mes, consumo);
         addConsumo.setVisible(false);
+    }
+    private void selecionarGrafico(String ano){
+
     }
     private void tabToggle(ToggleButton toggleButton) {
         switch (toggleButton.getId()) {

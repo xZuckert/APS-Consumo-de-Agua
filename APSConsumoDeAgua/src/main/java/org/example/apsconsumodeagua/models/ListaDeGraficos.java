@@ -2,9 +2,11 @@ package org.example.apsconsumodeagua.models;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class ListaDeGraficos {
     private Map<String, Grafico> graficos = new HashMap<>();
+    private Set<String> keys = graficos.keySet();
     public void gerarGrafico(String ano){
         graficos.put(ano, new Grafico(ano));
     }
@@ -30,6 +32,10 @@ public class ListaDeGraficos {
             sb.append("- ").append(ano).append("\n");
         }
         return sb.toString();
+    }
+
+    public Set<String> getKeys() {
+        return keys;
     }
 }
 
