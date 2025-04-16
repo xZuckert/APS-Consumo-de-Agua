@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controllers.Controller2">
+   <children>
+      <AnchorPane fx:id="contentTabUsuario" prefHeight="600.0" prefWidth="360.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <HBox prefHeight="100.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+                        <Label text="Usuário">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <Label text="Nome:" />
+                  <TextField fx:id="nomeField" disable="true" prefHeight="26.0" prefWidth="149.0" />
+                  <Label text="Sobrenome:" />
+                  <TextField fx:id="sobrenomeField" disable="true" prefHeight="26.0" prefWidth="149.0" />
+                  <Label text="CEP:" />
+                  <TextField fx:id="cepField" disable="true" prefHeight="26.0" prefWidth="133.0" />
+                  <Label text="Endereço:" />
+                  <TextField fx:id="enderecoField" disable="true" prefHeight="26.0" prefWidth="312.0" />
+                  <Label text="Estado:" />
+                  <TextField fx:id="estadoField" disable="true" prefHeight="26.0" prefWidth="160.0" />
+                  <Label text="Cidade:" />
+                  <TextField fx:id="cidadeField" disable="true" prefHeight="26.0" prefWidth="312.0" />
+                  <Region prefHeight="200.0" prefWidth="200.0" />
+                  <Label text="Quantas pessoas moram na casa:" />
+                  <TextField fx:id="pessoasField" />
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="contentTabHome" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="360.0" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Home" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="contentTabGraficos" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="360.0" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TabPane prefHeight="200.0" prefWidth="200.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <tabs>
+                  <Tab text="Untitled Tab">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+                  <Tab text="Untitled Tab">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </children>
+      </AnchorPane>
+      <HBox alignment="CENTER" prefHeight="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ToggleButton fx:id="tabUsuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#changeTab" selected="true" text="Usuário" HBox.hgrow="ALWAYS" />
+            <ToggleButton fx:id="tabHome" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#changeTab" text="Home" HBox.hgrow="ALWAYS" />
+            <ToggleButton fx:id="tabGraficos" layoutX="281.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#changeTab" text="Gráficos" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
