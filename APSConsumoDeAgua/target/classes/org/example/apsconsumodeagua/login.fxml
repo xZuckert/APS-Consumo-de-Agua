@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controllers.Login">
+    <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <HBox prefHeight="100.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                <children>
+                    <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+                    <Label text="Login">
+                        <font>
+                            <Font name="System Bold" size="24.0" />
+                        </font>
+                    </Label>
+                    <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+                </children>
+            </HBox>
+            <Label text="Nome:" />
+            <TextField fx:id="nomeField" prefHeight="26.0" prefWidth="149.0" />
+            <Label text="Sobrenome:" />
+            <TextField fx:id="sobrenomeField" prefHeight="26.0" prefWidth="149.0" />
+            <Label text="CEP:" />
+            <TextField fx:id="cepField" prefHeight="26.0" prefWidth="133.0" />
+            <Label text="Endereço:" />
+            <TextField fx:id="enderecoField" prefHeight="26.0" prefWidth="312.0" />
+            <Label text="Estado:" />
+            <TextField fx:id="estadoField" prefHeight="26.0" prefWidth="160.0" />
+            <Label text="Cidade:" />
+            <TextField fx:id="cidadeField" prefHeight="26.0" prefWidth="312.0" />
+            <Region prefHeight="200.0" prefWidth="200.0" />
+            <Label text="Quantas pessoas moram na casa:" />
+            <TextField fx:id="pessoasField" />
+            <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+               <Button mnemonicParsing="false" onAction="#entrar" text="Entrar" />
+               <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
+            </children>
+         </HBox>
+         <Region layoutX="10.0" layoutY="557.0" prefHeight="200.0" prefWidth="200.0" />
+        </children>
+    </VBox>
+</AnchorPane>
