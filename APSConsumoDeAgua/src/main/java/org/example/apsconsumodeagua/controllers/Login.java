@@ -19,14 +19,14 @@ public class Login implements Initializable {
     @FXML
     private AnchorPane paneInterface;
     @FXML
-    private  TextField nomeField,sobrenomeField,cpfField,cepField,enderecoField,estadoField,cidadeField,pessoasField;
+    private  TextField nomeField,sobrenomeField,cpfField,emailField,cepField,enderecoField,estadoField,cidadeField,senhaField,confSenhaField,pessoasField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         
     }
 
-    public void entrar(ActionEvent event) throws IOException {
+    public void registrar(ActionEvent event) throws IOException {
         FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("viewmodel.fxml"));
         Scene novaCena = new Scene(novaTela.load());
         Controller controller = novaTela.getController();

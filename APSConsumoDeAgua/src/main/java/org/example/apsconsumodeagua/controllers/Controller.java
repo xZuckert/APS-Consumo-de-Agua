@@ -30,7 +30,7 @@ public class Controller implements Initializable {
     @FXML
     private VBox homeVBox;
     @FXML
-    private ComboBox<String> boxMeses, boxAnos;
+    private ComboBox<String> boxMeses, boxAnos,boxGraficos;
     @FXML
     private TabPane tabPaneGraficos;
     @FXML
@@ -49,6 +49,7 @@ public class Controller implements Initializable {
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
             atualizarBoxMeses(valorNovo);
         });
+        box
     }
     @FXML
     public void changeTab(ActionEvent event) {
@@ -65,6 +66,7 @@ public class Controller implements Initializable {
         String ano = boxAnos.getValue();
         String mes = boxMeses.getValue();
         gerarGraficoETab(ano);
+        listaDeGraficos.getGrafico(ano).atualizarValorMes(mes, consumo);
         addConsumo.setVisible(false);
     }
     private void tabToggle(ToggleButton toggleButton) {
@@ -173,7 +175,6 @@ public class Controller implements Initializable {
         }
         return false;
     }
-
     public void setNomeField(String nome) {
         this.nomeField.setText(nome);
     }

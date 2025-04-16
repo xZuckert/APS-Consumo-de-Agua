@@ -48,6 +48,12 @@
       </AnchorPane>
       <AnchorPane fx:id="contentTabHome" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="360.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label text="Selecionar grafico: " />
+                  <ComboBox fx:id="boxGraficos" />
+               </children>
+            </HBox>
             <VBox fx:id="homeVBox" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />

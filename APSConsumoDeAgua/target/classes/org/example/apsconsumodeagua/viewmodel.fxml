@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controllers.Controller">
    <children>
-      <AnchorPane fx:id="contentTabUsuario" prefHeight="600.0" prefWidth="360.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="contentTabUsuario" prefHeight="600.0" prefWidth="360.0" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -48,6 +48,12 @@
       </AnchorPane>
       <AnchorPane fx:id="contentTabHome" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="360.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label text="Selecionar grafico: " />
+                  <ComboBox fx:id="boxGraficos" />
+               </children>
+            </HBox>
             <VBox fx:id="homeVBox" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
