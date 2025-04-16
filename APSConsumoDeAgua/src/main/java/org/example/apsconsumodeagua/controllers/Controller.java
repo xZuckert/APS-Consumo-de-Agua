@@ -7,12 +7,14 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import org.example.apsconsumodeagua.utils.Toast;
+import org.example.apsconsumodeagua.utils.Validadores;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -25,7 +27,7 @@ public class Controller implements Initializable {
     @FXML
     private Button btnAdicionarConta;
     @FXML
-    private Button btnAdicionar;
+    private Button btnRegistrar;
     @FXML
     private Label lblRecomendacao;
     @FXML
@@ -36,6 +38,10 @@ public class Controller implements Initializable {
     private AnchorPane apnSucesso;
     @FXML
     private Button btnSucesso;
+    @FXML
+    private TextField txtConsumo;
+    @FXML
+    private DatePicker dtpDataConta;
 
 
     @FXML
@@ -43,11 +49,19 @@ public class Controller implements Initializable {
         apnAdicionarConta.setVisible(true);
     }
     @FXML
-    private void onBTNAdicionar (ActionEvent event) {
+    private void onBTNRegistrar(ActionEvent event) {
+        String consumoMes = txtConsumo.getText();
+        LocalDate dataConsumo = dtpDataConta.getValue();
+        try {
+            int consumo = Validadores.pegarConsumo(consumoMes);
+            System.out.println(Validadores.pegarMes(dataConsumo));
+            System.out.println(consumo);
+        } catch (NumberFormatException e) {
+            Toast.mostrarToast(paneInterface, "Inválido", Toast.tipoToast.ERRO);
+        }
         apnAdicionarConta.setVisible(false);
+        //Toast.mostrarToast(paneInterface,"Adicionado com sucesso", Toast.tipoToast.SUCESSO);
     }
-
-
 
     @Override
 
@@ -83,6 +97,13 @@ public class Controller implements Initializable {
         XYChart.Series<String, Number> series2 = new XYChart.Series<>();
         series2.getData().add(new XYChart.Data<>("Jan", 200));
         series2.getData().add(new XYChart.Data<>("Dez", 200));
+
+        for (XYChart.Data<String, Number> data : series.getData()) {
+            Tooltip tooltip = new Tooltip(
+                    "X: " + data.getXValue() + "\nY: " + data.getYValue()
+            );
+            Tooltip.install(data.getNode(), tooltip);
+        }
 
         lchConsumoAgua.getData().add(series);
         lchConsumoAgua.getData().add(series2);
