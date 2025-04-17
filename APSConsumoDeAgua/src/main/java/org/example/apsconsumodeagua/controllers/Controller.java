@@ -10,9 +10,13 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import org.example.apsconsumodeagua.models.Grafico;
 import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Toast;
+import org.example.apsconsumodeagua.utils.Validadores;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -48,7 +52,8 @@ public class Controller implements Initializable {
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoService.getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-            graficoService.gerarGraficoETab(anoAtual, mesAtual, 0,graficoService,tabPaneGraficos,paneInterface);
+            graficoService.gerarGrafico(anoAtual, mesAtual, 0);
+            adicionarGraficonoTab(anoAtual,tabPaneGraficos);
             atualizarBoxGraficos();
         }
         boxGraficos.getSelectionModel().select(anoAtual);
@@ -90,7 +95,8 @@ public class Controller implements Initializable {
             if (graficoService.getGrafico(ano) != null) {
                 graficoService.atualizarValorMes(ano, mes, consumo);
             } else {
-                graficoService.gerarGraficoETab(ano, mes, consumo,graficoService,tabPaneGraficos,paneInterface);
+                graficoService.gerarGrafico(ano, mes, consumo);
+                adicionarGraficonoTab(ano,tabPaneGraficos);
                 atualizarBoxGraficos();
             }
             boxGraficos.selectionModelProperty().get().select(ano);
@@ -174,6 +180,32 @@ public class Controller implements Initializable {
 
         ParallelTransition animation = new ParallelTransition(slideIn, fadeIn);
         animation.play();
+    }
+    private void adicionarGraficonoTab(String ano, TabPane tabPane) {
+        if (!Validadores.tabExiste(ano, tabPane)) {
+            Grafico grafico = graficoService.getGrafico(ano);
+            LineChart<String, Number> graficoTab = grafico.getLineChart();
+
+            VBox vbox = new VBox();
+
+            Region topSpacer = new Region();
+            Region bottomSpacer = new Region();
+
+            VBox.setVgrow(topSpacer, javafx.scene.layout.Priority.ALWAYS);
+            VBox.setVgrow(bottomSpacer, javafx.scene.layout.Priority.ALWAYS);
+            vbox.getChildren().addAll(topSpacer, graficoTab, bottomSpacer);
+
+            AnchorPane graficoContainer = new AnchorPane(vbox);
+            AnchorPane.setTopAnchor(vbox, 10.0);
+            AnchorPane.setBottomAnchor(vbox, 10.0);
+            AnchorPane.setLeftAnchor(vbox, 10.0);
+            AnchorPane.setRightAnchor(vbox, 10.0);
+
+            Tab tab = new Tab(ano);
+            tab.setContent(graficoContainer);
+            tabPane.getTabs().add(tab);
+            Toast.mostrarToast(paneInterface, "Grafico adicionado!", Toast.tipoToast.SUCESSO, 100, 320);
+        }
     }
 //----------------------------------------------------------------------------------------------------------------------
 
