@@ -19,6 +19,7 @@ import java.util.*;
 
 public class Controller implements Initializable {
     private GraficoController graficoController;
+    private TabController tabController;
     private static final String[] MESES = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
     @FXML
     private LineChart<String, Number> chartTemplate;
@@ -37,6 +38,7 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.graficoController = new GraficoController(new GraficoService());
+        this.tabController = new TabController(tabUsuario,tabHome,tabGraficos,contentTabUsuario,contentTabHome,contentTabGraficos);
         inicializarBoxGraficos();
         inicializarBoxAnos();
         inicializarListeners();
@@ -66,7 +68,7 @@ public class Controller implements Initializable {
     @FXML
     public void changeTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
-        tabToggle(botaoClicado);
+        tabController.alternarAba(botaoClicado);
     }
     @FXML
     public void openAddConsumo() {
@@ -114,43 +116,6 @@ public class Controller implements Initializable {
         List<String> meses = new ArrayList<>(Arrays.asList(MESES).subList(0, limiteMeses));
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
-    }
-//----------------------------------------------------------------------------------------------------------------------
-
-//( Métodos de manipulação de UI )--------------------------------------------------------------------------------------
-    private void tabToggle(ToggleButton toggleButton) {
-        switch (toggleButton.getId()) {
-            case "tabUsuario":
-                tabUsuario.setSelected(true);
-                contentTabUsuario.setVisible(true);
-
-                tabHome.setSelected(false);
-                contentTabHome.setVisible(false);
-
-                tabGraficos.setSelected(false);
-                contentTabGraficos.setVisible(false);
-                break;
-            case "tabHome":
-                tabUsuario.setSelected(false);
-                contentTabUsuario.setVisible(false);
-
-                tabHome.setSelected(true);
-                contentTabHome.setVisible(true);
-
-                tabGraficos.setSelected(false);
-                contentTabGraficos.setVisible(false);
-                break;
-            case "tabGraficos":
-                tabUsuario.setSelected(false);
-                contentTabUsuario.setVisible(false);
-
-                tabHome.setSelected(false);
-                contentTabHome.setVisible(false);
-
-                tabGraficos.setSelected(true);
-                contentTabGraficos.setVisible(true);
-                break;
-        }
     }
 //----------------------------------------------------------------------------------------------------------------------
 
