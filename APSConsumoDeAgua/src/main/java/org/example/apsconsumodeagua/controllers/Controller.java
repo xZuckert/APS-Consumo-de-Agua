@@ -21,11 +21,10 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 public class Controller implements Initializable {
-    public static GraficoService graficoService = new GraficoService();
+    public static GraficoService graficoService;
 
     @FXML
     private LineChart<String, Number> chartTemplate;
-
     @FXML
     private ComboBox<String> boxMeses, boxAnos, boxGraficos;
     @FXML
@@ -37,8 +36,10 @@ public class Controller implements Initializable {
     @FXML
     private ToggleButton tabUsuario, tabHome, tabGraficos;
 
+//( Metodos chamados ao inicializar o fxml )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        graficoService = new GraficoService();
         inicializarBoxGraficos();
         inicializarBoxAnos();
         inicializarListeners();
@@ -62,7 +63,9 @@ public class Controller implements Initializable {
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
         boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> graficoService.selecionarGrafico(valorNovo,chartTemplate,graficoService));
     }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+//( Métodos chamados pelo usuário ao acionar algum evento )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     @FXML
     public void changeTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
@@ -99,7 +102,9 @@ public class Controller implements Initializable {
             Toast.mostrarToast(paneInterface, "Consumo inválido!", Toast.tipoToast.ERRO, 100, 320);
         }
     }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+//( Métodos de atualização dos ComboBox )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     private void atualizarBoxGraficos() {
         Set<String> anos = graficoService.getKeys();
 
@@ -108,7 +113,19 @@ public class Controller implements Initializable {
             boxGraficos.getSelectionModel().selectLast();
         }
     }
+    private void atualizarBoxMeses(String ano) {
+        String[] nomeMeses = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
+        int limiteMeses = 12;
+        if (ano.equals(String.valueOf(Year.now().getValue()))) {
+            limiteMeses = LocalDate.now().getMonth().getValue();
+        }
+        List<String> meses = new ArrayList<>(Arrays.asList(nomeMeses).subList(0, limiteMeses));
+        boxMeses.getItems().setAll(meses);
+        boxMeses.setDisable(false);
+    }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+//( Métodos de manipulação de UI )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     private void tabToggle(ToggleButton toggleButton) {
         switch (toggleButton.getId()) {
             case "tabUsuario":
@@ -143,7 +160,6 @@ public class Controller implements Initializable {
                 break;
         }
     }
-
     private void mostrarDeslizando(Pane pane) {
         pane.setTranslateY(pane.getHeight());     // começa deslocado pra baixo
         pane.setOpacity(0);
@@ -160,18 +176,9 @@ public class Controller implements Initializable {
         ParallelTransition animation = new ParallelTransition(slideIn, fadeIn);
         animation.play();
     }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    private void atualizarBoxMeses(String ano) {
-        String[] nomeMeses = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
-        int limiteMeses = 12;
-        if (ano.equals(String.valueOf(Year.now().getValue()))) {
-            limiteMeses = LocalDate.now().getMonth().getValue();
-        }
-        List<String> meses = new ArrayList<>(Arrays.asList(nomeMeses).subList(0, limiteMeses));
-        boxMeses.getItems().setAll(meses);
-        boxMeses.setDisable(false);
-    }
-
+//( Métodos para alterar o conteúdo dos Fields )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     public void setNomeField(String nome) {
         this.nomeField.setText(nome);
     }
@@ -199,4 +206,5 @@ public class Controller implements Initializable {
     public void setPessoasField(String pessoas) {
         this.pessoasField.setText(pessoas);
     }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 }
