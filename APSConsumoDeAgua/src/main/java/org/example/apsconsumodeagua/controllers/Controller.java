@@ -30,8 +30,7 @@ public class Controller implements Initializable {
 
     @FXML
     private LineChart<String, Number> chartTemplate;
-    @FXML
-    private VBox homeVBox;
+
     @FXML
     private ComboBox<String> boxMeses, boxAnos, boxGraficos;
     @FXML
@@ -61,12 +60,8 @@ public class Controller implements Initializable {
             boxAnos.getItems().add(String.valueOf(i));
         }
         //atualiza o boxMeses, verifica se é o ano atual e permite selecionar somente até o mes atual
-        boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
-            atualizarBoxMeses(valorNovo);
-        });
-        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
-            selecionarGrafico(valorNovo);
-        });
+        boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
+        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> selecionarGrafico(valorNovo));
     }
 
     @FXML
@@ -76,12 +71,12 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    public void openAddConsumo(ActionEvent event) {
+    public void openAddConsumo() {
         mostrarDeslizando(addConsumo);
     }
 
     @FXML
-    public void registrarConsumo(ActionEvent event) {
+    public void registrarConsumo() {
         try {
             int consumo = Integer.parseInt(consumoField.getText());
             String ano = boxAnos.getValue();
@@ -184,15 +179,12 @@ public class Controller implements Initializable {
     }
 
     private void atualizarBoxMeses(String ano) {
-        List<String> meses = new ArrayList<>();
         String[] nomeMeses = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
         int limiteMeses = 12;
         if (ano.equals(String.valueOf(Year.now().getValue()))) {
             limiteMeses = LocalDate.now().getMonth().getValue();
         }
-        for (int i = 0; i < limiteMeses; i++) {
-            meses.add(nomeMeses[i]);
-        }
+        List<String> meses = new ArrayList<>(Arrays.asList(nomeMeses).subList(0, limiteMeses));
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
     }
