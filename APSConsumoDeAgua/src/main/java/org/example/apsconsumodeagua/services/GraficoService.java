@@ -27,7 +27,6 @@ public class GraficoService {
     }
     public void gerarGraficoETab(String ano, String mes, int consumo, GraficoService service, TabPane tabPane, AnchorPane pane) {
         service.gerarGrafico(ano, mes, consumo);
-        service.getGrafico(ano).getLineChart().getStyleClass().add("grafico");
         if (!Validadores.tabExiste(ano, tabPane)) {
             Grafico grafico = service.getGrafico(ano);
             LineChart<String, Number> graficoTab = grafico.getLineChart();

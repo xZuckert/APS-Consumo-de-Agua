@@ -23,6 +23,7 @@ public class Grafico {
 
         lineChart.setTitle(ano);
         lineChart.getData().add(series);
+        lineChart.getStyleClass().add("grafico");
     }
 
     public LineChart<String, Number> getLineChart() {
