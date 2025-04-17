@@ -6,57 +6,44 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 public class Grafico {
-    public String ano;
-    private XYChart.Series<String, Number> series = new XYChart.Series<>();
+    private String ano;
+    private XYChart.Series<String, Number> series;
     private LineChart<String, Number> lineChart;
 
-    public Grafico(String ano) {
+    public Grafico(String ano, XYChart.Series<String, Number> series) {
         this.ano = ano;
+        this.series = series;
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
 
+
         lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle(ano);
 
         yAxis.setAutoRanging(false);
-        yAxis.setUpperBound(300); // Valor máximo no eixo Y
-        yAxis.setTickUnit(50);    // Intervalos de marcação no eixo Y
+        yAxis.setUpperBound(50); // Valor máximo no eixo Y
+        yAxis.setTickUnit(10);    // Intervalos de marcação no eixo Y
         xAxis.setLabel("Mês");
 
-        series.setName("Consumo");
-
-        series.getData().add(new XYChart.Data<>("Jan", null));
-        series.getData().add(new XYChart.Data<>("Fev", null));
-        series.getData().add(new XYChart.Data<>("Mar", null));
-        series.getData().add(new XYChart.Data<>("Abr", null));
-        series.getData().add(new XYChart.Data<>("Mai", null));
-        series.getData().add(new XYChart.Data<>("Jun", null));
-        series.getData().add(new XYChart.Data<>("Jul", null));
-        series.getData().add(new XYChart.Data<>("Ago", null));
-        series.getData().add(new XYChart.Data<>("Set", null));
-        series.getData().add(new XYChart.Data<>("Out", null));
-        series.getData().add(new XYChart.Data<>("Nov", null));
-        series.getData().add(new XYChart.Data<>("Dez", null));
-
-        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-        series2.getData().add(new XYChart.Data<>("Jan", 200));
-        series2.getData().add(new XYChart.Data<>("Dez", 200));
-
+        lineChart.setTitle(ano);
         lineChart.getData().add(series);
-        lineChart.getData().add(series2);
     }
 
     public LineChart<String, Number> getLineChart() {
         return lineChart;
     }
-
-    public void atualizarValorMes(String mes, int novoValor) {
+    public XYChart.Series<String, Number> getSeries() {
+        return series;
+    }
+    public void setSeries(XYChart.Series<String, Number> series) {
+        this.series = series;
+    }
+    public void limparDados() {
         for (XYChart.Data<String, Number> data : series.getData()) {
-            if (data.getXValue().equals(mes)) {
-                data.setYValue(novoValor);
-                break;
-            }
+            data.setYValue(null);
         }
+    }
+    public String getAno() {
+        return ano;
     }
 }
