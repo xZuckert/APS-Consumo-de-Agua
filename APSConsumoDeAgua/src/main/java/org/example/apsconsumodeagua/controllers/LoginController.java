@@ -29,7 +29,7 @@ public class LoginController implements Initializable {
         AplicacaoController controller = novaTela.getController();
         controller.setNomeField(nomeField.getText());
         controller.setSobrenomeField(sobrenomeField.getText());
-        controller.setcpfField(cpfField.getText());
+        controller.setCpfField(cpfField.getText());
         controller.setEmailField(emailField.getText());
         controller.setCepField(cepField.getText());
         controller.setEnderecoField(enderecoField.getText());

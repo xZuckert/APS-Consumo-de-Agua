@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
-        import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.AnchorPane;
 
 import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Toast;
@@ -126,11 +126,11 @@ public class AplicacaoController implements Initializable {
     public void setSobrenomeField(String sobrenome) {
         this.sobrenomeField.setText(sobrenome);
     }
-    public void setcpfField(String cpf) {
+    public void setCpfField(String cpf) {
         this.cpfField.setText(cpf);
     }
-    public void setEmailField(String cpf) {
-        this.emailField.setText(cpf);
+    public void setEmailField(String email) {
+        this.emailField.setText(email);
     }
     public void setCepField(String cep) {
         this.cepField.setText(cep);
