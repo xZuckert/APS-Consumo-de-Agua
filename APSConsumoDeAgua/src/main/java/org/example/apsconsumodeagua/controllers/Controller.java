@@ -93,7 +93,7 @@ public class Controller implements Initializable {
                 return;
             }
 
-            if(listaDeGraficos.getGrafico(ano) != null) {
+            if (listaDeGraficos.getGrafico(ano) != null) {
                 listaDeGraficos.atualizarValorMes(ano, mes, consumo);
             } else {
                 gerarGraficoETab(ano, mes, consumo);
@@ -122,6 +122,7 @@ public class Controller implements Initializable {
         ((NumberAxis) chartTemplate.getYAxis()).setTickUnit(10);
 
     }
+
     private void atualizarBoxGraficos() {
         Set<String> anos = listaDeGraficos.getKeys();
 
@@ -197,8 +198,8 @@ public class Controller implements Initializable {
         boxMeses.setDisable(false);
     }
 
-    private void gerarGraficoETab(String ano,String mes,int consumo) {
-        listaDeGraficos.gerarGrafico(ano,mes,consumo);
+    private void gerarGraficoETab(String ano, String mes, int consumo) {
+        listaDeGraficos.gerarGrafico(ano, mes, consumo);
         atualizarBoxGraficos();
         listaDeGraficos.getGrafico(ano).getLineChart().getStyleClass().add("grafico");
         if (!tabExiste(ano)) {
@@ -236,6 +237,7 @@ public class Controller implements Initializable {
         }
         return false;
     }
+
     private XYChart.Series<String, Number> clonarSeries(XYChart.Series<String, Number> original) {
         XYChart.Series<String, Number> copia = new XYChart.Series<>();
         for (XYChart.Data<String, Number> data : original.getData()) {

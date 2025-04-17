@@ -32,17 +32,21 @@ public class Grafico {
     public LineChart<String, Number> getLineChart() {
         return lineChart;
     }
+
     public XYChart.Series<String, Number> getSeries() {
         return series;
     }
+
     public void setSeries(XYChart.Series<String, Number> series) {
         this.series = series;
     }
+
     public void limparDados() {
         for (XYChart.Data<String, Number> data : series.getData()) {
             data.setYValue(null);
         }
     }
+
     public String getAno() {
         return ano;
     }
