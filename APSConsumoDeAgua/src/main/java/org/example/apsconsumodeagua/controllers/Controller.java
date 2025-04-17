@@ -10,13 +10,9 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import org.example.apsconsumodeagua.models.Grafico;
 import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Toast;
-import org.example.apsconsumodeagua.utils.Validadores;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -25,7 +21,7 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 public class Controller implements Initializable {
-    public static GraficoService graficoService;
+    private GraficoController graficoController;
     private static final String[] MESES = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
     @FXML
     private LineChart<String, Number> chartTemplate;
@@ -43,21 +39,20 @@ public class Controller implements Initializable {
 //( Metodos chamados ao inicializar o fxml )----------------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        graficoService = new GraficoService();
+        this.graficoController = new GraficoController(new GraficoService());
         inicializarBoxGraficos();
         inicializarBoxAnos();
         inicializarListeners();
     }
     private void inicializarBoxGraficos(){
         String anoAtual = String.valueOf(Year.now().getValue());
-        if (graficoService.getGrafico(anoAtual) == null) {
+        if (graficoController.getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-            graficoService.gerarGrafico(anoAtual, mesAtual, 0);
-            adicionarGraficonoTab(anoAtual,tabPaneGraficos);
+            graficoController.criarOuAtualizarGrafico(anoAtual,mesAtual,0,tabPaneGraficos,paneInterface);
             atualizarBoxGraficos();
         }
         boxGraficos.getSelectionModel().select(anoAtual);
-        graficoService.selecionarGrafico(anoAtual,chartTemplate,graficoService);
+        graficoController.selecionarGrafico(anoAtual,chartTemplate);
     }
     private void inicializarBoxAnos(){
         for (int i = Year.now().getValue(); i >= Year.now().getValue() - 20; i--) {
@@ -66,7 +61,7 @@ public class Controller implements Initializable {
     }
     private void inicializarListeners(){
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
-        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> graficoService.selecionarGrafico(valorNovo,chartTemplate,graficoService));
+        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> graficoController.selecionarGrafico(valorNovo,chartTemplate));
     }
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -91,18 +86,13 @@ public class Controller implements Initializable {
                 Toast.mostrarToast(paneInterface, "Selecione ano e mês!", Toast.tipoToast.ERRO, 100, 320);
                 return;
             }
+            graficoController.criarOuAtualizarGrafico(ano,mes,consumo,tabPaneGraficos,paneInterface);
+            atualizarBoxGraficos();
 
-            if (graficoService.getGrafico(ano) != null) {
-                graficoService.atualizarValorMes(ano, mes, consumo);
-            } else {
-                graficoService.gerarGrafico(ano, mes, consumo);
-                adicionarGraficonoTab(ano,tabPaneGraficos);
-                atualizarBoxGraficos();
-            }
             boxGraficos.selectionModelProperty().get().select(ano);
             chartTemplate.getData().clear();
             chartTemplate.setTitle(ano);
-            chartTemplate.getData().add(graficoService.clonarSeries(graficoService.getSerie(ano)));
+            chartTemplate.getData().add(graficoController.getSerieClonada(ano));
             addConsumo.setVisible(false);
         } catch (NumberFormatException e) {
             Toast.mostrarToast(paneInterface, "Consumo inválido!", Toast.tipoToast.ERRO, 100, 320);
@@ -112,7 +102,7 @@ public class Controller implements Initializable {
 
 //( Métodos de atualização dos ComboBox )-------------------------------------------------------------------------------
     private void atualizarBoxGraficos() {
-        Set<String> anos = graficoService.getKeys();
+        Set<String> anos = graficoController.getAnos();
 
         boxGraficos.getItems().setAll(anos);
         if (!anos.isEmpty() && boxGraficos.getSelectionModel().getSelectedItem() == null) {
@@ -180,32 +170,6 @@ public class Controller implements Initializable {
 
         ParallelTransition animation = new ParallelTransition(slideIn, fadeIn);
         animation.play();
-    }
-    private void adicionarGraficonoTab(String ano, TabPane tabPane) {
-        if (!Validadores.tabExiste(ano, tabPane)) {
-            Grafico grafico = graficoService.getGrafico(ano);
-            LineChart<String, Number> graficoTab = grafico.getLineChart();
-
-            VBox vbox = new VBox();
-
-            Region topSpacer = new Region();
-            Region bottomSpacer = new Region();
-
-            VBox.setVgrow(topSpacer, javafx.scene.layout.Priority.ALWAYS);
-            VBox.setVgrow(bottomSpacer, javafx.scene.layout.Priority.ALWAYS);
-            vbox.getChildren().addAll(topSpacer, graficoTab, bottomSpacer);
-
-            AnchorPane graficoContainer = new AnchorPane(vbox);
-            AnchorPane.setTopAnchor(vbox, 10.0);
-            AnchorPane.setBottomAnchor(vbox, 10.0);
-            AnchorPane.setLeftAnchor(vbox, 10.0);
-            AnchorPane.setRightAnchor(vbox, 10.0);
-
-            Tab tab = new Tab(ano);
-            tab.setContent(graficoContainer);
-            tabPane.getTabs().add(tab);
-            Toast.mostrarToast(paneInterface, "Grafico adicionado!", Toast.tipoToast.SUCESSO, 100, 320);
-        }
     }
 //----------------------------------------------------------------------------------------------------------------------
 
