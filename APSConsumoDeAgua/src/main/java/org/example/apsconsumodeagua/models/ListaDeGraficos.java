@@ -11,13 +11,14 @@ import java.util.Set;
 
 public class ListaDeGraficos {
     private Map<String, Grafico> graficos = new HashMap<>();
-    private Map<String, XYChart.Series<String,Number>> series = new HashMap<>();
-    public void gerarGrafico(String ano,String mes,int consumo){
-        series.put(ano,gerarSeries(mes,consumo));
-        graficos.put(ano, new Grafico(ano,series.get(ano)));
+    private Map<String, XYChart.Series<String, Number>> series = new HashMap<>();
+
+    public void gerarGrafico(String ano, String mes, int consumo) {
+        series.put(ano, gerarSeries(mes, consumo));
+        graficos.put(ano, new Grafico(ano, series.get(ano)));
     }
 
-    private XYChart.Series<String, Number> gerarSeries(String mes,int consumo){
+    private XYChart.Series<String, Number> gerarSeries(String mes, int consumo) {
         XYChart.Series<String, Number> series;
         series = new XYChart.Series<>();
 
@@ -36,7 +37,7 @@ public class ListaDeGraficos {
         series.getData().add(new XYChart.Data<>("Nov", null));
         series.getData().add(new XYChart.Data<>("Dez", null));
 
-        if(mes!=null){
+        if (mes != null) {
             for (XYChart.Data<String, Number> data : series.getData()) {
                 if (data.getXValue().equals(mes)) {
                     data.setYValue(consumo);
@@ -46,6 +47,7 @@ public class ListaDeGraficos {
         }
         return series;
     }
+
     public void atualizarValorMes(String ano, String mes, int novoValor) {
         if (series.containsKey(ano)) {
             XYChart.Series<String, Number> serie = series.get(ano);
@@ -82,9 +84,11 @@ public class ListaDeGraficos {
     public Set<String> getKeys() {
         return graficos.keySet();
     }
+
     public XYChart.Series<String, Number> getSerie(String ano) {
         return series.get(ano);
     }
+
     public Grafico getGrafico(String ano) {
         return graficos.get(ano);
     }
