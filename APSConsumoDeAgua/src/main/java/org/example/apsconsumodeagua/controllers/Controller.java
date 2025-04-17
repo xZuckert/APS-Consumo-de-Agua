@@ -22,7 +22,7 @@ import java.util.*;
 
 public class Controller implements Initializable {
     public static GraficoService graficoService;
-
+    private static final String[] MESES = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
     @FXML
     private LineChart<String, Number> chartTemplate;
     @FXML
@@ -114,12 +114,11 @@ public class Controller implements Initializable {
         }
     }
     private void atualizarBoxMeses(String ano) {
-        String[] nomeMeses = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
         int limiteMeses = 12;
         if (ano.equals(String.valueOf(Year.now().getValue()))) {
             limiteMeses = LocalDate.now().getMonth().getValue();
         }
-        List<String> meses = new ArrayList<>(Arrays.asList(nomeMeses).subList(0, limiteMeses));
+        List<String> meses = new ArrayList<>(Arrays.asList(MESES).subList(0, limiteMeses));
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
     }
