@@ -17,7 +17,7 @@ import java.time.Year;
 import java.time.format.TextStyle;
 import java.util.*;
 
-public class Controller implements Initializable {
+public class AplicacaoController implements Initializable {
     private GraficoController graficoController;
     private TabController tabController;
     private static final String[] MESES = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
