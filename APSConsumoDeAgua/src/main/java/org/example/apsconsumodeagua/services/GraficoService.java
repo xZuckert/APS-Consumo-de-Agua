@@ -1,15 +1,14 @@
-package org.example.apsconsumodeagua.models;
+package org.example.apsconsumodeagua.services;
 
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import org.example.apsconsumodeagua.models.Grafico;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ListaDeGraficos {
+public class GraficoService {
     private Map<String, Grafico> graficos = new HashMap<>();
     private Map<String, XYChart.Series<String, Number>> series = new HashMap<>();
 

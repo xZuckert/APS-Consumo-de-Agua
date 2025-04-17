@@ -6,7 +6,6 @@ import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -17,7 +16,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.example.apsconsumodeagua.models.Grafico;
-import org.example.apsconsumodeagua.models.ListaDeGraficos;
+import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Toast;
 
 import java.net.URL;
@@ -27,7 +26,7 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 public class Controller implements Initializable {
-    public static ListaDeGraficos listaDeGraficos = new ListaDeGraficos();
+    public static GraficoService graficoService = new GraficoService();
 
     @FXML
     private LineChart<String, Number> chartTemplate;
@@ -48,7 +47,7 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String anoAtual = String.valueOf(Year.now().getValue());
 
-        if (listaDeGraficos.getGrafico(anoAtual) == null) {
+        if (graficoService.getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
             gerarGraficoETab(anoAtual, mesAtual, 0);
         }
@@ -93,15 +92,15 @@ public class Controller implements Initializable {
                 return;
             }
 
-            if (listaDeGraficos.getGrafico(ano) != null) {
-                listaDeGraficos.atualizarValorMes(ano, mes, consumo);
+            if (graficoService.getGrafico(ano) != null) {
+                graficoService.atualizarValorMes(ano, mes, consumo);
             } else {
                 gerarGraficoETab(ano, mes, consumo);
             }
             boxGraficos.selectionModelProperty().get().select(ano);
             chartTemplate.getData().clear();
             chartTemplate.setTitle(ano);
-            chartTemplate.getData().add(clonarSeries(listaDeGraficos.getSerie(ano)));
+            chartTemplate.getData().add(clonarSeries(graficoService.getSerie(ano)));
             addConsumo.setVisible(false);
         } catch (NumberFormatException e) {
             Toast.mostrarToast(paneInterface, "Consumo inválido!", Toast.tipoToast.ERRO, 100, 320);
@@ -110,7 +109,7 @@ public class Controller implements Initializable {
 
     private void selecionarGrafico(String ano) {
         chartTemplate.getData().clear();
-        XYChart.Series<String, Number> serie = listaDeGraficos.getSerie(ano);
+        XYChart.Series<String, Number> serie = graficoService.getSerie(ano);
         if (serie != null) {
             chartTemplate.getData().add(clonarSeries(serie));
         }
@@ -124,7 +123,7 @@ public class Controller implements Initializable {
     }
 
     private void atualizarBoxGraficos() {
-        Set<String> anos = listaDeGraficos.getKeys();
+        Set<String> anos = graficoService.getKeys();
 
         boxGraficos.getItems().setAll(anos);
         if (!anos.isEmpty() && boxGraficos.getSelectionModel().getSelectedItem() == null) {
@@ -199,11 +198,11 @@ public class Controller implements Initializable {
     }
 
     private void gerarGraficoETab(String ano, String mes, int consumo) {
-        listaDeGraficos.gerarGrafico(ano, mes, consumo);
+        graficoService.gerarGrafico(ano, mes, consumo);
         atualizarBoxGraficos();
-        listaDeGraficos.getGrafico(ano).getLineChart().getStyleClass().add("grafico");
+        graficoService.getGrafico(ano).getLineChart().getStyleClass().add("grafico");
         if (!tabExiste(ano)) {
-            Grafico grafico = listaDeGraficos.getGrafico(ano);
+            Grafico grafico = graficoService.getGrafico(ano);
             LineChart<String, Number> graficoTab = grafico.getLineChart();
 
             VBox vbox = new VBox();
