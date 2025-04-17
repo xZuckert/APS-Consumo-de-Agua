@@ -7,18 +7,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import org.example.apsconsumodeagua.models.Grafico;
 import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Toast;
-import org.example.apsconsumodeagua.utils.Validadores;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -53,11 +47,11 @@ public class Controller implements Initializable {
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoService.getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-            gerarGraficoETab(anoAtual, mesAtual, 0);
+            graficoService.gerarGraficoETab(anoAtual, mesAtual, 0,graficoService,tabPaneGraficos,paneInterface);
+            atualizarBoxGraficos();
         }
-        atualizarBoxGraficos();
         boxGraficos.getSelectionModel().select(anoAtual);
-        selecionarGrafico(anoAtual);
+        graficoService.selecionarGrafico(anoAtual,chartTemplate,graficoService);
     }
     private void inicializarBoxAnos(){
         for (int i = Year.now().getValue(); i >= Year.now().getValue() - 20; i--) {
@@ -66,7 +60,7 @@ public class Controller implements Initializable {
     }
     private void inicializarListeners(){
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
-        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> selecionarGrafico(valorNovo));
+        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> graficoService.selecionarGrafico(valorNovo,chartTemplate,graficoService));
     }
 
     @FXML
@@ -93,31 +87,17 @@ public class Controller implements Initializable {
             if (graficoService.getGrafico(ano) != null) {
                 graficoService.atualizarValorMes(ano, mes, consumo);
             } else {
-                gerarGraficoETab(ano, mes, consumo);
+                graficoService.gerarGraficoETab(ano, mes, consumo,graficoService,tabPaneGraficos,paneInterface);
+                atualizarBoxGraficos();
             }
             boxGraficos.selectionModelProperty().get().select(ano);
             chartTemplate.getData().clear();
             chartTemplate.setTitle(ano);
-            chartTemplate.getData().add(clonarSeries(graficoService.getSerie(ano)));
+            chartTemplate.getData().add(graficoService.clonarSeries(graficoService.getSerie(ano)));
             addConsumo.setVisible(false);
         } catch (NumberFormatException e) {
             Toast.mostrarToast(paneInterface, "Consumo inválido!", Toast.tipoToast.ERRO, 100, 320);
         }
-    }
-
-    private void selecionarGrafico(String ano) {
-        chartTemplate.getData().clear();
-        XYChart.Series<String, Number> serie = graficoService.getSerie(ano);
-        if (serie != null) {
-            chartTemplate.getData().add(clonarSeries(serie));
-        }
-        chartTemplate.setTitle(ano);
-
-        chartTemplate.getYAxis().setAutoRanging(false);
-        chartTemplate.getXAxis().setLabel("Mês");
-        ((NumberAxis) chartTemplate.getYAxis()).setUpperBound(50);
-        ((NumberAxis) chartTemplate.getYAxis()).setTickUnit(10);
-
     }
 
     private void atualizarBoxGraficos() {
@@ -191,45 +171,6 @@ public class Controller implements Initializable {
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
     }
-
-    private void gerarGraficoETab(String ano, String mes, int consumo) {
-        graficoService.gerarGrafico(ano, mes, consumo);
-        atualizarBoxGraficos();
-        graficoService.getGrafico(ano).getLineChart().getStyleClass().add("grafico");
-        if (!Validadores.tabExiste(ano,tabPaneGraficos)) {
-            Grafico grafico = graficoService.getGrafico(ano);
-            LineChart<String, Number> graficoTab = grafico.getLineChart();
-
-            VBox vbox = new VBox();
-
-            Region topSpacer = new Region();
-            Region bottomSpacer = new Region();
-
-            VBox.setVgrow(topSpacer, javafx.scene.layout.Priority.ALWAYS);
-            VBox.setVgrow(bottomSpacer, javafx.scene.layout.Priority.ALWAYS);
-            vbox.getChildren().addAll(topSpacer, graficoTab, bottomSpacer);
-
-            AnchorPane graficoContainer = new AnchorPane(vbox);
-            AnchorPane.setTopAnchor(vbox, 10.0);
-            AnchorPane.setBottomAnchor(vbox, 10.0);
-            AnchorPane.setLeftAnchor(vbox, 10.0);
-            AnchorPane.setRightAnchor(vbox, 10.0);
-
-            Tab tab = new Tab(ano);
-            tab.setContent(graficoContainer);
-            tabPaneGraficos.getTabs().add(tab);
-            Toast.mostrarToast(paneInterface, "Grafico adicionado!", Toast.tipoToast.SUCESSO, 100, 320);
-        }
-    }
-
-    private XYChart.Series<String, Number> clonarSeries(XYChart.Series<String, Number> original) {
-        XYChart.Series<String, Number> copia = new XYChart.Series<>();
-        for (XYChart.Data<String, Number> data : original.getData()) {
-            copia.getData().add(new XYChart.Data<>(data.getXValue(), data.getYValue()));
-        }
-        return copia;
-    }
-
 
     public void setNomeField(String nome) {
         this.nomeField.setText(nome);
