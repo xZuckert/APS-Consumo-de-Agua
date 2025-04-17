@@ -6,12 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.apsconsumodeagua.Application;
 
 import java.io.IOException;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,7 +21,7 @@ public class Login implements Initializable {
     @FXML
     private AnchorPane paneInterface;
     @FXML
-    private  TextField nomeField,sobrenomeField,cpfField,emailField,cepField,enderecoField,estadoField,cidadeField,senhaField,confSenhaField,pessoasField;
+    private  TextField nomeField,sobrenomeField,cpfField,emailField,cepField,enderecoField,estadoField,cidadeField,pessoasField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

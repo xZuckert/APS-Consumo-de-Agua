@@ -39,6 +39,8 @@ public class Controller implements Initializable {
     private AnchorPane paneInterface, contentTabUsuario, contentTabHome, contentTabGraficos, addConsumo;
     @FXML
     private ToggleButton tabUsuario, tabHome, tabGraficos;
+    @FXML
+    private PasswordField senhaPasswordField;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gerarGraficoETab(String.valueOf(Year.now().getValue()));
@@ -169,7 +171,6 @@ public class Controller implements Initializable {
                 Toast.mostrarToast(paneInterface,"Grafico adicionado!", Toast.tipoToast.SUCESSO,100,320);
             }
         }
-
     }
 
 

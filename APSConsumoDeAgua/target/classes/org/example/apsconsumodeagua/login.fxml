@@ -36,9 +36,9 @@
             <Label text="Cidade:" />
             <TextField fx:id="cidadeField" prefHeight="26.0" prefWidth="312.0" />
             <Label text="Senha:" />
-            <TextField fx:id="senhaField" prefHeight="26.0" prefWidth="312.0" />
+            <PasswordField fx:id="senhaField" prefHeight="26.0" prefWidth="312.0" />
             <Label text="Confirmar Senha:" />
-            <TextField fx:id="confSenhaField" prefHeight="26.0" prefWidth="312.0" />
+            <PasswordField fx:id="confSenhaField" prefHeight="26.0" prefWidth="312.0" />
             <Region prefHeight="200.0" prefWidth="200.0" />
             <Label text="Número de Moradores:" />
             <TextField fx:id="pessoasField" />
