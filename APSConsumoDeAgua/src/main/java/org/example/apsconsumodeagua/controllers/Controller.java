@@ -36,7 +36,7 @@ public class Controller implements Initializable {
     @FXML
     private ToggleButton tabUsuario, tabHome, tabGraficos;
 
-//( Metodos chamados ao inicializar o fxml )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+//( Metodos chamados ao inicializar o fxml )----------------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         graficoService = new GraficoService();
@@ -63,9 +63,9 @@ public class Controller implements Initializable {
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
         boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> graficoService.selecionarGrafico(valorNovo,chartTemplate,graficoService));
     }
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//----------------------------------------------------------------------------------------------------------------------
 
-//( Métodos chamados pelo usuário ao acionar algum evento )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+//( Métodos chamados pelo usuário ao acionar algum evento )-------------------------------------------------------------
     @FXML
     public void changeTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
@@ -102,9 +102,9 @@ public class Controller implements Initializable {
             Toast.mostrarToast(paneInterface, "Consumo inválido!", Toast.tipoToast.ERRO, 100, 320);
         }
     }
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//----------------------------------------------------------------------------------------------------------------------
 
-//( Métodos de atualização dos ComboBox )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+//( Métodos de atualização dos ComboBox )-------------------------------------------------------------------------------
     private void atualizarBoxGraficos() {
         Set<String> anos = graficoService.getKeys();
 
@@ -123,9 +123,9 @@ public class Controller implements Initializable {
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
     }
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//----------------------------------------------------------------------------------------------------------------------
 
-//( Métodos de manipulação de UI )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+//( Métodos de manipulação de UI )--------------------------------------------------------------------------------------
     private void tabToggle(ToggleButton toggleButton) {
         switch (toggleButton.getId()) {
             case "tabUsuario":
@@ -176,9 +176,9 @@ public class Controller implements Initializable {
         ParallelTransition animation = new ParallelTransition(slideIn, fadeIn);
         animation.play();
     }
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//----------------------------------------------------------------------------------------------------------------------
 
-//( Métodos para alterar o conteúdo dos Fields )vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+//( Métodos para alterar o conteúdo dos Fields )------------------------------------------------------------------------
     public void setNomeField(String nome) {
         this.nomeField.setText(nome);
     }
@@ -206,5 +206,5 @@ public class Controller implements Initializable {
     public void setPessoasField(String pessoas) {
         this.pessoasField.setText(pessoas);
     }
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//----------------------------------------------------------------------------------------------------------------------
 }

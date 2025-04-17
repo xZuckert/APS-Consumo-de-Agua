@@ -20,11 +20,11 @@ public class GraficoService {
     private final Map<String, Grafico> graficos = new HashMap<>();
     private final Map<String, XYChart.Series<String, Number>> series = new HashMap<>();
 
+//( Métodos chamados para adicionar novos graficos )--------------------------------------------------------------------
     public void gerarGrafico(String ano, String mes, int consumo) {
         series.put(ano, gerarSeries(mes, consumo));
         graficos.put(ano, new Grafico(ano, series.get(ano)));
     }
-
     public void gerarGraficoETab(String ano, String mes, int consumo, GraficoService service, TabPane tabPane, AnchorPane pane) {
         service.gerarGrafico(ano, mes, consumo);
         service.getGrafico(ano).getLineChart().getStyleClass().add("grafico");
@@ -53,7 +53,6 @@ public class GraficoService {
             Toast.mostrarToast(pane, "Grafico adicionado!", Toast.tipoToast.SUCESSO, 100, 320);
         }
     }
-
     private XYChart.Series<String, Number> gerarSeries(String mes, int consumo) {
         XYChart.Series<String, Number> series;
         series = new XYChart.Series<>();
@@ -83,7 +82,9 @@ public class GraficoService {
         }
         return series;
     }
+//----------------------------------------------------------------------------------------------------------------------
 
+//( Métodos chamados para manipular dados )-----------------------------------------------------------------------------
     public XYChart.Series<String, Number> clonarSeries(XYChart.Series<String, Number> original) {
         XYChart.Series<String, Number> copia = new XYChart.Series<>();
         for (XYChart.Data<String, Number> data : original.getData()) {
@@ -92,7 +93,6 @@ public class GraficoService {
         copia.setName(original.getName());
         return copia;
     }
-
     public void atualizarValorMes(String ano, String mes, int novoValor) {
         if (series.containsKey(ano)) {
             XYChart.Series<String, Number> serie = series.get(ano);
@@ -114,7 +114,9 @@ public class GraficoService {
             }
         }
     }
+//----------------------------------------------------------------------------------------------------------------------
 
+//( Métodos chamados para manipular graficos )--------------------------------------------------------------------------
     public void selecionarGrafico(String ano, LineChart<String, Number> chart,GraficoService graficoService) {
         chart.getData().clear();
         XYChart.Series<String, Number> serie = graficoService.getSerie(ano);
@@ -129,27 +131,18 @@ public class GraficoService {
         ((NumberAxis) chart.getYAxis()).setTickUnit(10);
 
     }
+//----------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Anos disponíveis:\n");
-        for (String ano : graficos.keySet()) {
-            sb.append("- ").append(ano).append("\n");
-        }
-        return sb.toString();
-    }
-
+//( Métodos chamados para pegar dados e graficos )----------------------------------------------------------------------
     public Set<String> getKeys() {
         return graficos.keySet();
     }
-
     public XYChart.Series<String, Number> getSerie(String ano) {
         return series.get(ano);
     }
-
     public Grafico getGrafico(String ano) {
         return graficos.get(ano);
     }
+//----------------------------------------------------------------------------------------------------------------------
 }
 
