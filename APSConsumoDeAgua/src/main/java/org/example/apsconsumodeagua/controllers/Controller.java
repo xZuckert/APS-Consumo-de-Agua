@@ -44,26 +44,29 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        inicializarBoxGraficos();
+        inicializarBoxAnos();
+        inicializarListeners();
+    }
+    private void inicializarBoxGraficos(){
         String anoAtual = String.valueOf(Year.now().getValue());
-
         if (graficoService.getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
             gerarGraficoETab(anoAtual, mesAtual, 0);
         }
-
         atualizarBoxGraficos();
-
         boxGraficos.getSelectionModel().select(anoAtual);
-
         selecionarGrafico(anoAtual);
+    }
+    private void inicializarBoxAnos(){
         for (int i = Year.now().getValue(); i >= Year.now().getValue() - 20; i--) {
             boxAnos.getItems().add(String.valueOf(i));
         }
-        //atualiza o boxMeses, verifica se é o ano atual e permite selecionar somente até o mes atual
+    }
+    private void inicializarListeners(){
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
         boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> selecionarGrafico(valorNovo));
     }
-
     @FXML
     public void changeTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
