@@ -18,6 +18,7 @@ import javafx.util.Duration;
 import org.example.apsconsumodeagua.models.Grafico;
 import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Toast;
+import org.example.apsconsumodeagua.utils.Validadores;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -67,17 +68,16 @@ public class Controller implements Initializable {
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
         boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> selecionarGrafico(valorNovo));
     }
+
     @FXML
     public void changeTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
         tabToggle(botaoClicado);
     }
-
     @FXML
     public void openAddConsumo() {
         mostrarDeslizando(addConsumo);
     }
-
     @FXML
     public void registrarConsumo() {
         try {
@@ -196,7 +196,7 @@ public class Controller implements Initializable {
         graficoService.gerarGrafico(ano, mes, consumo);
         atualizarBoxGraficos();
         graficoService.getGrafico(ano).getLineChart().getStyleClass().add("grafico");
-        if (!tabExiste(ano)) {
+        if (!Validadores.tabExiste(ano,tabPaneGraficos)) {
             Grafico grafico = graficoService.getGrafico(ano);
             LineChart<String, Number> graficoTab = grafico.getLineChart();
 
@@ -222,16 +222,6 @@ public class Controller implements Initializable {
         }
     }
 
-
-    private boolean tabExiste(String ano) {
-        for (Tab tab : tabPaneGraficos.getTabs()) {
-            if (tab.getText().equals(ano)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private XYChart.Series<String, Number> clonarSeries(XYChart.Series<String, Number> original) {
         XYChart.Series<String, Number> copia = new XYChart.Series<>();
         for (XYChart.Data<String, Number> data : original.getData()) {
@@ -244,34 +234,27 @@ public class Controller implements Initializable {
     public void setNomeField(String nome) {
         this.nomeField.setText(nome);
     }
-
     public void setSobrenomeField(String sobrenome) {
         this.sobrenomeField.setText(sobrenome);
     }
-
     public void setcpfField(String cpf) {
         this.cpfField.setText(cpf);
     }
     public void setEmailField(String cpf) {
         this.emailField.setText(cpf);
     }
-
     public void setCepField(String cep) {
         this.cepField.setText(cep);
     }
-
     public void setEnderecoField(String endereco) {
         this.enderecoField.setText(endereco);
     }
-
     public void setEstadoField(String estado) {
         this.estadoField.setText(estado);
     }
-
     public void setCidadeField(String cidade) {
         this.cidadeField.setText(cidade);
     }
-
     public void setPessoasField(String pessoas) {
         this.pessoasField.setText(pessoas);
     }
