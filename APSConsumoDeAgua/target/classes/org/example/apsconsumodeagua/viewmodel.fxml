@@ -69,10 +69,6 @@
                     </yAxis>
                   </LineChart>
                   <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openAddConsumo" styleClass="but" text="Adicionar Consumo">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
                </children>
             </VBox>
             <AnchorPane fx:id="addConsumo" prefHeight="200.0" prefWidth="200.0" styleClass="addConta" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -106,6 +102,11 @@
                   </VBox>
                </children>
             </AnchorPane>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openAddConsumo" styleClass="but" text="Adicionar Consumo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="contentTabGraficos" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="360.0" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

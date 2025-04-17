@@ -1,18 +1,15 @@
 package org.example.apsconsumodeagua.controllers;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.util.Duration;
+
 import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Toast;
+import org.example.apsconsumodeagua.utils.UIUtils;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -73,7 +70,7 @@ public class Controller implements Initializable {
     }
     @FXML
     public void openAddConsumo() {
-        mostrarDeslizando(addConsumo);
+        UIUtils.mostrarDeslizandoDeBaixoParaCima(addConsumo,400);
     }
     @FXML
     public void registrarConsumo() {
@@ -154,22 +151,6 @@ public class Controller implements Initializable {
                 contentTabGraficos.setVisible(true);
                 break;
         }
-    }
-    private void mostrarDeslizando(Pane pane) {
-        pane.setTranslateY(pane.getHeight());     // começa deslocado pra baixo
-        pane.setOpacity(0);
-        pane.setVisible(true);
-
-        TranslateTransition slideIn = new TranslateTransition(Duration.millis(400), pane);
-        slideIn.setFromY(pane.getHeight());
-        slideIn.setToY(0);
-
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(400), pane);
-        fadeIn.setFromValue(0.0);
-        fadeIn.setToValue(1.0);
-
-        ParallelTransition animation = new ParallelTransition(slideIn, fadeIn);
-        animation.play();
     }
 //----------------------------------------------------------------------------------------------------------------------
 
