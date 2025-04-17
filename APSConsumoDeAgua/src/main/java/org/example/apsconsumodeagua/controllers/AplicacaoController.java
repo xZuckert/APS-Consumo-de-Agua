@@ -62,7 +62,7 @@ public class AplicacaoController implements Initializable {
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
         boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> graficoController.selecionarGrafico(valorNovo,chartTemplate));
     }
-//----------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
 
     //( Métodos chamados pelo usuário ao acionar algum evento )-------------------------------------------------------------
     @FXML
@@ -97,7 +97,7 @@ public class AplicacaoController implements Initializable {
             Toast.mostrarToast(paneInterface, "Consumo inválido!", Toast.tipoToast.ERRO, 100, 320);
         }
     }
-//----------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
 
     //( Métodos de atualização dos ComboBox )-------------------------------------------------------------------------------
     private void atualizarBoxGraficos() {
@@ -117,7 +117,7 @@ public class AplicacaoController implements Initializable {
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
     }
-//----------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
 
     //( Métodos para alterar o conteúdo dos Fields )------------------------------------------------------------------------
     public void setNomeField(String nome) {
@@ -147,5 +147,5 @@ public class AplicacaoController implements Initializable {
     public void setPessoasField(String pessoas) {
         this.pessoasField.setText(pessoas);
     }
-//----------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
 }
