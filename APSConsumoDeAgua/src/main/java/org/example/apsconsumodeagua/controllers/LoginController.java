@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.apsconsumodeagua.Application;
 
@@ -17,8 +16,6 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     @FXML
-    private AnchorPane paneInterface;
-    @FXML
     private  TextField nomeField,sobrenomeField,cpfField,emailField,cepField,enderecoField,estadoField,cidadeField,pessoasField;
 
     @Override
@@ -27,9 +24,9 @@ public class LoginController implements Initializable {
     }
 
     public void registrar(ActionEvent event) throws IOException {
-        FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("viewmodel.fxml"));
+        FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("aplicacao.fxml"));
         Scene novaCena = new Scene(novaTela.load());
-        Controller controller = novaTela.getController();
+        AplicacaoController controller = novaTela.getController();
         controller.setNomeField(nomeField.getText());
         controller.setSobrenomeField(sobrenomeField.getText());
         controller.setcpfField(cpfField.getText());
