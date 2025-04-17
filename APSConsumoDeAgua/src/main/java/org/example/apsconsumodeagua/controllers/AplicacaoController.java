@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import org.example.apsconsumodeagua.services.GraficoService;
+import org.example.apsconsumodeagua.utils.Constantes;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.UIUtils;
 
@@ -20,7 +21,7 @@ import java.util.*;
 public class AplicacaoController implements Initializable {
     private GraficoController graficoController;
     private TabController tabController;
-    private static final String[] MESES = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
+
     @FXML
     private LineChart<String, Number> chartTemplate;
     @FXML
@@ -113,7 +114,7 @@ public class AplicacaoController implements Initializable {
         if (ano.equals(String.valueOf(Year.now().getValue()))) {
             limiteMeses = LocalDate.now().getMonth().getValue();
         }
-        List<String> meses = new ArrayList<>(Arrays.asList(MESES).subList(0, limiteMeses));
+        List<String> meses = new ArrayList<>(Arrays.asList(Constantes.MESES).subList(0, limiteMeses));
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
     }

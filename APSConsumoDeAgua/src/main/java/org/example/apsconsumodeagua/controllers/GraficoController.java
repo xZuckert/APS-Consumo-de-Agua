@@ -17,10 +17,12 @@ import java.util.Set;
 public class GraficoController {
     private final GraficoService service;
 
+    public GraficoController() {
+        this.service = new GraficoService();
+    }
     public GraficoController(GraficoService service) {
         this.service = service;
     }
-
     public void criarOuAtualizarGrafico(String ano, String mes, int consumo, TabPane tabPane, AnchorPane paneInterface) {
         if (service.getGrafico(ano) != null) {
             service.atualizarValorMes(ano, mes, consumo);
