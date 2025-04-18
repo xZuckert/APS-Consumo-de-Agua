@@ -27,15 +27,15 @@ public class LoginController implements Initializable {
         FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/aplicacao.fxml"));
         Scene novaCena = new Scene(novaTela.load());
         AplicacaoController controller = novaTela.getController();
-        controller.setNomeField(nomeField.getText());
-        controller.setSobrenomeField(sobrenomeField.getText());
-        controller.setCpfField(cpfField.getText());
-        controller.setEmailField(emailField.getText());
-        controller.setCepField(cepField.getText());
-        controller.setEnderecoField(enderecoField.getText());
-        controller.setEstadoField(estadoField.getText());
-        controller.setCidadeField(cidadeField.getText());
-        controller.setPessoasField(pessoasField.getText());
+//        controller.setNomeField(nomeField.getText());
+//        controller.setSobrenomeField(sobrenomeField.getText());
+//        controller.setCpfField(cpfField.getText());
+//        controller.setEmailField(emailField.getText());
+//        controller.setCepField(cepField.getText());
+//        controller.setEnderecoField(enderecoField.getText());
+//        controller.setEstadoField(estadoField.getText());
+//        controller.setCidadeField(cidadeField.getText());
+//        controller.setPessoasField(pessoasField.getText());
 
         // Pega a janela atual a partir do botão que disparou o evento
         Stage palco = (Stage) ((Node) event.getSource()).getScene().getWindow();

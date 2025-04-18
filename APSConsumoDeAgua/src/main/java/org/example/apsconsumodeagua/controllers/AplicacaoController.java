@@ -2,15 +2,16 @@ package org.example.apsconsumodeagua.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.LineChart;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import org.example.apsconsumodeagua.models.AppModel;
 import org.example.apsconsumodeagua.utils.Constantes;
-import org.example.apsconsumodeagua.utils.UIUtils;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Year;
@@ -22,41 +23,38 @@ public class AplicacaoController implements Initializable {
     private TabController tabController;
 
     @FXML
-    private LineChart<String, Number> chartTemplate;
-    @FXML
-    private ComboBox<String> boxMeses, boxAnos, boxGraficos;
-    @FXML
-    private TabPane tabPaneGraficos;
-    @FXML
-    private TextField nomeField, sobrenomeField, cpfField, emailField, cepField, enderecoField, estadoField, cidadeField, pessoasField, consumoField;
-    @FXML
-    private AnchorPane paneInterface, contentTabUsuario, contentTabHome, contentTabGraficos, adicionarConsumo;
+    private AnchorPane paneInterface;
     @FXML
     private ToggleButton tabUsuario, tabHome, tabGraficos;
 
     //( Metodos chamados ao inicializar o fxml )----------------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.tabController = new TabController(tabUsuario,tabHome,tabGraficos,contentTabUsuario,contentTabHome,contentTabGraficos);
+        this.tabController = new TabController(tabUsuario,tabHome,tabGraficos);
+        appModel.setRootPane(paneInterface);
+        appModel.setTabUsuarioController((TabUsuarioController) carregarTela(Constantes.TAB_USUARIO));
+        appModel.setTabHomeController((TabHomeController) carregarTela(Constantes.TAB_HOME));
+        appModel.setTabGraficosController((TabGraficosController) carregarTela(Constantes.TAB_GRAFICOS));
         inicializarGraficoAtual();
         inicializarBoxAnos();
         inicializarListeners();
+        paneInterface.getChildren().addFirst(appModel.getPane(Constantes.TAB_HOME));
     }
     private void inicializarGraficoAtual(){
         String anoAtual = String.valueOf(Year.now().getValue());
         if (appModel.getGraficoController().getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-            appModel.getGraficoController().criarOuAtualizarGrafico(anoAtual,mesAtual,0,chartTemplate,tabPaneGraficos,paneInterface,boxGraficos);
+            appModel.getGraficoController().criarOuAtualizarGrafico(anoAtual,mesAtual,0,appModel.getTabHomeController().chartTemplate,appModel.getTabGraficosController().tabPaneGraficos,paneInterface,appModel.getTabHomeController().boxGraficos);
         }
     }
     private void inicializarBoxAnos(){
         for (int i = Year.now().getValue(); i >= Year.now().getValue() - Constantes.ANOS_ANTERIORES; i--) {
-            boxAnos.getItems().add(String.valueOf(i));
+            appModel.getTabHomeController().boxAnos.getItems().add(String.valueOf(i));
         }
     }
     private void inicializarListeners(){
-        boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
-        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> appModel.getGraficoController().selecionarGrafico(valorNovo,chartTemplate,boxGraficos));
+        appModel.getTabHomeController().boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
+        appModel.getTabHomeController().boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> appModel.getGraficoController().selecionarGrafico(valorNovo,appModel.getTabHomeController().chartTemplate,appModel.getTabHomeController().boxGraficos));
     }
     //----------------------------------------------------------------------------------------------------------------------
 
@@ -65,18 +63,6 @@ public class AplicacaoController implements Initializable {
     public void trocarTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
         tabController.alternarAba(botaoClicado);
-    }
-    @FXML
-    public void abrirAdicionarConsumo() {
-        UIUtils.mostrarDeslizando(adicionarConsumo,600, UIUtils.direcao.DE_BAIXO_PRA_CIMA);
-    }
-    @FXML
-    public void registrarConsumo() {
-        int consumo = Integer.parseInt(consumoField.getText());
-        String ano = boxAnos.getValue();
-        String mes = boxMeses.getValue();
-        appModel.getGraficoController().criarOuAtualizarGrafico(ano,mes,consumo,chartTemplate,tabPaneGraficos,paneInterface,boxGraficos);
-        adicionarConsumo.setVisible(false);
     }
     //----------------------------------------------------------------------------------------------------------------------
 
@@ -87,38 +73,27 @@ public class AplicacaoController implements Initializable {
             limiteMeses = LocalDate.now().getMonth().getValue();
         }
         List<String> meses = new ArrayList<>(Arrays.asList(Constantes.MESES).subList(0, limiteMeses));
-        boxMeses.getItems().setAll(meses);
-        boxMeses.setDisable(false);
+        appModel.getTabHomeController().boxMeses.getItems().setAll(meses);
+        appModel.getTabHomeController().boxMeses.setDisable(false);
     }
     //----------------------------------------------------------------------------------------------------------------------
 
+    private Object carregarTela(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load(); // Isso carrega o conteúdo
+            Object controller = loader.getController();
+
+            // Se quiser guardar o root em algum lugar para usar depois:
+            appModel.addPane(fxmlPath, root);
+
+            return controller;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     //( Métodos para alterar o conteúdo dos Fields )------------------------------------------------------------------------
-    public void setNomeField(String nome) {
-        this.nomeField.setText(nome);
-    }
-    public void setSobrenomeField(String sobrenome) {
-        this.sobrenomeField.setText(sobrenome);
-    }
-    public void setCpfField(String cpf) {
-        this.cpfField.setText(cpf);
-    }
-    public void setEmailField(String email) {
-        this.emailField.setText(email);
-    }
-    public void setCepField(String cep) {
-        this.cepField.setText(cep);
-    }
-    public void setEnderecoField(String endereco) {
-        this.enderecoField.setText(endereco);
-    }
-    public void setEstadoField(String estado) {
-        this.estadoField.setText(estado);
-    }
-    public void setCidadeField(String cidade) {
-        this.cidadeField.setText(cidade);
-    }
-    public void setPessoasField(String pessoas) {
-        this.pessoasField.setText(pessoas);
-    }
     //----------------------------------------------------------------------------------------------------------------------
 }
