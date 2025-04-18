@@ -24,7 +24,7 @@ public class LoginController implements Initializable {
     }
 
     public void registrar(ActionEvent event) throws IOException {
-        FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("aplicacao.fxml"));
+        FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/aplicacao.fxml"));
         Scene novaCena = new Scene(novaTela.load());
         AplicacaoController controller = novaTela.getController();
         controller.setNomeField(nomeField.getText());

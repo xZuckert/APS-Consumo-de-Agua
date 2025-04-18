@@ -7,7 +7,7 @@
         <?import javafx.scene.layout.*?>
         <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" stylesheets="@style.css"
+<AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" stylesheets="@../css/style.css"
             xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
 fx:controller="org.example.apsconsumodeagua.controllers.AplicacaoController">
     <AnchorPane fx:id="contentTabUsuario" prefHeight="600.0" prefWidth="360.0" visible="false"
