@@ -9,7 +9,6 @@ import javafx.scene.layout.AnchorPane;
 
 import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Constantes;
-import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.UIUtils;
 
 import java.net.URL;
@@ -31,7 +30,7 @@ public class AplicacaoController implements Initializable {
     @FXML
     private TextField nomeField, sobrenomeField, cpfField, emailField, cepField, enderecoField, estadoField, cidadeField, pessoasField, consumoField;
     @FXML
-    private AnchorPane paneInterface, contentTabUsuario, contentTabHome, contentTabGraficos, addConsumo;
+    private AnchorPane paneInterface, contentTabUsuario, contentTabHome, contentTabGraficos, adicionarConsumo;
     @FXML
     private ToggleButton tabUsuario, tabHome, tabGraficos;
 
@@ -48,9 +47,8 @@ public class AplicacaoController implements Initializable {
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoController.getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-            graficoController.criarOuAtualizarGrafico(anoAtual,mesAtual,0,tabPaneGraficos,paneInterface,boxGraficos);
+            graficoController.criarOuAtualizarGrafico(anoAtual,mesAtual,0,chartTemplate,tabPaneGraficos,paneInterface,boxGraficos);
         }
-        graficoController.selecionarGrafico(anoAtual,chartTemplate,boxGraficos);
     }
     private void inicializarBoxAnos(){
         for (int i = Year.now().getValue(); i >= Year.now().getValue() - Constantes.ANOS_ANTERIORES; i--) {
@@ -65,31 +63,21 @@ public class AplicacaoController implements Initializable {
 
     //( Métodos chamados pelo usuário ao acionar algum evento )-------------------------------------------------------------
     @FXML
-    public void changeTab(ActionEvent event) {
+    public void trocarTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
         tabController.alternarAba(botaoClicado);
     }
     @FXML
-    public void openAddConsumo() {
-        UIUtils.mostrarDeslizando(addConsumo,600, UIUtils.direcao.DE_BAIXO_PRA_CIMA);
+    public void abrirAdicionarConsumo() {
+        UIUtils.mostrarDeslizando(adicionarConsumo,600, UIUtils.direcao.DE_BAIXO_PRA_CIMA);
     }
     @FXML
     public void registrarConsumo() {
-        try {
-            int consumo = Integer.parseInt(consumoField.getText());
-            String ano = boxAnos.getValue();
-            String mes = boxMeses.getValue();
-
-            if (ano == null || mes == null) {
-                Toast.mostrarToast(paneInterface, "Selecione ano e mês!", Toast.tipoToast.ERRO, 100, 320);
-                return;
-            }
-            graficoController.criarOuAtualizarGrafico(ano,mes,consumo,tabPaneGraficos,paneInterface,boxGraficos);
-            graficoController.selecionarGrafico(ano,chartTemplate,boxGraficos);
-            addConsumo.setVisible(false);
-        } catch (NumberFormatException e) {
-            Toast.mostrarToast(paneInterface, "Consumo inválido!", Toast.tipoToast.ERRO, 100, 320);
-        }
+        int consumo = Integer.parseInt(consumoField.getText());
+        String ano = boxAnos.getValue();
+        String mes = boxMeses.getValue();
+        graficoController.criarOuAtualizarGrafico(ano,mes,consumo,chartTemplate,tabPaneGraficos,paneInterface,boxGraficos);
+        adicionarConsumo.setVisible(false);
     }
     //----------------------------------------------------------------------------------------------------------------------
 
