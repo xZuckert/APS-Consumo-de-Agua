@@ -2,6 +2,8 @@ package org.example.apsconsumodeagua.controllers;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -23,13 +25,14 @@ public class GraficoController {
     public GraficoController(GraficoService service) {
         this.service = service;
     }
-    public void criarOuAtualizarGrafico(String ano, String mes, int consumo, TabPane tabPane, AnchorPane paneInterface) {
+    public void criarOuAtualizarGrafico(String ano, String mes, int consumo, TabPane tabPane, AnchorPane paneInterface, ComboBox<String> boxGraficos) {
         if (service.getGrafico(ano) != null) {
             service.atualizarValorMes(ano, mes, consumo);
         } else {
             service.gerarGrafico(ano, mes, consumo);
             adicionarGraficoNaTab(ano, tabPane, paneInterface);
         }
+        atualizarBoxGraficos(boxGraficos);
     }
 
     private void adicionarGraficoNaTab(String ano, TabPane tabPane, AnchorPane paneInterface) {
@@ -58,8 +61,17 @@ public class GraficoController {
             Toast.mostrarToast(paneInterface, "Grafico adicionado!", Toast.tipoToast.SUCESSO, 100, 320);
         }
     }
+    private void atualizarBoxGraficos(ComboBox<String> boxGraficos) {
+        Set<String> anos = getAnos();
+        SingleSelectionModel<String> selectionModel = boxGraficos.getSelectionModel();
+        boxGraficos.getItems().setAll(anos);
+        if (!anos.isEmpty() && selectionModel.getSelectedItem() == null) {
+            selectionModel.selectLast();
+        }
+    }
 
-    public void selecionarGrafico(String ano, LineChart<String, Number> chartTemplate) {
+    public void selecionarGrafico(String ano, LineChart<String, Number> chartTemplate, ComboBox<String> boxGraficos) {
+        boxGraficos.selectionModelProperty().get().select(ano);
         service.selecionarGrafico(ano, chartTemplate, service);
     }
 

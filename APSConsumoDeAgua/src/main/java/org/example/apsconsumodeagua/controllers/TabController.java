@@ -28,6 +28,17 @@ public class TabController {
         animarAlteracao();
         antigoId = id;
     }
+
+    private void alterarBotaoSelecionado(String id){
+        tabUsuario.setSelected("tabUsuario".equals(id));
+        tabHome.setSelected("tabHome".equals(id));
+        tabGraficos.setSelected("tabGraficos".equals(id));
+    }
+    private void alterarConteudoExibido(String id){
+        contentTabUsuario.setVisible("tabUsuario".equals(id));
+        contentTabHome.setVisible("tabHome".equals(id));
+        contentTabGraficos.setVisible("tabGraficos".equals(id));
+    }
     private void animarAlteracao(){
         if(antigoId.equals("tabHome")){
             if(tabUsuario.isSelected()){
@@ -53,15 +64,5 @@ public class TabController {
                 UIUtils.mostrarDeslizando(contentTabUsuario,Constantes.VELOCIDADE_ANIMACOES, UIUtils.direcao.DA_ESQUERDA_PRA_DIREITA);
             }
         }
-    }
-    private void alterarBotaoSelecionado(String id){
-        tabUsuario.setSelected("tabUsuario".equals(id));
-        tabHome.setSelected("tabHome".equals(id));
-        tabGraficos.setSelected("tabGraficos".equals(id));
-    }
-    private void alterarConteudoExibido(String id){
-        contentTabUsuario.setVisible("tabUsuario".equals(id));
-        contentTabHome.setVisible("tabHome".equals(id));
-        contentTabGraficos.setVisible("tabGraficos".equals(id));
     }
 }

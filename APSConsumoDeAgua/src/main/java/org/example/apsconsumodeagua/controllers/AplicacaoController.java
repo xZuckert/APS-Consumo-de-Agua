@@ -48,11 +48,9 @@ public class AplicacaoController implements Initializable {
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoController.getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-            graficoController.criarOuAtualizarGrafico(anoAtual,mesAtual,0,tabPaneGraficos,paneInterface);
-            atualizarBoxGraficos();
+            graficoController.criarOuAtualizarGrafico(anoAtual,mesAtual,0,tabPaneGraficos,paneInterface,boxGraficos);
         }
-        boxGraficos.getSelectionModel().select(anoAtual);
-        graficoController.selecionarGrafico(anoAtual,chartTemplate);
+        graficoController.selecionarGrafico(anoAtual,chartTemplate,boxGraficos);
     }
     private void inicializarBoxAnos(){
         for (int i = Year.now().getValue(); i >= Year.now().getValue() - Constantes.ANOS_ANTERIORES; i--) {
@@ -61,7 +59,7 @@ public class AplicacaoController implements Initializable {
     }
     private void inicializarListeners(){
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
-        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> graficoController.selecionarGrafico(valorNovo,chartTemplate));
+        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> graficoController.selecionarGrafico(valorNovo,chartTemplate,boxGraficos));
     }
     //----------------------------------------------------------------------------------------------------------------------
 
@@ -86,13 +84,8 @@ public class AplicacaoController implements Initializable {
                 Toast.mostrarToast(paneInterface, "Selecione ano e mês!", Toast.tipoToast.ERRO, 100, 320);
                 return;
             }
-            graficoController.criarOuAtualizarGrafico(ano,mes,consumo,tabPaneGraficos,paneInterface);
-            atualizarBoxGraficos();
-
-            boxGraficos.selectionModelProperty().get().select(ano);
-            chartTemplate.getData().clear();
-            chartTemplate.setTitle(ano);
-            chartTemplate.getData().add(graficoController.getSerieClonada(ano));
+            graficoController.criarOuAtualizarGrafico(ano,mes,consumo,tabPaneGraficos,paneInterface,boxGraficos);
+            graficoController.selecionarGrafico(ano,chartTemplate,boxGraficos);
             addConsumo.setVisible(false);
         } catch (NumberFormatException e) {
             Toast.mostrarToast(paneInterface, "Consumo inválido!", Toast.tipoToast.ERRO, 100, 320);
@@ -101,14 +94,6 @@ public class AplicacaoController implements Initializable {
     //----------------------------------------------------------------------------------------------------------------------
 
     //( Métodos de atualização dos ComboBox )-------------------------------------------------------------------------------
-    private void atualizarBoxGraficos() {
-        Set<String> anos = graficoController.getAnos();
-
-        boxGraficos.getItems().setAll(anos);
-        if (!anos.isEmpty() && boxGraficos.getSelectionModel().getSelectedItem() == null) {
-            boxGraficos.getSelectionModel().selectLast();
-        }
-    }
     private void atualizarBoxMeses(String ano) {
         int limiteMeses = 12;
         if (ano.equals(String.valueOf(Year.now().getValue()))) {

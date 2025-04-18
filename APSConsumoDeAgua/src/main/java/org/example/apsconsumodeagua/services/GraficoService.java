@@ -84,11 +84,11 @@ public class GraficoService {
 //( Métodos chamados para manipular graficos )--------------------------------------------------------------------------
     public void selecionarGrafico(String ano, LineChart<String, Number> chart,GraficoService graficoService) {
         chart.getData().clear();
+        chart.setTitle(ano);
         XYChart.Series<String, Number> serie = graficoService.getSerie(ano);
         if (serie != null) {
             chart.getData().add(graficoService.clonarSeries(serie));
         }
-        chart.setTitle(ano);
 
         chart.getYAxis().setAutoRanging(false);
         chart.getXAxis().setLabel("Mês");

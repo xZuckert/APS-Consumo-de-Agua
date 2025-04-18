@@ -12,7 +12,7 @@ public class UIUtils {
         TranslateTransition slideIn = new TranslateTransition(Duration.millis(duracao), pane);
         switch (direcao) {
             case DE_BAIXO_PRA_CIMA:
-                pane.setTranslateY(pane.getHeight());     // começa deslocado pra baixo
+                pane.setTranslateY(pane.getHeight());
                 slideIn.setFromY(pane.getHeight());
                 slideIn.setToY(0);
                 break;
