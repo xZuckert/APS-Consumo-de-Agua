@@ -7,7 +7,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
-import org.example.apsconsumodeagua.services.GraficoService;
+import org.example.apsconsumodeagua.models.AppModel;
 import org.example.apsconsumodeagua.utils.Constantes;
 import org.example.apsconsumodeagua.utils.UIUtils;
 
@@ -18,8 +18,7 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 public class AplicacaoController implements Initializable {
-    private static AplicacaoController aplicacaoController;
-    private GraficoController graficoController;
+    private final AppModel appModel = AppModel.getInstance();
     private TabController tabController;
 
     @FXML
@@ -38,7 +37,6 @@ public class AplicacaoController implements Initializable {
     //( Metodos chamados ao inicializar o fxml )----------------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.graficoController = new GraficoController(new GraficoService());
         this.tabController = new TabController(tabUsuario,tabHome,tabGraficos,contentTabUsuario,contentTabHome,contentTabGraficos);
         inicializarGraficoAtual();
         inicializarBoxAnos();
@@ -46,9 +44,9 @@ public class AplicacaoController implements Initializable {
     }
     private void inicializarGraficoAtual(){
         String anoAtual = String.valueOf(Year.now().getValue());
-        if (graficoController.getGrafico(anoAtual) == null) {
+        if (appModel.getGraficoController().getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-            graficoController.criarOuAtualizarGrafico(anoAtual,mesAtual,0,chartTemplate,tabPaneGraficos,paneInterface,boxGraficos);
+            appModel.getGraficoController().criarOuAtualizarGrafico(anoAtual,mesAtual,0,chartTemplate,tabPaneGraficos,paneInterface,boxGraficos);
         }
     }
     private void inicializarBoxAnos(){
@@ -58,7 +56,7 @@ public class AplicacaoController implements Initializable {
     }
     private void inicializarListeners(){
         boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> atualizarBoxMeses(valorNovo));
-        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> graficoController.selecionarGrafico(valorNovo,chartTemplate,boxGraficos));
+        boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> appModel.getGraficoController().selecionarGrafico(valorNovo,chartTemplate,boxGraficos));
     }
     //----------------------------------------------------------------------------------------------------------------------
 
@@ -77,7 +75,7 @@ public class AplicacaoController implements Initializable {
         int consumo = Integer.parseInt(consumoField.getText());
         String ano = boxAnos.getValue();
         String mes = boxMeses.getValue();
-        graficoController.criarOuAtualizarGrafico(ano,mes,consumo,chartTemplate,tabPaneGraficos,paneInterface,boxGraficos);
+        appModel.getGraficoController().criarOuAtualizarGrafico(ano,mes,consumo,chartTemplate,tabPaneGraficos,paneInterface,boxGraficos);
         adicionarConsumo.setVisible(false);
     }
     //----------------------------------------------------------------------------------------------------------------------
@@ -123,10 +121,4 @@ public class AplicacaoController implements Initializable {
         this.pessoasField.setText(pessoas);
     }
     //----------------------------------------------------------------------------------------------------------------------
-    public static AplicacaoController getInstance() {
-        if (aplicacaoController == null) {
-            aplicacaoController = new AplicacaoController();
-        }
-        return aplicacaoController;
-    }
 }
