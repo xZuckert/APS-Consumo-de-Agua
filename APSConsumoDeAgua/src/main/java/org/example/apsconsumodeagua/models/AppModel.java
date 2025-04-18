@@ -23,6 +23,7 @@ import java.util.Map;
 public class AppModel {
     private static AppModel instance;
     private final GraficoController graficoController;
+    private TabManager tabManager;
 
     private final Map<String, Parent> roots = new HashMap<>();
 
@@ -37,7 +38,7 @@ public class AppModel {
     }
 
     public void carregarAplicacao(ToggleButton ... tabs) {
-        TabManager tabManager = new TabManager(tabs[0], tabs[1], tabs[2]);
+        tabManager = new TabManager(tabs[0], tabs[1], tabs[2]);
         tabUsuarioController = carregarFXMLComController(CaminhoFxml.TAB_USUARIO);
         tabHomeController = carregarFXMLComController(CaminhoFxml.TAB_HOME);
         tabGraficosController = carregarFXMLComController(CaminhoFxml.TAB_GRAFICOS);
@@ -108,6 +109,9 @@ public class AppModel {
 
     public AnchorPane getRootPane() {
         return rootPane;
+    }
+    public TabManager getTabManager() {
+        return tabManager;
     }
 
     public void setRootPane(AnchorPane rootPane) {

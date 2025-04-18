@@ -6,26 +6,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
-import org.example.apsconsumodeagua.managers.TabManager;
 import org.example.apsconsumodeagua.models.AppModel;
 import java.net.URL;
 import java.util.*;
 
 public class AplicacaoController implements Initializable {
     private final AppModel appModel = AppModel.getInstance();
-    private TabManager tabManager;
+    @FXML
+    public ToggleButton tabUsuario, tabHome, tabGraficos;
 
     @FXML
     private AnchorPane paneInterface;
-    @FXML
-    private ToggleButton tabUsuario, tabHome, tabGraficos;
 
     //( Metodos chamados ao inicializar o fxml )----------------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.tabManager = new TabManager(tabUsuario,tabHome,tabGraficos);
         appModel.setRootPane(paneInterface);
-        appModel.carregarAplicacao(tabUsuario,tabHome,tabGraficos);
+        appModel.carregarAplicacao(tabUsuario, tabHome, tabGraficos);
     }
 
     //----------------------------------------------------------------------------------------------------------------------
@@ -34,7 +31,7 @@ public class AplicacaoController implements Initializable {
     @FXML
     public void trocarTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
-        tabManager.alternarAba(botaoClicado);
+        appModel.getTabManager().alternarAba(botaoClicado);
     }
     //----------------------------------------------------------------------------------------------------------------------
 }
