@@ -2,6 +2,7 @@ package org.example.apsconsumodeagua.controllers;
 
 import javafx.scene.control.ToggleButton;
 import org.example.apsconsumodeagua.models.AppModel;
+import org.example.apsconsumodeagua.utils.CaminhoFxml;
 import org.example.apsconsumodeagua.utils.Constantes;
 import org.example.apsconsumodeagua.utils.UIUtils;
 
@@ -17,7 +18,7 @@ public class TabController {
         this.tabGraficos = tabGraficos;
     }
 
-    public void alternarAba(ToggleButton toggleButton) {
+    protected void alternarAba(ToggleButton toggleButton) {
         String id = toggleButton.getId();
         alterarBotaoSelecionado(id);
         alterarConteudoExibido(id);
@@ -36,19 +37,19 @@ public class TabController {
                 tabUsuario.setSelected(true);
                 tabGraficos.setSelected(false);
                 tabHome.setSelected(false);
-                appModel.getRootPane().getChildren().set(0,appModel.getPane(Constantes.TAB_USUARIO));
+                appModel.getRootPane().getChildren().set(0,appModel.getPane(CaminhoFxml.TAB_USUARIO));
                 break;
             case "tabHome":
                 tabUsuario.setSelected(false);
                 tabHome.setSelected(true);
                 tabGraficos.setSelected(false);
-                appModel.getRootPane().getChildren().set(0,appModel.getPane(Constantes.TAB_HOME));
+                appModel.getRootPane().getChildren().set(0,appModel.getPane(CaminhoFxml.TAB_HOME));
                 break;
             case "tabGraficos":
                 tabUsuario.setSelected(false);
                 tabHome.setSelected(false);
                 tabGraficos.setSelected(true);
-                appModel.getRootPane().getChildren().set(0,appModel.getPane(Constantes.TAB_GRAFICOS));
+                appModel.getRootPane().getChildren().set(0,appModel.getPane(CaminhoFxml.TAB_GRAFICOS));
                 break;
         }
     }

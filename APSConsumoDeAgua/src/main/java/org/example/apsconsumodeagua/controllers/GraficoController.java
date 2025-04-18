@@ -22,10 +22,8 @@ public class GraficoController {
     public GraficoController() {
         this.service = new GraficoService();
     }
-    public GraficoController(GraficoService service) {
-        this.service = service;
-    }
-    public void criarOuAtualizarGrafico(String ano, String mes, int consumo,LineChart<String,Number> chart, TabPane tabPane, AnchorPane paneInterface, ComboBox<String> boxGraficos) {
+
+    public void criarOuAtualizarGrafico(String ano, String mes, int consumo, LineChart<String, Number> chart, TabPane tabPane, AnchorPane paneInterface, ComboBox<String> boxGraficos) {
         if (service.getGrafico(ano) != null) {
             service.atualizarValorMes(ano, mes, consumo);
         } else {
