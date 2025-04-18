@@ -1,6 +1,5 @@
 package org.example.apsconsumodeagua.utils;
 
-import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.layout.Pane;
@@ -34,14 +33,9 @@ public class UIUtils {
                 break;
         }
 
-        pane.setOpacity(0);
         pane.setVisible(true);
 
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(duracao), pane);
-        fadeIn.setFromValue(0.0);
-        fadeIn.setToValue(1.0);
-
-        ParallelTransition animation = new ParallelTransition(slideIn, fadeIn);
+        ParallelTransition animation = new ParallelTransition(slideIn);
         animation.play();
     }
 }
