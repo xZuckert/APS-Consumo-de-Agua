@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.controllers;
+package org.example.apsconsumodeagua.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
-import org.example.apsconsumodeagua.models.AppModel;
+import org.example.apsconsumodeagua.model.AppModel;
 import java.net.URL;
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.controllers;
+package org.example.apsconsumodeagua.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,8 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.apsconsumodeagua.Application;
-import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
-import org.example.apsconsumodeagua.services.UsuarioService;
+import org.example.apsconsumodeagua.model.usuario.UsuarioModel;
+import org.example.apsconsumodeagua.service.UsuarioService;
 import org.example.apsconsumodeagua.utils.Validadores;
 
 import java.io.IOException;

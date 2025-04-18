@@ -1,13 +1,13 @@
-package org.example.apsconsumodeagua.controllers;
+package org.example.apsconsumodeagua.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import org.example.apsconsumodeagua.models.AppModel;
+import org.example.apsconsumodeagua.model.AppModel;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
-import org.example.apsconsumodeagua.utils.UIUtils;
+import org.example.apsconsumodeagua.utils.uiutils.UIUtils;
 
 import java.time.LocalDate;
 import java.time.Year;

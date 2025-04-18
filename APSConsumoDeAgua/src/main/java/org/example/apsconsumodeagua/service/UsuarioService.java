@@ -1,6 +1,6 @@
-package org.example.apsconsumodeagua.services;
+package org.example.apsconsumodeagua.service;
 
-import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
+import org.example.apsconsumodeagua.model.usuario.UsuarioModel;
 
 public class UsuarioService {
     private static UsuarioService usuarioService;

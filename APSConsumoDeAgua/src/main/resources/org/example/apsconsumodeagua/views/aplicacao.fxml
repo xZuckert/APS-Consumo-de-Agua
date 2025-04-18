@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controllers.AplicacaoController">
+<AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controller.AplicacaoController">
     <HBox alignment="CENTER" prefHeight="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <ToggleButton fx:id="tabUsuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#trocarTab" styleClass="but" text="Usuário" HBox.hgrow="ALWAYS">
             <cursor>

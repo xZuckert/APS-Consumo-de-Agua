@@ -1,14 +1,14 @@
-package org.example.apsconsumodeagua.models;
+package org.example.apsconsumodeagua.model;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
-import org.example.apsconsumodeagua.controllers.GraficoController;
-import org.example.apsconsumodeagua.controllers.TabGraficosController;
-import org.example.apsconsumodeagua.controllers.TabHomeController;
-import org.example.apsconsumodeagua.controllers.TabUsuarioController;
-import org.example.apsconsumodeagua.managers.TabManager;
+import org.example.apsconsumodeagua.controller.GraficoController;
+import org.example.apsconsumodeagua.controller.TabGraficosController;
+import org.example.apsconsumodeagua.controller.TabHomeController;
+import org.example.apsconsumodeagua.controller.TabUsuarioController;
+import org.example.apsconsumodeagua.manager.TabManager;
 import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 

@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.utils;
+package org.example.apsconsumodeagua.utils.uiutils;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.dtos.usuario;
+package org.example.apsconsumodeagua.dto.usuario;
 
 public class UsuarioRequestDTO {
     private String nome;

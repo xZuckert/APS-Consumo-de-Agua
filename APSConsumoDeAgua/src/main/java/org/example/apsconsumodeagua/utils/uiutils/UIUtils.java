@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.utils;
+package org.example.apsconsumodeagua.utils.uiutils;
 
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;

@@ -1,10 +1,10 @@
-package org.example.apsconsumodeagua.managers;
+package org.example.apsconsumodeagua.manager;
 
 import javafx.scene.control.ToggleButton;
-import org.example.apsconsumodeagua.models.AppModel;
+import org.example.apsconsumodeagua.model.AppModel;
 import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
-import org.example.apsconsumodeagua.utils.UIUtils;
+import org.example.apsconsumodeagua.utils.uiutils.UIUtils;
 import org.example.apsconsumodeagua.utils.constantes.TabId;
 
 public class TabManager {
