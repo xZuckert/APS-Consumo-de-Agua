@@ -18,6 +18,7 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 public class AplicacaoController implements Initializable {
+    private static AplicacaoController aplicacaoController;
     private GraficoController graficoController;
     private TabController tabController;
 
@@ -39,11 +40,11 @@ public class AplicacaoController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.graficoController = new GraficoController(new GraficoService());
         this.tabController = new TabController(tabUsuario,tabHome,tabGraficos,contentTabUsuario,contentTabHome,contentTabGraficos);
-        inicializarBoxGraficos();
+        inicializarGraficoAtual();
         inicializarBoxAnos();
         inicializarListeners();
     }
-    private void inicializarBoxGraficos(){
+    private void inicializarGraficoAtual(){
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoController.getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
@@ -122,4 +123,10 @@ public class AplicacaoController implements Initializable {
         this.pessoasField.setText(pessoas);
     }
     //----------------------------------------------------------------------------------------------------------------------
+    public static AplicacaoController getInstance() {
+        if (aplicacaoController == null) {
+            aplicacaoController = new AplicacaoController();
+        }
+        return aplicacaoController;
+    }
 }
