@@ -3,20 +3,20 @@ package org.example.apsconsumodeagua.services;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import org.example.apsconsumodeagua.models.Grafico;
+import org.example.apsconsumodeagua.models.GraficoModel;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class GraficoService {
-    private final Map<String, Grafico> graficos = new HashMap<>();
+    private final Map<String, GraficoModel> graficos = new HashMap<>();
     private final Map<String, XYChart.Series<String, Number>> series = new HashMap<>();
 
 //( Métodos chamados para adicionar novos graficos )--------------------------------------------------------------------
     public void gerarGrafico(String ano, String mes, int consumo) {
         series.put(ano, gerarSeries(mes, consumo));
-        graficos.put(ano, new Grafico(ano, series.get(ano)));
+        graficos.put(ano, new GraficoModel(ano, series.get(ano)));
     }
     private XYChart.Series<String, Number> gerarSeries(String mes, int consumo) {
         XYChart.Series<String, Number> series;
@@ -70,10 +70,10 @@ public class GraficoService {
             }
 
             if (graficos.containsKey(ano)) {
-                Grafico graficoAno = graficos.get(ano);
+                GraficoModel graficoModelAno = graficos.get(ano);
 
                 // REMOVE a série antiga e adiciona a atualizada
-                LineChart<String, Number> chart = graficoAno.getLineChart();
+                LineChart<String, Number> chart = graficoModelAno.getLineChart();
                 chart.getData().clear(); // Limpa as séries existentes
                 chart.getData().add(serie); // Adiciona a série atualizada
             }
@@ -105,7 +105,7 @@ public class GraficoService {
     public XYChart.Series<String, Number> getSerie(String ano) {
         return series.get(ano);
     }
-    public Grafico getGrafico(String ano) {
+    public GraficoModel getGrafico(String ano) {
         return graficos.get(ano);
     }
 //----------------------------------------------------------------------------------------------------------------------

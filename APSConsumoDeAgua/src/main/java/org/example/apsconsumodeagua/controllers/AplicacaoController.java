@@ -12,9 +12,9 @@ import java.util.*;
 
 public class AplicacaoController implements Initializable {
     private final AppModel appModel = AppModel.getInstance();
+
     @FXML
     public ToggleButton tabUsuario, tabHome, tabGraficos;
-
     @FXML
     private AnchorPane paneInterface;
 

@@ -5,10 +5,10 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
-public class Grafico {
+public class GraficoModel {
     private final LineChart<String, Number> lineChart;
 
-    public Grafico(String ano, XYChart.Series<String, Number> series) {
+    public GraficoModel(String ano, XYChart.Series<String, Number> series) {
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();

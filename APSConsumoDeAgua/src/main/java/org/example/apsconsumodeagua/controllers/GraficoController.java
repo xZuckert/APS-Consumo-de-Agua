@@ -1,7 +1,6 @@
 package org.example.apsconsumodeagua.controllers;
 
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
@@ -9,11 +8,11 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.example.apsconsumodeagua.models.Grafico;
+import org.example.apsconsumodeagua.models.GraficoModel;
 import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.Validadores;
-import org.example.apsconsumodeagua.utils.enums.TipoToast;
+import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 
 import java.util.Set;
 
@@ -37,8 +36,8 @@ public class GraficoController {
 
     private void adicionarGraficoNaTab(String ano, TabPane tabPane, AnchorPane paneInterface) {
         if (!Validadores.tabExiste(ano, tabPane)) {
-            Grafico grafico = service.getGrafico(ano);
-            LineChart<String, Number> graficoTab = grafico.getLineChart();
+            GraficoModel graficoModel = service.getGrafico(ano);
+            LineChart<String, Number> graficoTab = graficoModel.getLineChart();
 
             VBox vbox = new VBox();
 
@@ -58,7 +57,7 @@ public class GraficoController {
             Tab tab = new Tab(ano);
             tab.setContent(graficoContainer);
             tabPane.getTabs().add(tab);
-            Toast.mostrarToast(paneInterface, "Grafico adicionado!", TipoToast.SUCESSO, 100, 320);
+            Toast.mostrarToast(paneInterface, "Grafico adicionado!", ToastEnum.SUCESSO, 100, 320);
         }
     }
     private void atualizarBoxGraficos(ComboBox<String> boxGraficos) {
@@ -79,12 +78,9 @@ public class GraficoController {
         return service.getKeys();
     }
 
-    public Grafico getGrafico(String ano) {
+    public GraficoModel getGrafico(String ano) {
         return service.getGrafico(ano);
     }
 
-    public XYChart.Series<String, Number> getSerieClonada(String ano) {
-        return service.clonarSeries(service.getSerie(ano));
-    }
 }
 
