@@ -55,7 +55,7 @@ public class AplicacaoController implements Initializable {
         graficoController.selecionarGrafico(anoAtual,chartTemplate);
     }
     private void inicializarBoxAnos(){
-        for (int i = Year.now().getValue(); i >= Year.now().getValue() - 20; i--) {
+        for (int i = Year.now().getValue(); i >= Year.now().getValue() - Constantes.ANOS_ANTERIORES; i--) {
             boxAnos.getItems().add(String.valueOf(i));
         }
     }
