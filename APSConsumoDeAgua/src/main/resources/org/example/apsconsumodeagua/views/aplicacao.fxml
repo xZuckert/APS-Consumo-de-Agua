@@ -4,30 +4,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" stylesheets="@../css/style.css"
-            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.apsconsumodeagua.controllers.AplicacaoController">
-    <HBox alignment="CENTER" prefHeight="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0">
-        <ToggleButton fx:id="tabUsuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                      mnemonicParsing="false" onAction="#trocarTab" styleClass="but" text="Usuário"
-                      HBox.hgrow="ALWAYS">
+<AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controllers.AplicacaoController">
+    <HBox alignment="CENTER" prefHeight="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <ToggleButton fx:id="tabUsuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#trocarTab" styleClass="but" text="Usuário" HBox.hgrow="ALWAYS">
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ToggleButton>
-        <ToggleButton fx:id="tabHome" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308"
-                      maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#trocarTab" selected="true"
-                      styleClass="but" text="Home" HBox.hgrow="ALWAYS">
+        <ToggleButton fx:id="tabHome" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#trocarTab" styleClass="but" text="Home" HBox.hgrow="ALWAYS">
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ToggleButton>
-        <ToggleButton fx:id="tabGraficos" layoutX="281.0" layoutY="10.0" maxHeight="1.7976931348623157E308"
-                      maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#trocarTab" styleClass="but"
-                      text="Gráficos" HBox.hgrow="ALWAYS">
+        <ToggleButton fx:id="tabGraficos" layoutX="281.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#trocarTab" styleClass="but" text="Gráficos" HBox.hgrow="ALWAYS">
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ToggleButton>
     </HBox>

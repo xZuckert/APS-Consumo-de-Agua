@@ -2,13 +2,15 @@ package org.example.apsconsumodeagua.models;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.controllers.GraficoController;
 import org.example.apsconsumodeagua.controllers.TabGraficosController;
 import org.example.apsconsumodeagua.controllers.TabHomeController;
 import org.example.apsconsumodeagua.controllers.TabUsuarioController;
-import org.example.apsconsumodeagua.utils.CaminhoFxml;
-import org.example.apsconsumodeagua.utils.Constantes;
+import org.example.apsconsumodeagua.managers.TabManager;
+import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
+import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -20,8 +22,10 @@ import java.util.Map;
 
 public class AppModel {
     private static AppModel instance;
-    private final Map<String, Parent> roots = new HashMap<>();
     private final GraficoController graficoController;
+
+    private final Map<String, Parent> roots = new HashMap<>();
+
     private TabUsuarioController tabUsuarioController;
     private TabHomeController tabHomeController;
     private TabGraficosController tabGraficosController;
@@ -31,24 +35,26 @@ public class AppModel {
     private AppModel() {
         graficoController = new GraficoController();
     }
-    public void carregarAplicacao() {
-        tabUsuarioController = (TabUsuarioController) carregarTela(CaminhoFxml.TAB_USUARIO);
-        tabHomeController = (TabHomeController) carregarTela(CaminhoFxml.TAB_HOME);
-        tabGraficosController = (TabGraficosController) carregarTela(CaminhoFxml.TAB_GRAFICOS);
+
+    public void carregarAplicacao(ToggleButton ... tabs) {
+        TabManager tabManager = new TabManager(tabs[0], tabs[1], tabs[2]);
+        tabUsuarioController = carregarFXMLComController(CaminhoFxml.TAB_USUARIO);
+        tabHomeController = carregarFXMLComController(CaminhoFxml.TAB_HOME);
+        tabGraficosController = carregarFXMLComController(CaminhoFxml.TAB_GRAFICOS);
         inicializarGraficoAtual();
         inicializarBoxAnos();
         inicializarListeners();
-        getRootPane().getChildren().addFirst(getPane(CaminhoFxml.TAB_HOME));
+        tabManager.inicializarComTabInicial(CaminhoFxml.TAB_HOME);
     }
-    public Object carregarTela(String fxmlPath) {
+    public <T> T carregarFXMLComController(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-            Object controller = loader.getController();
 
-            addPane(fxmlPath, root);
+            addTela(fxmlPath, root);
 
-            return controller;
+            return loader.getController();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,13 +69,17 @@ public class AppModel {
         }
     }
     private void inicializarBoxAnos(){
-        for (int i = Year.now().getValue(); i >= Year.now().getValue() - Constantes.ANOS_ANTERIORES; i--) {
+        for (int i = Year.now().getValue(); i >= Year.now().getValue() - AppConstantes.ANOS_ANTERIORES; i--) {
             getTabHomeController().boxAnos.getItems().add(String.valueOf(i));
         }
     }
     private void inicializarListeners(){
         getTabHomeController().boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> getTabHomeController().atualizarBoxMeses(valorNovo));
         getTabHomeController().boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> getGraficoController().selecionarGrafico(valorNovo,getTabHomeController().chartTemplate,getTabHomeController().boxGraficos));
+    }
+
+    public void trocarTela(String fxmlPath) {
+        getRootPane().getChildren().set(0,getTela(fxmlPath));
     }
 
     public GraficoController getGraficoController() {
@@ -88,11 +98,11 @@ public class AppModel {
         return tabGraficosController;
     }
 
-    public void addPane(String key, Parent root) {
+    public void addTela(String key, Parent root) {
         roots.put(key, root);
     }
 
-    public Parent getPane(String key) {
+    public Parent getTela(String key) {
         return roots.get(key);
     }
 
@@ -104,7 +114,7 @@ public class AppModel {
         this.rootPane = rootPane;
     }
 
-    public static AppModel getInstance() {
+    public static synchronized AppModel getInstance() {
         if (instance == null) {
             instance = new AppModel();
         }

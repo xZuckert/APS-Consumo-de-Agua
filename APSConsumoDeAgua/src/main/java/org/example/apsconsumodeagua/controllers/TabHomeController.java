@@ -6,7 +6,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.models.AppModel;
-import org.example.apsconsumodeagua.utils.Constantes;
+import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.UIUtils;
 
 import java.time.LocalDate;
@@ -44,7 +44,7 @@ public class TabHomeController {
         if (ano.equals(String.valueOf(Year.now().getValue()))) {
             limiteMeses = LocalDate.now().getMonth().getValue();
         }
-        List<String> meses = new ArrayList<>(Arrays.asList(Constantes.MESES).subList(0, limiteMeses));
+        List<String> meses = new ArrayList<>(Arrays.asList(AppConstantes.MESES).subList(0, limiteMeses));
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
     }

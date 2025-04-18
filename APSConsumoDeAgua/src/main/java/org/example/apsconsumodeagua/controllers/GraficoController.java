@@ -13,6 +13,7 @@ import org.example.apsconsumodeagua.models.Grafico;
 import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.Validadores;
+import org.example.apsconsumodeagua.utils.enums.TipoToast;
 
 import java.util.Set;
 
@@ -57,7 +58,7 @@ public class GraficoController {
             Tab tab = new Tab(ano);
             tab.setContent(graficoContainer);
             tabPane.getTabs().add(tab);
-            Toast.mostrarToast(paneInterface, "Grafico adicionado!", Toast.tipoToast.SUCESSO, 100, 320);
+            Toast.mostrarToast(paneInterface, "Grafico adicionado!", TipoToast.SUCESSO, 100, 320);
         }
     }
     private void atualizarBoxGraficos(ComboBox<String> boxGraficos) {

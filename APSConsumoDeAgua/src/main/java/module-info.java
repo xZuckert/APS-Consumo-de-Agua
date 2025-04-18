@@ -19,4 +19,8 @@ module org.example.apsconsumodeagua {
     exports org.example.apsconsumodeagua.utils;
     opens org.example.apsconsumodeagua.controllers to javafx.fxml;
     exports org.example.apsconsumodeagua.services;
+    exports org.example.apsconsumodeagua.managers;
+    opens org.example.apsconsumodeagua.managers to javafx.fxml;
+    exports org.example.apsconsumodeagua.utils.enums;
+    exports org.example.apsconsumodeagua.utils.constantes;
 }

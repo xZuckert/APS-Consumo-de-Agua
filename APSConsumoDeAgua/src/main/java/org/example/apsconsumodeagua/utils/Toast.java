@@ -7,10 +7,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import org.example.apsconsumodeagua.utils.enums.TipoToast;
 
 public class Toast {
-    public enum tipoToast {ALERT, SUCESSO, ERRO}
-    public static void mostrarToast(AnchorPane root, String message, tipoToast tipo) {
+    public static void mostrarToast(AnchorPane root, String message, TipoToast tipo) {
         String tipoal = switch (tipo) {
             case ALERT -> "rgba(255,0,0,0.7);";
             case SUCESSO -> "rgba(0,255,0,0.7);";
@@ -33,7 +33,7 @@ public class Toast {
         timeline.setCycleCount(1);
         timeline.play();  // Inicia a animação
     }
-    public static void mostrarToast(AnchorPane root, String message, tipoToast tipo,int posX, int posY) {
+    public static void mostrarToast(AnchorPane root, String message, TipoToast tipo, int posX, int posY) {
         String tipoal = switch (tipo) {
             case ALERT -> "rgba(255,0,0,0.7);";
             case SUCESSO -> "rgba(0,255,0,0.7);";
