@@ -73,7 +73,7 @@ public class AplicacaoController implements Initializable {
     }
     @FXML
     public void openAddConsumo() {
-        UIUtils.mostrarDeslizandoDeBaixoParaCima(addConsumo,400);
+        UIUtils.mostrarDeslizando(addConsumo,600, UIUtils.direcao.DE_BAIXO_PRA_CIMA);
     }
     @FXML
     public void registrarConsumo() {
