@@ -12,7 +12,6 @@ public class GraficoLinhaModel {
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
 
-
         lineChart = new LineChart<>(xAxis, yAxis);
 
         yAxis.setAutoRanging(false);
