@@ -4,11 +4,14 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import org.example.apsconsumodeagua.models.DadosGrafico;
 
 public class GraficoLinhaModel {
     private final LineChart<String, Number> lineChart;
-
-    public GraficoLinhaModel(String ano, XYChart.Series<String, Number> series) {
+    private final XYChart.Series<String, Number> series;
+    public GraficoLinhaModel(String ano, DadosGrafico dadosGrafico) {
+        this.series = new XYChart.Series<>();
+        series.getData().setAll(dadosGrafico.getDados());
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
 

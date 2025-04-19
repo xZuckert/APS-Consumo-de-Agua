@@ -23,11 +23,4 @@ public class DadosGrafico {
     public ObservableList<XYChart.Data<String, Number>> getDados() {
         return this.dados;
     }
-    public void atualizarDados(String mes, int consumo) {
-        for (XYChart.Data<String, Number> dado : this.dados) {
-            if(dado.getXValue().equals(mes)) {
-                dado.setYValue(consumo);
-            }
-        }
-    }
 }

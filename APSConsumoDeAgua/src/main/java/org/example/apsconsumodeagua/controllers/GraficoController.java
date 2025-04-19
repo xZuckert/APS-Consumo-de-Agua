@@ -25,10 +25,10 @@ public class GraficoController {
 
     public void criarOuAtualizarGrafico(String ano, String mes, int consumo, LineChart<String, Number> chart, TabPane tabPane, AnchorPane paneInterface, ComboBox<String> boxGraficos) {
         if (service.getGrafico(ano) != null) {
-            service.atualizarValorMes(ano, mes, consumo);
+            service.atualizarDados(ano, mes, consumo);
         } else {
             service.gerarGrafico(ano);
-            service.atualizarValorMes(ano, mes, consumo);
+            service.atualizarDados(ano, mes, consumo);
             adicionarGraficoNaTab(ano, tabPane, paneInterface);
         }
         atualizarBoxGraficos(boxGraficos);

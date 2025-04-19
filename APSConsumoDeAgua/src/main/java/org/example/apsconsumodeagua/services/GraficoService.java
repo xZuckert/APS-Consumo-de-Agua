@@ -12,24 +12,26 @@ import java.util.Set;
 
 public class GraficoService {
     private final Map<String, GraficoLinhaModel> graficos = new HashMap<>();
-    private final Map<String, DadosGrafico> series = new HashMap<>();
+    private final Map<String, DadosGrafico> dados = new HashMap<>();
 
 
-    //(Métodos chamados para adicionar novos graficos)--------------------------------------------------------------------
+    //(Métodos chamados para gerar novos graficos)--------------------------------------------------------------------
     public void gerarGrafico(String ano) {
-        series.put(ano, new DadosGrafico());
-        XYChart.Series<String, Number> novaSerie = new XYChart.Series<>();
-        novaSerie.setData(series.get(ano).getDados());
-        graficos.put(ano, new GraficoLinhaModel(ano, novaSerie));
+        dados.put(ano, new DadosGrafico());
+        graficos.put(ano, new GraficoLinhaModel(ano, dados.get(ano)));
     }
 
     //(Métodos chamados para manipular dados)-----------------------------------------------------------------------------
-    public void atualizarValorMes(String ano, String mes, int novoValor) {
-        series.get(ano).atualizarDados(mes, novoValor);
+    public void atualizarDados(String ano,String mes, int consumo) {
+        for (XYChart.Data<String, Number> dado : dados.get(ano).getDados()) {
+            if(dado.getXValue().equals(mes)) {
+                dado.setYValue(consumo);
+            }
+        }
     }
     //(Métodos chamados para manipular graficos)--------------------------------------------------------------------------
     public void selecionarGrafico(String ano, LineChart<String, Number> chart) {
-        if (!series.containsKey(ano)) {
+        if (!dados.containsKey(ano)) {
             gerarGrafico(ano);
         }
         chart.getData().clear();
