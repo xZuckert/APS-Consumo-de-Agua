@@ -35,9 +35,8 @@ public class LoginController implements Initializable {
 
     public void registrar(ActionEvent event) throws IOException {
         if (Validadores.osCamposEstaoPreenchidos(paneInterface, nomeField, sobrenomeField, emailField, cpfField, cepField, enderecoField, estadoField, pessoasField)) {
-            if (!Validadores.osCamposSaoIguais(paneInterface, senhaField, confSenhaField)) {
-                return;
-            }
+            if(!Validadores.osCamposSaoIguais(paneInterface, senhaField, confSenhaField))return;
+            if(!Validadores.osCamposEstaoPreenchidosComInteiros(paneInterface,pessoasField))return;
 
             // Agora tudo está validado corretamente
             String nome = nomeField.getText();

@@ -43,5 +43,15 @@ public class Validadores {
         }
         return true;
     }
+    public static boolean osCamposEstaoPreenchidosComInteiros(AnchorPane anchorPane, TextField ... fields) {
+            osCamposEstaoPreenchidos(anchorPane, fields);
+        for (TextField textField : fields) {
+            if(!(textField.getText().matches("[0-9]+"))){
+                Toast.mostrarToast(anchorPane, textField.getId() + " precisa ser um numero inteiro", ToastEnum.ERRO,ToastEnum.TOPO_ESQUERDA);
+                return false;
+            }
+        }
+        return true;
+    }
 }
 

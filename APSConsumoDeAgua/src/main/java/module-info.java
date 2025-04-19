@@ -24,4 +24,5 @@ module org.example.apsconsumodeagua {
     opens org.example.apsconsumodeagua.managers to javafx.fxml;
     exports org.example.apsconsumodeagua.utils.enums;
     exports org.example.apsconsumodeagua.utils.constantes;
+    exports org.example.apsconsumodeagua.models.grafico;
 }
