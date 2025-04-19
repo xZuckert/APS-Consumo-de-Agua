@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.controller;
+package org.example.apsconsumodeagua.controllers;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.ComboBox;
@@ -8,9 +8,9 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import org.example.apsconsumodeagua.model.GraficoModel;
-import org.example.apsconsumodeagua.service.GraficoService;
-import org.example.apsconsumodeagua.utils.uiutils.Toast;
+import org.example.apsconsumodeagua.models.GraficoModel;
+import org.example.apsconsumodeagua.services.GraficoService;
+import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.Validadores;
 import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 

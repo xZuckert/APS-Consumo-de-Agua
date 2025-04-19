@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.controller;
+package org.example.apsconsumodeagua.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;

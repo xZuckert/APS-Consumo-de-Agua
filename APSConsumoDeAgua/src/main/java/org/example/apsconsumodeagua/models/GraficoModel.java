@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.model;
+package org.example.apsconsumodeagua.models;
 
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;

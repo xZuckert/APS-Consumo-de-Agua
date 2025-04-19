@@ -1,9 +1,9 @@
-package org.example.apsconsumodeagua.service;
+package org.example.apsconsumodeagua.services;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import org.example.apsconsumodeagua.model.GraficoModel;
+import org.example.apsconsumodeagua.models.GraficoModel;
 
 import java.util.HashMap;
 import java.util.Map;
