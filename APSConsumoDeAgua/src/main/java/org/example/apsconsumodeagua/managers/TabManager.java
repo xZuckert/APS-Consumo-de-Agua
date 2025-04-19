@@ -1,7 +1,7 @@
 package org.example.apsconsumodeagua.managers;
 
 import javafx.scene.control.ToggleButton;
-import org.example.apsconsumodeagua.models.AppModel;
+import org.example.apsconsumodeagua.core.AppModel;
 import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.UIUtils;

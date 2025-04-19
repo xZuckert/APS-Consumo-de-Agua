@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.models;
+package org.example.apsconsumodeagua.core;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,7 +8,9 @@ import org.example.apsconsumodeagua.controllers.GraficoController;
 import org.example.apsconsumodeagua.controllers.TabGraficosController;
 import org.example.apsconsumodeagua.controllers.TabHomeController;
 import org.example.apsconsumodeagua.controllers.TabUsuarioController;
+import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.managers.TabManager;
+import org.example.apsconsumodeagua.services.GraficoService;
 import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 
@@ -22,6 +24,8 @@ import java.util.Map;
 
 public class AppModel {
     private static AppModel instance;
+    private final GraficoFactory graficoFactory;
+    private final GraficoService graficoService;
     private final GraficoController graficoController;
     private TabManager tabManager;
 
@@ -34,7 +38,9 @@ public class AppModel {
     private AnchorPane rootPane;
 
     private AppModel() {
-        graficoController = new GraficoController();
+        graficoFactory = new GraficoFactory();
+        graficoService = new GraficoService(graficoFactory);
+        graficoController = new GraficoController(graficoService,this);
     }
 
     public void carregarAplicacao(ToggleButton ... tabs) {
@@ -66,7 +72,7 @@ public class AppModel {
         String anoAtual = String.valueOf(Year.now().getValue());
         if (getGraficoController().getGrafico(anoAtual) == null) {
             String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-            getGraficoController().criarOuAtualizarGrafico(anoAtual,mesAtual,0,getTabHomeController().chartTemplate,getTabGraficosController().tabPaneGraficos,getRootPane(),getTabHomeController().boxGraficos);
+            getGraficoController().criarOuAtualizarGrafico(anoAtual,mesAtual,0,getTabGraficosController().tabPaneGraficos,getRootPane(),getTabHomeController().boxGraficos);
         }
     }
     private void inicializarBoxAnos(){
@@ -76,27 +82,26 @@ public class AppModel {
     }
     private void inicializarListeners(){
         getTabHomeController().boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> getTabHomeController().atualizarBoxMeses(valorNovo));
-        getTabHomeController().boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> getGraficoController().selecionarGrafico(valorNovo,getTabHomeController().chartTemplate,getTabHomeController().boxGraficos));
+        getTabHomeController().boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> getGraficoController().selecionarGrafico(valorNovo,getTabHomeController().boxGraficos));
     }
 
     public void trocarTela(String fxmlPath) {
         getRootPane().getChildren().set(0,getTela(fxmlPath));
     }
-
     public GraficoController getGraficoController() {
-        return graficoController;
+        return this.graficoController;
     }
 
     public TabUsuarioController getTabUsuarioController() {
-        return tabUsuarioController;
+        return this.tabUsuarioController;
     }
 
     public TabHomeController getTabHomeController() {
-        return tabHomeController;
+        return this.tabHomeController;
     }
 
     public TabGraficosController getTabGraficosController() {
-        return tabGraficosController;
+        return this.tabGraficosController;
     }
 
     public void addTela(String key, Parent root) {

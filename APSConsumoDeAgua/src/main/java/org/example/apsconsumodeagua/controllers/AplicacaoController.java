@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
-import org.example.apsconsumodeagua.models.AppModel;
+import org.example.apsconsumodeagua.core.AppModel;
 import java.net.URL;
 import java.util.*;
 

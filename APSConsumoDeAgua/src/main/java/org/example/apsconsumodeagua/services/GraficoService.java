@@ -1,70 +1,97 @@
 package org.example.apsconsumodeagua.services;
 
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import org.example.apsconsumodeagua.models.DadosGrafico;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.*;
+import org.example.apsconsumodeagua.factory.GraficoFactory;
+import org.example.apsconsumodeagua.models.grafico.GraficoBarraModel;
 import org.example.apsconsumodeagua.models.grafico.GraficoLinhaModel;
+import org.example.apsconsumodeagua.models.grafico.GraficoModel;
+import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
+import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+//(Classe para manipular os dados dos graficos)--------------------------------------------------------------------------
 public class GraficoService {
-    private final Map<String, GraficoLinhaModel> graficos = new HashMap<>();
-    private final Map<String, DadosGrafico> dados = new HashMap<>();
+    private final Map<String, GraficoModel> graficos = new HashMap<>();
+    public final Map<String, ObservableList<XYChart.Data<String,Number>>> valores = new HashMap<>();
 
+    GraficoFactory factory;
 
-    //(Métodos chamados para gerar novos graficos)--------------------------------------------------------------------
-    public void gerarGrafico(String ano) {
-        dados.put(ano, new DadosGrafico());
-        graficos.put(ano, new GraficoLinhaModel(ano, dados.get(ano)));
+    public GraficoService(GraficoFactory factory) {
+        this.factory = factory;
     }
 
-    //(Métodos chamados para manipular dados)-----------------------------------------------------------------------------
+    //(função chamada para gerar novos graficos e vincular com os dados)------------------------------------------------
+    public void gerarGrafico(String ano, TipoGrafico tipoGrafico) {
+        valores.put(ano, gerarValores(tipoGrafico));
+        graficos.put(ano, factory.criarGrafico(ano,valores.get(ano),tipoGrafico));
+    }
+
+    //(Função chamadas para atualizar dados)----------------------------------------------------------------------------
     public void atualizarDados(String ano,String mes, int consumo) {
-        for (XYChart.Data<String, Number> dado : dados.get(ano).getDados()) {
+        for (XYChart.Data<String, Number> dado : valores.get(ano)) {
             if(dado.getXValue().equals(mes)) {
                 dado.setYValue(consumo);
             }
         }
     }
-    //(Métodos chamados para manipular graficos)--------------------------------------------------------------------------
-    public void selecionarGrafico(String ano, LineChart<String, Number> chart) {
-        if (!dados.containsKey(ano)) {
-            gerarGrafico(ano);
+
+    public ObservableList<XYChart.Data<String,Number>> gerarValores(TipoGrafico tipoGrafico) {
+        ObservableList<XYChart.Data<String,Number>> dados = FXCollections.observableArrayList();
+        switch (tipoGrafico) {
+            case LINHA -> gerarDadosLinha(dados);
+            case BARRA -> gerarDadosBarra(dados);
         }
-        chart.getData().clear();
-        chart.setTitle(ano);
-        chart.getData().add(clonarSerie(ano));
-        chart.getYAxis().setAutoRanging(false);
-        chart.getXAxis().setLabel("Mês");
-        ((NumberAxis) chart.getYAxis()).setUpperBound(50);
-        ((NumberAxis) chart.getYAxis()).setTickUnit(10);
+        return dados;
     }
 
-    private XYChart.Series<String, Number> clonarSerie(String ano) {
+    private void gerarDadosBarra(ObservableList<XYChart.Data<String,Number>> dados) {
+        for(String mes : AppConstantes.MESES){
+            dados.add(new XYChart.Data<>(mes,0));
+        }
+    }
+
+    private void gerarDadosLinha(ObservableList<XYChart.Data<String,Number>> dados){
+        for(String mes : AppConstantes.MESES){
+            dados.add(new XYChart.Data<>(mes,null));
+        }
+    }
+
+    //(Função para atualizar os dados do grafico template)--------------------------------------------------------------
+    public ObservableList<XYChart.Data<String, Number>> clonarSerie(String ano) {
         XYChart.Series<String, Number> serieOriginal = graficos.get(ano).getSeries();
-        XYChart.Series<String, Number> novaSerie = new XYChart.Series<>();
+        ObservableList<XYChart.Data<String, Number>> novaData = FXCollections.observableArrayList();
 
-        for (XYChart.Data<String, Number> data : serieOriginal.getData()) {
-            novaSerie.getData().add(new XYChart.Data<>(data.getXValue(), data.getYValue()));
+        for (XYChart.Data<String, Number> dado : serieOriginal.getData()) {
+            novaData.add(new XYChart.Data<>(dado.getXValue(), dado.getYValue()));
         }
 
-        return novaSerie;
+        return novaData;
     }
 
+    public GraficoModel clonarGrafico(String ano) {
+        GraficoModel grafico = graficos.get(ano);
+        GraficoModel novoGrafico = null;
+        ObservableList<XYChart.Data<String, Number>> dadosClonados = clonarSerie(ano);
+        if(grafico instanceof GraficoLinhaModel) {
+            novoGrafico = new GraficoLinhaModel(ano,dadosClonados);
+        }
+        if(grafico instanceof GraficoBarraModel) {
+            novoGrafico = new GraficoBarraModel(ano,dadosClonados);
+        }
+        return novoGrafico;
+    }
 
-//----------------------------------------------------------------------------------------------------------------------
-
-//( Métodos chamados para pegar dados e graficos )----------------------------------------------------------------------
-    public Set<String> getKeys() {
+    //(Funções chamadas para pegar dados e graficos)--------------------------------------------------------------------
+    public Set<String> getAnos() {
         return graficos.keySet();
     }
-
-    public GraficoLinhaModel getGrafico(String ano) {
+    public GraficoModel getGrafico(String ano) {
         return graficos.get(ano);
     }
-//----------------------------------------------------------------------------------------------------------------------
 }
 

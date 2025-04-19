@@ -39,6 +39,17 @@
 .addConta{
     -fx-background-color: #cecece;
 }
+.chart-bar {
+    -fx-bar-fill: #4FC3F7;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #4FC3F7;
+}
+.chart {
+    -fx-category-gap: 2;
+    -fx-bar-gap: 0;
+}
 .grafico-template .chart-series-line{
     -fx-stroke: blue;
 }
