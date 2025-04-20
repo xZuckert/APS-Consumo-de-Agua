@@ -11,8 +11,8 @@ import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 public abstract class GraficoModel {
     private final XYChart.Series<String, Number> series;
     private final TipoGrafico tipoGrafico;
-    private final CategoryAxis xAxis;
-    private final NumberAxis yAxis;
+    private CategoryAxis xAxis;
+    private  NumberAxis yAxis;
     private final String ano;
 
     //(Construtor da classe)--------------------------------------------------------------------------------------------
@@ -25,6 +25,7 @@ public abstract class GraficoModel {
         this.xAxis = new CategoryAxis();
         this.yAxis = new NumberAxis();
         configuarAxis();
+        atualizarYAxis();
     }
 
     //(Função para congigurar os eixos do grafico)----------------------------------------------------------------------
@@ -34,6 +35,16 @@ public abstract class GraficoModel {
         yAxis().setTickUnit(10);
         xAxis().setLabel("Mês");
         yAxis().setLabel("Consumo (m³)");
+    }
+
+    public void atualizarYAxis(){
+        double valorMaximoY;
+        double maxValor = this.getSeries().getData().stream()
+                .mapToDouble(data -> data != null ? data.getYValue().doubleValue() : 0)
+                .max()
+                .orElse(50);
+        valorMaximoY = Math.ceil(maxValor / 10) * 10 + 10;
+        yAxis().setUpperBound(Math.max(valorMaximoY, 50));
     }
 
     //(Funções para pegar os dados da classe)---------------------------------------------------------------------------
@@ -48,10 +59,16 @@ public abstract class GraficoModel {
     public String getAno() {
         return this.ano;
     }
-    protected CategoryAxis xAxis() {
+    public CategoryAxis xAxis() {
         return this.xAxis;
     }
-    protected NumberAxis yAxis() {
+    public NumberAxis yAxis() {
         return this.yAxis;
+    }
+    public void setXAxis(CategoryAxis xAxis) {
+        this.xAxis = xAxis;
+    }
+    public void setYAxis(NumberAxis yAxis) {
+        this.yAxis = yAxis;
     }
 }

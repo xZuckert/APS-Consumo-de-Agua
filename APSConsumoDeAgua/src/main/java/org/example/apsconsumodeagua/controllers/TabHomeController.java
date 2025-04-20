@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.core.AppModel;
 import org.example.apsconsumodeagua.managers.GraficoManager;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
+import org.example.apsconsumodeagua.models.grafico.GraficoLinhaModel;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.UIUtils;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
@@ -69,9 +70,9 @@ public class TabHomeController {
         }
         if (grafico != null) {
             paneGraficoTemplate.getChildren().clear();
-            paneGraficoTemplate.getChildren().add(
-                    UIUtils.criarNodeCentralizadoVerticalmente(manager.clonarGrafico(ano).getChart())
-            );
+            GraficoModel graficoGerado = manager.clonarGrafico(ano);
+            GraficoModel graficoLinha = new GraficoLinhaModel(null, manager.gerarValores(TipoGrafico.LINHA),TipoGrafico.LINHA,graficoGerado.xAxis(),graficoGerado.yAxis());
+            paneGraficoTemplate.getChildren().add(UIUtils.criarNodeCentralizadoVerticalmente(UIUtils.addNodeNoStackPane(graficoGerado.getChart(),graficoLinha.getChart())));
             boxGraficos.selectionModelProperty().get().select(ano);
         }
     }

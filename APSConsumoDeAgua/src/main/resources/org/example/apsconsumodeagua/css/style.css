@@ -51,17 +51,15 @@
     -fx-bar-gap: 0;
 }
 .grafico-template .chart-series-line{
-    -fx-stroke: blue;
+    -fx-stroke: red;
 }
 .grafico-template .chart-line-symbol{
-    -fx-background-color: blue;
+    -fx-background-color: transparent;
 }
-.grafico .default-color0.chart-series-line { -fx-stroke: blue; }{
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+.grafico .default-color0.chart-series-line { -fx-stroke: red; }{
 
 }
-.grafico .default-color0.chart-line-symbol { -fx-background-color: blue; }
-
-.grafico .default-color1.chart-series-line { -fx-stroke: red; }{
-
-}
-.grafico .default-color1.chart-line-symbol { -fx-background-color: transparent; }
+.grafico .default-color0.chart-line-symbol { -fx-background-color: transparent; }

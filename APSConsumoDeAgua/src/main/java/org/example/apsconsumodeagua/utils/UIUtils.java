@@ -2,6 +2,7 @@ package org.example.apsconsumodeagua.utils;
 
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
@@ -72,5 +73,15 @@ public class UIUtils {
         AnchorPane.setLeftAnchor(hBox, 10.0);
         AnchorPane.setRightAnchor(hBox, 10.0);
         return hBox;
+    }
+
+    public static StackPane addNodeNoStackPane(Node ... nodes) {
+        StackPane stackPaneCriado = new StackPane();
+        for (Node node : nodes) {
+            stackPaneCriado.getChildren().add(node);
+            StackPane.setAlignment(node, javafx.geometry.Pos.CENTER);
+            StackPane.setMargin(node, Insets.EMPTY);
+        }
+        return stackPaneCriado;
     }
 }

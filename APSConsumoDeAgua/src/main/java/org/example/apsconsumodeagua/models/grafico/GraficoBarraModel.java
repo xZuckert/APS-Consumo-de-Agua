@@ -16,20 +16,11 @@ public class GraficoBarraModel extends GraficoModel {
         barChart = new BarChart<>(xAxis(), yAxis());
         barChart.setTitle(getAno());
         barChart.getData().add(getSeries());
+        barChart.setLegendVisible(false);
         barChart.getStyleClass().add("grafico");
-        atualizarYAxis();
     }
 
     //(Função para atualizar o tamanho maximo do eixo Y)----------------------------------------------------------------
-    public void atualizarYAxis(){
-        double valorMaximoY;
-        double maxValor = this.getSeries().getData().stream()
-                .mapToDouble(data -> data.getYValue().doubleValue())
-                .max()
-                .orElse(50);
-        valorMaximoY = Math.ceil(maxValor / 10) * 10 + 10;
-        yAxis().setUpperBound(Math.max(valorMaximoY, 50));
-    }
 
     @Override
     //(Função para pegar o grafico)-------------------------------------------------------------------------------------

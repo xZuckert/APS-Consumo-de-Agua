@@ -6,6 +6,7 @@ import javafx.scene.chart.*;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.models.grafico.GraficoBarraModel;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
+import org.example.apsconsumodeagua.models.grafico.GraficoLinhaModel;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
@@ -29,6 +30,9 @@ public class GraficoManager {
         valores.put(ano, gerarValores(tipoGrafico));
         graficos.put(ano, factory.criarGrafico(ano,valores.get(ano),tipoGrafico));
     }
+    public GraficoModel gerarGrafico(TipoGrafico tipoGrafico) {
+        return factory.criarGrafico(null,gerarValores(tipoGrafico),tipoGrafico);
+    }
 
     //(Função chamadas para atualizar dados)----------------------------------------------------------------------------
     public void atualizarDados(String ano,String mes, int consumo) {
@@ -37,8 +41,7 @@ public class GraficoManager {
                 dado.setYValue(consumo);
             }
         }
-        GraficoModel grafico = graficos.get(ano);
-        if(grafico instanceof GraficoBarraModel)((GraficoBarraModel)grafico).atualizarYAxis();
+        graficos.get(ano).atualizarYAxis();
     }
 
     //(Funções chamadas para gerar dados iniciais)----------------------------------------------------------------------
@@ -57,7 +60,7 @@ public class GraficoManager {
     }
     private void gerarDadosLinha(ObservableList<XYChart.Data<String,Number>> dados){
         for(String mes : AppConstantes.MESES){
-            dados.add(new XYChart.Data<>(mes,null));
+            dados.add(new XYChart.Data<>(mes,20));
         }
     }
 
