@@ -65,9 +65,10 @@ public class TabHomeController {
     public void selecionarGrafico(String ano) {
         GraficoModel grafico = manager.getGrafico(ano);
         if (grafico != null) {
-            GraficoModel graficoLinha = new GraficoLinhaModel(null, manager.gerarValores(TipoGrafico.LINHA),TipoGrafico.LINHA,grafico.xAxis(),grafico.yAxis());
             paneGraficoTemplate.getChildren().clear();
-            paneGraficoTemplate.getChildren().add(UIUtils.criarNodeCentralizadoVerticalmente(UIUtils.addNodeNoStackPane(grafico.getChart(),graficoLinha.getChart())));
+            GraficoModel graficoGerado = manager.clonarGrafico(ano);
+            GraficoModel graficoLinha = new GraficoLinhaModel(null, manager.gerarValores(TipoGrafico.LINHA),TipoGrafico.LINHA,graficoGerado.xAxis(),graficoGerado.yAxis());
+            paneGraficoTemplate.getChildren().add(UIUtils.criarNodeCentralizadoVerticalmente(UIUtils.addNodeNoStackPane(graficoGerado.getChart(),graficoLinha.getChart())));
             boxGraficos.selectionModelProperty().get().select(ano);
         }
     }
