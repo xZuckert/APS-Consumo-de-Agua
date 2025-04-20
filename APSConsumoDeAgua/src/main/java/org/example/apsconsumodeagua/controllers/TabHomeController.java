@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.core.AppModel;
 import org.example.apsconsumodeagua.managers.GraficoManager;
+import org.example.apsconsumodeagua.models.grafico.GraficoModel;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.UIUtils;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
@@ -54,19 +55,25 @@ public class TabHomeController {
             manager.atualizarDados(ano, mes, consumo);
             appModel.getTabGraficosController().adicionarGraficoNaTab(ano, appModel.getRootPane());
         }
-        selecionarGrafico(ano);
         atualizarBoxGraficos();
+        selecionarGrafico(ano);
         adicionarConsumo.setVisible(false);
     }
 
     //(Função chamada para selecionar o grafico na Home)----------------------------------------------------------------
     public void selecionarGrafico(String ano) {
-        if (manager.getGrafico(ano) == null) {
-            manager.gerarGrafico(ano, TipoGrafico.LINHA);
+        GraficoModel grafico = manager.getGrafico(ano);
+        if (grafico == null) {
+            manager.gerarGrafico(ano, TipoGrafico.BARRA);
+            grafico = manager.getGrafico(ano);
         }
-        paneGraficoTemplate.getChildren().clear();
-        paneGraficoTemplate.getChildren().add(UIUtils.criarNodeCentralizadoVerticalmente(manager.clonarGrafico(ano).getChart()));
-        boxGraficos.selectionModelProperty().get().select(ano);
+        if (grafico != null) {
+            paneGraficoTemplate.getChildren().clear();
+            paneGraficoTemplate.getChildren().add(
+                    UIUtils.criarNodeCentralizadoVerticalmente(manager.clonarGrafico(ano).getChart())
+            );
+            boxGraficos.selectionModelProperty().get().select(ano);
+        }
     }
 
     //(Funções chamadas para atualizar os valores nos ComboBox)---------------------------------------------------------

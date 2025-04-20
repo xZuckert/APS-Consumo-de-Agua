@@ -78,7 +78,11 @@ public class AppModel {
     }
     private void inicializarListeners(){
         tabHomeController.boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> tabHomeController.atualizarBoxMeses(valorNovo));
-        tabHomeController.boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> tabHomeController.selecionarGrafico(valorNovo));
+        tabHomeController.boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
+            if (valorNovo != null) {
+                tabHomeController.selecionarGrafico(valorNovo);
+            }
+        });
     }
 
     //(Função que carrega as telas e armazena no map rotas)-------------------------------------------------------------
