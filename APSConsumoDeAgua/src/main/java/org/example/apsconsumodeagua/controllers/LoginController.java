@@ -38,7 +38,6 @@ public class LoginController implements Initializable {
             if(!Validadores.osCamposSaoIguais(paneInterface, senhaField, confSenhaField))return;
             if(!Validadores.osCamposEstaoPreenchidosComInteiros(paneInterface,pessoasField))return;
 
-            // Agora tudo está validado corretamente
             String nome = nomeField.getText();
             String sobrenome = sobrenomeField.getText();
             String email = emailField.getText();

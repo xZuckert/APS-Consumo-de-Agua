@@ -8,6 +8,7 @@ import org.example.apsconsumodeagua.models.grafico.GraficoLinhaModel;
 import org.example.apsconsumodeagua.models.grafico.GraficoModel;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
+//(Classe para griar graficos)------------------------------------------------------------------------------------------
 public class GraficoFactory {
     public GraficoModel criarGrafico(String ano, ObservableList<XYChart.Data<String,Number>> dados, TipoGrafico tipoGrafico) {
         GraficoModel graficoModel = null;
@@ -20,5 +21,4 @@ public class GraficoFactory {
         }
         return graficoModel;
     }
-
 }

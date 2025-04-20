@@ -1,4 +1,4 @@
-package org.example.apsconsumodeagua.services;
+package org.example.apsconsumodeagua.managers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,13 +15,13 @@ import java.util.Map;
 import java.util.Set;
 
 //(Classe para manipular os dados dos graficos)--------------------------------------------------------------------------
-public class GraficoService {
+public class GraficoManager {
     private final Map<String, GraficoModel> graficos = new HashMap<>();
     public final Map<String, ObservableList<XYChart.Data<String,Number>>> valores = new HashMap<>();
 
     GraficoFactory factory;
 
-    public GraficoService(GraficoFactory factory) {
+    public GraficoManager(GraficoFactory factory) {
         this.factory = factory;
     }
 
@@ -40,6 +40,7 @@ public class GraficoService {
         }
     }
 
+    //(Funções chamadas para gerar dados iniciais)----------------------------------------------------------------------
     public ObservableList<XYChart.Data<String,Number>> gerarValores(TipoGrafico tipoGrafico) {
         ObservableList<XYChart.Data<String,Number>> dados = FXCollections.observableArrayList();
         switch (tipoGrafico) {
@@ -48,13 +49,11 @@ public class GraficoService {
         }
         return dados;
     }
-
     private void gerarDadosBarra(ObservableList<XYChart.Data<String,Number>> dados) {
         for(String mes : AppConstantes.MESES){
             dados.add(new XYChart.Data<>(mes,0));
         }
     }
-
     private void gerarDadosLinha(ObservableList<XYChart.Data<String,Number>> dados){
         for(String mes : AppConstantes.MESES){
             dados.add(new XYChart.Data<>(mes,null));
@@ -72,18 +71,17 @@ public class GraficoService {
 
         return novaData;
     }
-
     public GraficoModel clonarGrafico(String ano) {
         GraficoModel grafico = graficos.get(ano);
-        GraficoModel novoGrafico = null;
+        if (grafico == null) return null;
+
         ObservableList<XYChart.Data<String, Number>> dadosClonados = clonarSerie(ano);
-        if(grafico instanceof GraficoLinhaModel) {
-            novoGrafico = new GraficoLinhaModel(ano,dadosClonados);
-        }
-        if(grafico instanceof GraficoBarraModel) {
-            novoGrafico = new GraficoBarraModel(ano,dadosClonados);
-        }
-        return novoGrafico;
+
+        return switch (grafico) {
+            case GraficoLinhaModel ignored -> new GraficoLinhaModel(ano, dadosClonados);
+            case GraficoBarraModel ignored -> new GraficoBarraModel(ano, dadosClonados);
+            default -> null;
+        };
     }
 
     //(Funções chamadas para pegar dados e graficos)--------------------------------------------------------------------

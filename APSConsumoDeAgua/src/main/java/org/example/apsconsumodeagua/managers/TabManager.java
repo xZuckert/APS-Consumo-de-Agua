@@ -7,11 +7,13 @@ import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.UIUtils;
 import org.example.apsconsumodeagua.utils.constantes.TabId;
 
+//(Classe para manipular a navegação do app)----------------------------------------------------------------------------
 public class TabManager {
     private final AppModel appModel = AppModel.getInstance();
     private final ToggleButton tabUsuario, tabHome, tabGraficos;
     private String antigoId;
 
+    //(Construtor da classe)--------------------------------------------------------------------------------------------
     public TabManager(ToggleButton tabUsuario, ToggleButton tabHome, ToggleButton tabGraficos) {
         antigoId = TabId.TAB_HOME;
         this.tabUsuario = tabUsuario;
@@ -24,7 +26,6 @@ public class TabManager {
         String tabId = getTabIdPeloCaminhoFxml(id);
         alterarBotaoSelecionado(tabId);
     }
-
     public void alternarAba(ToggleButton toggleButton) {
         String id = toggleButton.getId();
         alterarBotaoSelecionado(id);
@@ -32,13 +33,11 @@ public class TabManager {
         animarAlteracao();
         antigoId = id;
     }
-
     private void alterarBotaoSelecionado(String id) {
         tabUsuario.setSelected(TabId.TAB_USUARIO.equals(id));
         tabHome.setSelected(TabId.TAB_HOME.equals(id));
         tabGraficos.setSelected(TabId.TAB_GRAFICOS.equals(id));
     }
-
     private void alterarConteudoExibido(String id) {
         switch (id) {
             case TabId.TAB_USUARIO:
@@ -61,7 +60,6 @@ public class TabManager {
                 break;
         }
     }
-
     private void animarAlteracao() {
         if (antigoId.equals(TabId.TAB_HOME)) {
             if (tabUsuario.isSelected()) {

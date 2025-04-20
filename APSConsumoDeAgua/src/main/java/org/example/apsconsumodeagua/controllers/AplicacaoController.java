@@ -18,20 +18,17 @@ public class AplicacaoController implements Initializable {
     @FXML
     private AnchorPane paneInterface;
 
-    //( Metodos chamados ao inicializar o fxml )----------------------------------------------------------------------------
+    //(Função chamada ao inicializar o fxml)----------------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appModel.setRootPane(paneInterface);
         appModel.carregarAplicacao(tabUsuario, tabHome, tabGraficos);
     }
 
-    //----------------------------------------------------------------------------------------------------------------------
-
-    //( Métodos chamados pelo usuário ao acionar algum evento )-------------------------------------------------------------
+    //(Função para trocar de tela)--------------------------------------------------------------------------------------
     @FXML
     public void trocarTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
         appModel.getTabManager().alternarAba(botaoClicado);
     }
-    //----------------------------------------------------------------------------------------------------------------------
 }

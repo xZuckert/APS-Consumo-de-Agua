@@ -1,5 +1,6 @@
 package org.example.apsconsumodeagua.models.usuario;
 
+//(Classe modelo de usuario)--------------------------------------------------------------------------------------------
 public class UsuarioModel {
     private Long id;
     private String nome;
@@ -13,6 +14,7 @@ public class UsuarioModel {
     private String password;
     private int pessoasNaCasa;
 
+    //(Construtor da classe usuario)------------------------------------------------------------------------------------
     public UsuarioModel(String nome, String sobrenome, String email, String cpf, String cep, String endereco, String cidade, String estado, String password, int pessoasNaCasa) {
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -26,6 +28,7 @@ public class UsuarioModel {
         this.pessoasNaCasa = pessoasNaCasa;
     }
 
+    //(Funções para manipular os dados do usuario)----------------------------------------------------------------------
     public Long getId() {
         return id;
     }

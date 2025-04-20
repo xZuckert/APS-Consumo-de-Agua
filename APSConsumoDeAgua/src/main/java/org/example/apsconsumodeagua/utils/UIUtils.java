@@ -2,7 +2,8 @@ package org.example.apsconsumodeagua.utils;
 
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
-import javafx.scene.layout.Pane;
+import javafx.scene.Node;
+import javafx.scene.layout.*;
 import javafx.util.Duration;
 
 public class UIUtils {
@@ -37,5 +38,39 @@ public class UIUtils {
 
         ParallelTransition animation = new ParallelTransition(slideIn);
         animation.play();
+    }
+
+    public static VBox criarNodeCentralizadoVerticalmente(Node node) {
+        VBox vbox = new VBox();
+
+        Region espacoTopo = new Region();
+        Region espacoBaixo = new Region();
+
+        VBox.setVgrow(espacoTopo, javafx.scene.layout.Priority.ALWAYS);
+        VBox.setVgrow(espacoBaixo, javafx.scene.layout.Priority.ALWAYS);
+        vbox.getChildren().addAll(espacoTopo, node, espacoBaixo);
+
+        AnchorPane.setTopAnchor(vbox, 10.0);
+        AnchorPane.setBottomAnchor(vbox, 10.0);
+        AnchorPane.setLeftAnchor(vbox, 10.0);
+        AnchorPane.setRightAnchor(vbox, 10.0);
+        return vbox;
+    }
+
+    private HBox criarNodeCentralizadoHorizontalmente(Node node) {
+        HBox hBox = new HBox();
+
+        Region espacoEsquerdo = new Region();
+        Region espacoDireito = new Region();
+
+        HBox.setHgrow(espacoEsquerdo, javafx.scene.layout.Priority.ALWAYS);
+        HBox.setHgrow(espacoDireito, javafx.scene.layout.Priority.ALWAYS);
+        hBox.getChildren().addAll(espacoEsquerdo, node, espacoDireito);
+
+        AnchorPane.setTopAnchor(hBox, 10.0);
+        AnchorPane.setBottomAnchor(hBox, 10.0);
+        AnchorPane.setLeftAnchor(hBox, 10.0);
+        AnchorPane.setRightAnchor(hBox, 10.0);
+        return hBox;
     }
 }

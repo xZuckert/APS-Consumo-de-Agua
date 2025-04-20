@@ -10,13 +10,16 @@ import org.example.apsconsumodeagua.services.UsuarioService;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+//(Classe que controla a view Usuario)----------------------------------------------------------------------------------
 public class TabUsuarioController implements Initializable {
-    UsuarioModel usuario = UsuarioService.getInstance().getUsuarioLogado();
+    //(Variavel que recebe o usuario logado)----------------------------------------------------------------------------
+    final UsuarioModel usuario = UsuarioService.getInstance().getUsuarioLogado();
     @FXML
     public AnchorPane contentTabUsuario;
     @FXML
     public TextField nomeField,sobrenomeField,cpfField,emailField,cepField,enderecoField,estadoField,cidadeField,pessoasField;
 
+    //(Função chamada ao iniciar o fxml de usuario)---------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nomeField.setText(usuario.getNome());

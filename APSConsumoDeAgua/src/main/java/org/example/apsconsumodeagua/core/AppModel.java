@@ -4,61 +4,90 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
-import org.example.apsconsumodeagua.controllers.GraficoController;
 import org.example.apsconsumodeagua.controllers.TabGraficosController;
 import org.example.apsconsumodeagua.controllers.TabHomeController;
 import org.example.apsconsumodeagua.controllers.TabUsuarioController;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.managers.TabManager;
-import org.example.apsconsumodeagua.services.GraficoService;
+import org.example.apsconsumodeagua.managers.GraficoManager;
 import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
+import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.Year;
-import java.time.format.TextStyle;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
+//(Classe criada para comunicação global da aplicação)------------------------------------------------------------------
 public class AppModel {
-    private static AppModel instance;
-    private final GraficoFactory graficoFactory;
-    private final GraficoService graficoService;
-    private final GraficoController graficoController;
-    private TabManager tabManager;
 
-    private final Map<String, Parent> roots = new HashMap<>();
+    //(Instancia da classe, ela é criada apenas a primeira vez que é chamada, depois disso sempre chama o mesmo objeto)-
+    private static AppModel instance;
+
+    //(Map que guarda o caminho e os dados das páginas)-----------------------------------------------------------------
+    private final Map<String, Parent> rotas = new HashMap<>();
+
+    //(Pane principal da aplicação)-------------------------------------------------------------------------------------
+    private AnchorPane rootPane;
+
+    private final GraficoManager graficoManager;
+
+    //(Instancias das classes de manipulação das view)------------------------------------------------------------------
+    private TabManager tabManager;
 
     private TabUsuarioController tabUsuarioController;
     private TabHomeController tabHomeController;
     private TabGraficosController tabGraficosController;
 
-    private AnchorPane rootPane;
-
+    //(Construtor da classe, ela está privada para não ser possivel criar novas instancias)-----------------------------
     private AppModel() {
-        graficoFactory = new GraficoFactory();
-        graficoService = new GraficoService(graficoFactory);
-        graficoController = new GraficoController(graficoService,this);
+        //(Instancias das classes de manipulação dos graficos)--------------------------------------------------------------
+        GraficoFactory graficoFactory = new GraficoFactory();
+        graficoManager = new GraficoManager(graficoFactory);
     }
 
+    //(Primeira função chamada pela aplicação)--------------------------------------------------------------------------
     public void carregarAplicacao(ToggleButton ... tabs) {
+        inicializarTabs(tabs);
+        inicializarGraficoAtual();
+        inicializarBoxAnos();
+        inicializarListeners();
+    }
+
+    //(Funções de inicialização)----------------------------------------------------------------------------------------
+    private void inicializarTabs(ToggleButton ... tabs) {
         tabManager = new TabManager(tabs[0], tabs[1], tabs[2]);
         tabUsuarioController = carregarFXMLComController(CaminhoFxml.TAB_USUARIO);
         tabHomeController = carregarFXMLComController(CaminhoFxml.TAB_HOME);
         tabGraficosController = carregarFXMLComController(CaminhoFxml.TAB_GRAFICOS);
-        inicializarGraficoAtual();
-        inicializarBoxAnos();
-        inicializarListeners();
         tabManager.inicializarComTabInicial(CaminhoFxml.TAB_HOME);
     }
+    private void inicializarGraficoAtual(){
+        String anoAtual = String.valueOf(Year.now().getValue());
+        if (graficoManager.getGrafico(anoAtual) == null) {
+            graficoManager.gerarGrafico(anoAtual, TipoGrafico.BARRA);
+            tabGraficosController.adicionarGraficoNaTab(anoAtual,rootPane);
+            tabHomeController.selecionarGrafico(anoAtual);
+        }
+    }
+    private void inicializarBoxAnos(){
+        for (int i = Year.now().getValue(); i >= Year.now().getValue() - AppConstantes.ANOS_ANTERIORES; i--) {
+            tabHomeController.boxAnos.getItems().add(String.valueOf(i));
+        }
+    }
+    private void inicializarListeners(){
+        tabHomeController.boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> tabHomeController.atualizarBoxMeses(valorNovo));
+        tabHomeController.boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> tabHomeController.selecionarGrafico(valorNovo));
+    }
+
+    //(Função que carrega as telas e armazena no map rotas)-------------------------------------------------------------
     public <T> T carregarFXMLComController(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
-            addTela(fxmlPath, root);
+            rotas.put(fxmlPath, root);
 
             return loader.getController();
 
@@ -68,50 +97,26 @@ public class AppModel {
         return null;
     }
 
-    private void inicializarGraficoAtual(){
-        String anoAtual = String.valueOf(Year.now().getValue());
-        if (getGraficoController().getGrafico(anoAtual) == null) {
-            String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault());
-            getGraficoController().criarOuAtualizarGrafico(anoAtual,mesAtual,0,getTabGraficosController().tabPaneGraficos,getRootPane(),getTabHomeController().boxGraficos);
-        }
-    }
-    private void inicializarBoxAnos(){
-        for (int i = Year.now().getValue(); i >= Year.now().getValue() - AppConstantes.ANOS_ANTERIORES; i--) {
-            getTabHomeController().boxAnos.getItems().add(String.valueOf(i));
-        }
-    }
-    private void inicializarListeners(){
-        getTabHomeController().boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> getTabHomeController().atualizarBoxMeses(valorNovo));
-        getTabHomeController().boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> getGraficoController().selecionarGrafico(valorNovo,getTabHomeController().boxGraficos));
-    }
-
     public void trocarTela(String fxmlPath) {
         getRootPane().getChildren().set(0,getTela(fxmlPath));
     }
-    public GraficoController getGraficoController() {
-        return this.graficoController;
-    }
 
+    //(Funções para pegar instancias)-----------------------------------------------------------------------------------
+    public GraficoManager getGraficoManager() {
+        return this.graficoManager;
+    }
     public TabUsuarioController getTabUsuarioController() {
         return this.tabUsuarioController;
     }
-
     public TabHomeController getTabHomeController() {
         return this.tabHomeController;
     }
-
     public TabGraficosController getTabGraficosController() {
         return this.tabGraficosController;
     }
-
-    public void addTela(String key, Parent root) {
-        roots.put(key, root);
-    }
-
     public Parent getTela(String key) {
-        return roots.get(key);
+        return rotas.get(key);
     }
-
     public AnchorPane getRootPane() {
         return rootPane;
     }
@@ -119,14 +124,16 @@ public class AppModel {
         return tabManager;
     }
 
-    public void setRootPane(AnchorPane rootPane) {
-        this.rootPane = rootPane;
-    }
-
+    //(Função que garante a instancia unica da classe)------------------------------------------------------------------
     public static synchronized AppModel getInstance() {
         if (instance == null) {
             instance = new AppModel();
         }
         return instance;
+    }
+
+    //(Função que seta o pane principal da aplicação)-------------------------------------------------------------------
+    public void setRootPane(AnchorPane rootPane) {
+        this.rootPane = rootPane;
     }
 }

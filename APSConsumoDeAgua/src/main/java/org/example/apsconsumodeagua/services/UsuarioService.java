@@ -2,6 +2,7 @@ package org.example.apsconsumodeagua.services;
 
 import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
 
+//(Classe para tornar o usuario acessivel globalmente na aplicação)-----------------------------------------------------
 public class UsuarioService {
     private static UsuarioService usuarioService;
     private UsuarioModel usuarioLogado;
@@ -16,7 +17,6 @@ public class UsuarioService {
     public UsuarioModel getUsuarioLogado() {
         return usuarioLogado;
     }
-
     public void setUsuarioLogado(UsuarioModel usuarioLogado) {
         this.usuarioLogado = usuarioLogado;
     }

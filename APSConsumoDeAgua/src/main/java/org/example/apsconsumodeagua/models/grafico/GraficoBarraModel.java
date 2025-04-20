@@ -4,17 +4,21 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 
-
+//(Classe modelo do grafico de barras)----------------------------------------------------------------------------------
 public class GraficoBarraModel extends GraficoModel{
     private final BarChart<String, Number> barChart;
+
+    //(Construtor da classe)--------------------------------------------------------------------------------------------
     public GraficoBarraModel(String ano, ObservableList<XYChart.Data<String,Number>> dados) {
         super(ano, dados);
         barChart = new BarChart<>(xAxis(), yAxis());
         barChart.setTitle(getAno());
         barChart.getData().add(getSeries());
         barChart.getStyleClass().add("grafico");
+        atualizarYAxis();
     }
 
+    //(Função para atualizar o tamanho maximo do eixo Y)----------------------------------------------------------------
     public void atualizarYAxis(){
         double valorMaximoY;
         double maxValor = this.getSeries().getData().stream()
@@ -26,6 +30,7 @@ public class GraficoBarraModel extends GraficoModel{
     }
 
     @Override
+    //(Função para pegar o grafico)-------------------------------------------------------------------------------------
     public BarChart<String,Number> getChart() {
         return barChart;
     }

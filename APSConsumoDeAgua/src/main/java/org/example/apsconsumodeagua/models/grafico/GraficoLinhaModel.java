@@ -4,8 +4,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 
+//(Classe modelo do grafico de linhas)----------------------------------------------------------------------------------
 public class GraficoLinhaModel extends GraficoModel{
     private final LineChart<String, Number> lineChart;
+
+    //(Construtor da classe)--------------------------------------------------------------------------------------------
     public GraficoLinhaModel(String ano, ObservableList<XYChart.Data<String,Number>> dados) {
         super(ano, dados);
         lineChart = new LineChart<>(xAxis(), yAxis());
@@ -14,6 +17,8 @@ public class GraficoLinhaModel extends GraficoModel{
         lineChart.getStyleClass().add("grafico");
     }
 
+    @Override
+    //(Função para pegar o grafico)-------------------------------------------------------------------------------------
     public LineChart<String, Number> getChart() {
         return this.lineChart;
     }
