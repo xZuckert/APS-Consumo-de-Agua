@@ -26,4 +26,5 @@ module org.example.apsconsumodeagua {
     exports org.example.apsconsumodeagua.utils.constantes;
     exports org.example.apsconsumodeagua.models.grafico;
     exports org.example.apsconsumodeagua.core;
+    exports org.example.apsconsumodeagua.models.base;
 }

@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.models.grafico.GraficoBarraModel;
-import org.example.apsconsumodeagua.models.grafico.GraficoModel;
+import org.example.apsconsumodeagua.models.base.GraficoModel;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 

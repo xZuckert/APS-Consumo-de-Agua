@@ -3,10 +3,11 @@ package org.example.apsconsumodeagua.models.grafico;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import org.example.apsconsumodeagua.models.base.GraficoModel;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
 //(Classe modelo do grafico de barras)----------------------------------------------------------------------------------
-public class GraficoBarraModel extends GraficoModel{
+public class GraficoBarraModel extends GraficoModel {
     private final BarChart<String, Number> barChart;
 
     //(Construtor da classe)--------------------------------------------------------------------------------------------

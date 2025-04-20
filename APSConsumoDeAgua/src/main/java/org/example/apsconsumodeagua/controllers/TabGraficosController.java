@@ -7,7 +7,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.core.AppModel;
 import org.example.apsconsumodeagua.managers.GraficoManager;
-import org.example.apsconsumodeagua.models.grafico.GraficoModel;
+import org.example.apsconsumodeagua.models.base.GraficoModel;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.UIUtils;
 import org.example.apsconsumodeagua.utils.Validadores;

@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import org.example.apsconsumodeagua.models.grafico.GraficoBarraModel;
 import org.example.apsconsumodeagua.models.grafico.GraficoLinhaModel;
-import org.example.apsconsumodeagua.models.grafico.GraficoModel;
+import org.example.apsconsumodeagua.models.base.GraficoModel;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
 //(Classe para griar graficos)------------------------------------------------------------------------------------------
