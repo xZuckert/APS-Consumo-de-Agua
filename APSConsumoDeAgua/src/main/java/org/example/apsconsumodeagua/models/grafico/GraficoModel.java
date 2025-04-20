@@ -5,17 +5,20 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
 //(Classe base para os graficos)----------------------------------------------------------------------------------------
 public abstract class GraficoModel {
     private final XYChart.Series<String, Number> series;
+    private final TipoGrafico tipoGrafico;
     private final CategoryAxis xAxis;
     private final NumberAxis yAxis;
     private final String ano;
 
     //(Construtor da classe)--------------------------------------------------------------------------------------------
-    public GraficoModel(String ano, ObservableList<XYChart.Data<String, Number>> dados) {
+    public GraficoModel(String ano, ObservableList<XYChart.Data<String, Number>> dados, TipoGrafico tipoGrafico) {
         this.ano = ano;
+        this.tipoGrafico = tipoGrafico;
         this.series = new XYChart.Series<>();
         this.series.getData().setAll(dados);
         this.series.setName("Consumo");
@@ -35,16 +38,20 @@ public abstract class GraficoModel {
 
     //(Funções para pegar os dados da classe)---------------------------------------------------------------------------
     public abstract Chart getChart();
+
     public XYChart.Series<String, Number> getSeries() {
-        return series;
+        return this.series;
+    }
+    public TipoGrafico getTipoGrafico() {
+        return this.tipoGrafico;
     }
     public String getAno() {
-        return ano;
+        return this.ano;
     }
     protected CategoryAxis xAxis() {
-        return xAxis;
+        return this.xAxis;
     }
     protected NumberAxis yAxis() {
-        return yAxis;
+        return this.yAxis;
     }
 }

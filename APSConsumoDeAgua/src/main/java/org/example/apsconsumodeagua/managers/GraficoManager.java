@@ -76,12 +76,7 @@ public class GraficoManager {
         if (grafico == null) return null;
 
         ObservableList<XYChart.Data<String, Number>> dadosClonados = clonarSerie(ano);
-
-        return switch (grafico) {
-            case GraficoLinhaModel ignored -> new GraficoLinhaModel(ano, dadosClonados);
-            case GraficoBarraModel ignored -> new GraficoBarraModel(ano, dadosClonados);
-            default -> null;
-        };
+        return factory.criarGrafico(ano,dadosClonados,grafico.getTipoGrafico());
     }
 
     //(Funções chamadas para pegar dados e graficos)--------------------------------------------------------------------

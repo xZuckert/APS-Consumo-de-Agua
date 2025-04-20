@@ -16,8 +16,8 @@ public class GraficoFactory {
             return graficoModel;
         }
         switch (tipoGrafico) {
-            case LINHA -> graficoModel = new GraficoLinhaModel(ano, dados);
-            case BARRA -> graficoModel = new GraficoBarraModel(ano, dados);
+            case LINHA -> graficoModel = new GraficoLinhaModel(ano, dados,tipoGrafico);
+            case BARRA -> graficoModel = new GraficoBarraModel(ano, dados,tipoGrafico);
         }
         return graficoModel;
     }

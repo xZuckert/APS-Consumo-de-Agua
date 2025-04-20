@@ -42,7 +42,7 @@ public class AppModel {
 
     //(Construtor da classe, ela está privada para não ser possivel criar novas instancias)-----------------------------
     private AppModel() {
-        //(Instancias das classes de manipulação dos graficos)--------------------------------------------------------------
+        //(Instancias das classes de manipulação dos graficos)----------------------------------------------------------
         GraficoFactory graficoFactory = new GraficoFactory();
         graficoManager = new GraficoManager(graficoFactory);
     }
