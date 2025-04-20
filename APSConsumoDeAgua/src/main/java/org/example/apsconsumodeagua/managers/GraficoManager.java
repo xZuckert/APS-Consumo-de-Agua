@@ -38,6 +38,8 @@ public class GraficoManager {
                 dado.setYValue(consumo);
             }
         }
+        GraficoModel grafico = graficos.get(ano);
+        if(grafico instanceof GraficoBarraModel)((GraficoBarraModel)grafico).atualizarYAxis();
     }
 
     //(Funções chamadas para gerar dados iniciais)----------------------------------------------------------------------
