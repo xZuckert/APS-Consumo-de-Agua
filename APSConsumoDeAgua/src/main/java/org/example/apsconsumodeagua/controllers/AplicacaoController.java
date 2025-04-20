@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.core.AppModel;
 import java.net.URL;
 import java.util.*;
-
+//(Classe que controla a view Aplicacao)--------------------------------------------------------------------------------
 public class AplicacaoController implements Initializable {
     private final AppModel appModel = AppModel.getInstance();
 

@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
 
             usuarioService.setUsuarioLogado(new UsuarioModel(nome, sobrenome, email, cpf, cep, endereco, cidade, estado, senha, pessoas));
 
-            FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/aplicacao.fxml"));
+            FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/Aplicacao.fxml"));
             Scene novaCena = new Scene(novaTela.load());
             Stage palco = (Stage) ((Node) event.getSource()).getScene().getWindow();
             palco.setScene(novaCena);
