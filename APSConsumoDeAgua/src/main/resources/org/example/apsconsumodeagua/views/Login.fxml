@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="paneInterface" prefHeight="640.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.apsconsumodeagua.controllers.LoginController">
-    <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+    <VBox fx:id="vboxRegistrar" prefHeight="200.0" prefWidth="100.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
         <children>
             <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <HBox prefHeight="100.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
@@ -42,7 +42,7 @@
             <Region prefHeight="200.0" prefWidth="200.0" />
             <Label text="Número de Moradores:" />
             <TextField fx:id="pessoasField" />
-            <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <Region prefHeight="200.0" prefWidth="320.0" VBox.vgrow="ALWAYS" />
          <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
                <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
@@ -50,7 +50,50 @@
                <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
             </children>
          </HBox>
+         <Region prefHeight="200.0" prefWidth="200.0" />
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <Label prefHeight="29.0" prefWidth="113.0" text="Já possui uma conta?" />
+               <Button fx:id="btnLoginRegistrar" mnemonicParsing="false" onAction="#onBtnLoginRegistrarClick" prefHeight="26.0" prefWidth="52.0" text="Login" />
+            </children>
+         </HBox>
          <Region layoutX="10.0" layoutY="557.0" prefHeight="200.0" prefWidth="200.0" />
         </children>
     </VBox>
+   <VBox fx:id="vboxLogin" layoutX="20.0" prefHeight="640.0" prefWidth="320.0">
+      <children>
+         <Region prefHeight="175.0" prefWidth="320.0" VBox.vgrow="ALWAYS" />
+         <HBox prefHeight="100.0" prefWidth="320.0" VBox.vgrow="ALWAYS">
+            <children>
+               <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+               <Label text="Login">
+                  <font>
+                     <Font name="System Bold" size="24.0" />
+                  </font>
+               </Label>
+               <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+            </children>
+         </HBox>
+         <Label text="CPF:" />
+         <TextField fx:id="cpfLoginField" />
+         <Label text="Senha:" />
+         <PasswordField fx:id="senhaLoginField" prefHeight="26.0" prefWidth="312.0" />
+         <Region prefHeight="50.0" prefWidth="200.0" />
+         <HBox prefHeight="26.0" prefWidth="200.0">
+            <children>
+               <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+               <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#onBtnLoginClick" prefHeight="26.0" prefWidth="80.0" text="Login" />
+               <Region layoutX="10.0" layoutY="10.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
+            </children>
+         </HBox>
+         <Region prefHeight="16.0" prefWidth="320.0" />
+         <HBox prefHeight="14.0" prefWidth="320.0">
+            <children>
+               <Label prefHeight="26.0" prefWidth="126.0" text="Não possui uma conta?" />
+               <Button fx:id="btnLoginCadastrarse" maxHeight="26.0" mnemonicParsing="false" onAction="#onBtnCadastrarseClick" text="Cadastrar-se" />
+            </children>
+         </HBox>
+         <Region layoutX="10.0" layoutY="557.0" prefHeight="200.0" prefWidth="200.0" />
+      </children>
+   </VBox>
 </AnchorPane>

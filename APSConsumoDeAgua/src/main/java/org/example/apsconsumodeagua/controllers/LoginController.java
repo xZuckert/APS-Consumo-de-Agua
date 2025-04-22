@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.apsconsumodeagua.Application;
 import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
@@ -22,15 +24,31 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
     public AnchorPane paneInterface;
     private final UsuarioService usuarioService = UsuarioService.getInstance();
-    @FXML
-    public PasswordField senhaField,confSenhaField;
 
     @FXML
-    private  TextField nomeField,sobrenomeField,cpfField,emailField,cepField,enderecoField,estadoField,cidadeField,pessoasField;
+    public VBox vboxLogin,vboxRegistrar;
+
+    @FXML
+    public PasswordField senhaField,confSenhaField,senhaLoginField;
+
+    @FXML
+    private  TextField nomeField,sobrenomeField,cpfField,emailField,cepField,enderecoField,estadoField,cidadeField,pessoasField,cpfLoginField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+    public void onBtnLoginClick(ActionEvent actionEvent) {
+
+    }
+    public void onBtnCadastrarseClick(ActionEvent actionEvent) {
+        vboxLogin.setVisible(false);
+        vboxRegistrar.setVisible(true);
+    }
+
+    public void onBtnLoginRegistrarClick(ActionEvent actionEvent) {
+        vboxRegistrar.setVisible(false);
+        vboxLogin.setVisible(true);
     }
 
     public void registrar(ActionEvent event) throws IOException {
