@@ -38,17 +38,24 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-    public void onBtnLoginClick(ActionEvent actionEvent) {
-
-    }
     public void onBtnCadastrarseClick(ActionEvent actionEvent) {
         vboxLogin.setVisible(false);
         vboxRegistrar.setVisible(true);
     }
-
     public void onBtnLoginRegistrarClick(ActionEvent actionEvent) {
         vboxRegistrar.setVisible(false);
         vboxLogin.setVisible(true);
+    }
+
+    public void login(ActionEvent event) throws IOException {
+        if (Validadores.osCamposEstaoPreenchidos(paneInterface, cpfLoginField, senhaLoginField)) {
+
+            FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/Aplicacao.fxml"));
+            Scene novaCena = new Scene(novaTela.load());
+            Stage palco = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            palco.setScene(novaCena);
+            palco.show();
+        }
     }
 
     public void registrar(ActionEvent event) throws IOException {
