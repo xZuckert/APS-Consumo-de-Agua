@@ -43,8 +43,10 @@ public class TabHomeController {
 
     //(Função que mostra a tela para o usuario registrar um consumo)----------------------------------------------------
     @FXML
-    public void abrirAdicionarConsumo() {
-        UIUtils.mostrarDeslizando(adicionarConsumo,600, UIUtils.direcao.DE_BAIXO_PRA_CIMA);
+    public void abrirPaneAdicionarConsumo() {
+        if(!adicionarConsumo.isVisible()){
+            UIUtils.mostrarDeslizando(adicionarConsumo,300, UIUtils.direcao.DE_BAIXO_PRA_CIMA);
+        }
     }
 
     //(Função chamada para criar ou atualizar um grafico)---------------------------------------------------------------
@@ -59,6 +61,12 @@ public class TabHomeController {
         atualizarBoxGraficos();
         selecionarGrafico(ano);
         adicionarConsumo.setVisible(false);
+    }
+
+    public void esconderPaneAdicionarConsumo(){
+        if(adicionarConsumo.isVisible()){
+            adicionarConsumo.setVisible(false);
+        }
     }
 
     //(Função chamada para selecionar o grafico na Home)----------------------------------------------------------------

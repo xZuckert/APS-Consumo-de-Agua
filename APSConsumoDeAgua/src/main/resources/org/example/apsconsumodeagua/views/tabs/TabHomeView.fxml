@@ -15,10 +15,22 @@
          <AnchorPane fx:id="paneGraficoTemplate" prefHeight="535.0" prefWidth="360.0" />
         </VBox>
         <AnchorPane fx:id="adicionarConsumo" prefHeight="200.0" prefWidth="200.0" styleClass="addConta" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Region maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#esconderPaneAdicionarConsumo" text="X" />
+               </children>
+            </HBox>
                 <Region prefHeight="200.0" prefWidth="200.0" />
-                <Label text="Consumo de água em m³:" />
-                <TextField fx:id="consumoField" />
+                <Label text="Consumo de água em m³:">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin></Label>
+                <TextField fx:id="consumoField">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin></TextField>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                     <VBox.margin>
                         <Insets top="20.0" />
@@ -37,7 +49,7 @@
                 <Region prefHeight="200.0" prefWidth="200.0" />
             </VBox>
         </AnchorPane>
-        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirAdicionarConsumo" prefHeight="40.0" styleClass="but" text="Adicionar Consumo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirPaneAdicionarConsumo" prefHeight="40.0" styleClass="but" text="Adicionar Consumo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>

@@ -28,6 +28,7 @@ public class TabManager {
     }
     public void alternarAba(ToggleButton toggleButton) {
         String id = toggleButton.getId();
+        appModel.getTabHomeController().esconderPaneAdicionarConsumo();
         alterarBotaoSelecionado(id);
         alterarConteudoExibido(id);
         animarAlteracao();
