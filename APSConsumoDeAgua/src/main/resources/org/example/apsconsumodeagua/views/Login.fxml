@@ -27,10 +27,10 @@
             <TextField fx:id="cpfField" prefHeight="26.0" prefWidth="149.0" />
             <Label text="E-mail" />
             <TextField fx:id="emailField" prefHeight="26.0" prefWidth="312.0" />
-            <Label text="Bairro:" />
-            <TextField fx:id="bairroField" prefHeight="26.0" prefWidth="312.0" />
          <Label text="Rua:" />
          <TextField fx:id="ruaField" />
+            <Label text="Bairro:" />
+            <TextField fx:id="bairroField" prefHeight="26.0" prefWidth="312.0" />
          <HBox prefHeight="27.0" prefWidth="320.0">
             <children>
                <VBox prefHeight="43.0" prefWidth="135.0">
@@ -47,10 +47,10 @@
                   </children>
                </VBox>
             </children></HBox>
-            <Label text="Estado:" />
-            <TextField fx:id="estadoField" prefHeight="26.0" prefWidth="160.0" />
             <Label text="Cidade:" />
             <TextField fx:id="cidadeField" prefHeight="26.0" prefWidth="312.0" />
+            <Label text="Estado:" />
+            <TextField fx:id="estadoField" prefHeight="26.0" prefWidth="160.0" />
             <Label text="Senha:" />
             <PasswordField fx:id="senhaField" prefHeight="26.0" prefWidth="312.0" />
             <Label text="Confirmar Senha:" />

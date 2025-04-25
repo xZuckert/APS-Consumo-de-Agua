@@ -66,4 +66,47 @@ public class UsuarioLoginDAO {
         }
         return todosDados;
     }
+    public static void registrarDados(String nome, String sobrenome, String email, String cpf, String cep, String bairro,
+        String rua, String numero, String cidade, String estado, String senha, int pessoas) {
+        try {
+            Connection conexao = DatabaseConnection.getConexao();
+            String sqlCep = "insert into cep values ( ?, ?, ?, ?, ?);";
+            PreparedStatement pstmCep = conexao.prepareStatement(sqlCep);
+            pstmCep.setString(1, cep);
+            pstmCep.setString(2, rua);
+            pstmCep.setString(3, bairro);
+            pstmCep.setString(4, cidade);
+            pstmCep.setString(5, estado);
+            pstmCep.executeUpdate();
+            try {
+                String sqlEndereco = "insert into endereco (cep, numero) values (?, ?);";
+                PreparedStatement pstmEndereco = conexao.prepareStatement(sqlEndereco);
+                pstmEndereco.setString(1, cep);
+                pstmEndereco.setString(2, numero);
+                pstmEndereco.executeUpdate();
+                try {
+                    String sqlUsuario = "insert into usuario (nome, sobrenome, email, cpf, senha, cepfk, nummoradores) values \n" +
+                            "(?, ?, ?, ?, ?, ?, ?);";
+                    PreparedStatement pstmUsuario = conexao.prepareStatement(sqlUsuario);
+                    pstmUsuario.setString(1, nome);
+                    pstmUsuario.setString(2, sobrenome);
+                    pstmUsuario.setString(3, email);
+                    pstmUsuario.setString(4, cpf);
+                    pstmUsuario.setString(5, senha);
+                    pstmUsuario.setString(6, cep);
+                    pstmUsuario.setString(7, String.valueOf(pessoas));
+                    pstmUsuario.executeUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
 }

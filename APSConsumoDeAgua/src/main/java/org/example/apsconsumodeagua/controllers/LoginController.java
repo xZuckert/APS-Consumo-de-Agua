@@ -102,26 +102,30 @@ public class LoginController implements Initializable {
         if (Validadores.osCamposEstaoPreenchidos(paneInterface, nomeField, sobrenomeField, emailField, cpfField, cepField, bairroField, ruaField, numeroField, estadoField, pessoasField)) {
             if (!Validadores.osCamposSaoIguais(paneInterface, senhaField, confSenhaField)) return;
             if (!Validadores.osCamposEstaoPreenchidosComInteiros(paneInterface, pessoasField)) return;
+            try {
+                String nome = nomeField.getText();
+                String sobrenome = sobrenomeField.getText();
+                String email = emailField.getText();
+                String cpf = cpfField.getText();
+                String cep = cepField.getText();
+                String bairro = bairroField.getText();
+                String rua = ruaField.getText();
+                String numero = numeroField.getText();
+                String cidade = cidadeField.getText();
+                String estado = estadoField.getText();
+                String senha = senhaField.getText();
+                int pessoas = Integer.parseInt(pessoasField.getText());
+                UsuarioLoginDAO.registrarDados(nome, sobrenome, email, cpf, cep, bairro, rua, numero, cidade, estado, senha, pessoas);
 
-            String nome = nomeField.getText();
-            String sobrenome = sobrenomeField.getText();
-            String email = emailField.getText();
-            String cpf = cpfField.getText();
-            String cep = cepField.getText();
-            String bairro = bairroField.getText();
-            String rua = ruaField.getText();
-            String numero = numeroField.getText();
-            String cidade = cidadeField.getText();
-            String estado = estadoField.getText();
-            String senha = senhaField.getText();
-            int pessoas = Integer.parseInt(pessoasField.getText());
-
-            usuarioService.setUsuarioLogado(new UsuarioModel(nome, sobrenome, email, cpf, cep, bairro,rua, numero, cidade, estado, senha, pessoas));
-            FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/Aplicacao.fxml"));
-            Scene novaCena = new Scene(novaTela.load());
-            Stage palco = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            palco.setScene(novaCena);
-            palco.show();
+                usuarioService.setUsuarioLogado(new UsuarioModel(nome, sobrenome, email, cpf, cep, bairro, rua, numero, cidade, estado, senha, pessoas));
+                FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/Aplicacao.fxml"));
+                Scene novaCena = new Scene(novaTela.load());
+                Stage palco = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                palco.setScene(novaCena);
+                palco.show();
+            } catch (Exception e) {
+                Toast.mostrarToast(paneInterface, "Erro no cadastro", ToastEnum.ERRO);
+            }
         }
     }
 }
