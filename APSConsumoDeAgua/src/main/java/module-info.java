@@ -12,6 +12,7 @@ module org.example.apsconsumodeagua {
     requires eu.hansolo.tilesfx;
     requires java.desktop;
     requires java.sql;
+    requires mysql.connector.j;
 
     opens org.example.apsconsumodeagua to javafx.fxml;
     exports org.example.apsconsumodeagua;
