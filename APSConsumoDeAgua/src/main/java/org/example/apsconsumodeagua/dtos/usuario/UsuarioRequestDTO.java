@@ -6,7 +6,9 @@ public class UsuarioRequestDTO {
     private String email;
     private String cpf;
     private String cep;
-    private String endereco;
+    private String bairro;
+    private String rua;
+    private String numero;
     private String cidade;
     private String estado;
     private String password;
@@ -35,11 +37,23 @@ public class UsuarioRequestDTO {
     }
     public void setCep(String cep) {
         this.cep = cep;
-    }public String getEndereco() {
-        return endereco;
+    }public String getBairro() {
+        return bairro;
     }
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+    public String getRua() {
+        return rua;
+    }
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+    public String getNumero() {
+        return numero;
+    }
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
     public String getCidade() {
         return cidade;

@@ -17,7 +17,7 @@ public class TabUsuarioController implements Initializable {
     @FXML
     public AnchorPane contentTabUsuario;
     @FXML
-    public TextField nomeField,sobrenomeField,cpfField,emailField,cepField,enderecoField,estadoField,cidadeField,pessoasField;
+    public TextField nomeField,sobrenomeField,cpfField,emailField,cepField, bairroField, ruaField, numeroField,estadoField,cidadeField,pessoasField;
 
     //(Função chamada ao iniciar o fxml de usuario)---------------------------------------------------------------------
     @Override
@@ -27,7 +27,9 @@ public class TabUsuarioController implements Initializable {
         cpfField.setText(usuario.getCpf());
         emailField.setText(usuario.getEmail());
         cepField.setText(usuario.getCep());
-        enderecoField.setText(usuario.getEndereco());
+        bairroField.setText(usuario.getBairro());
+        ruaField.setText(usuario.getRua());
+        numeroField.setText(usuario.getNumero());
         estadoField.setText(usuario.getEstado());
         cidadeField.setText(usuario.getCidade());
         pessoasField.setText(String.valueOf(usuario.getPessoasNaCasa()));

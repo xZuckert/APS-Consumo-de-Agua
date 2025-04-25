@@ -27,8 +27,12 @@
             <TextField fx:id="emailField" disable="true" prefHeight="26.0" prefWidth="312.0" />
             <Label text="CEP:" />
             <TextField fx:id="cepField" disable="true" prefHeight="26.0" prefWidth="133.0" />
-            <Label text="Endereço:" />
-            <TextField fx:id="enderecoField" disable="true" prefHeight="26.0" prefWidth="312.0" />
+            <Label text="Bairro::" />
+            <TextField fx:id="bairroField" disable="true" prefHeight="26.0" prefWidth="312.0" />
+            <Label text="Rua:" />
+            <TextField fx:id="ruaField" disable="true" prefHeight="26.0" prefWidth="160.0" />
+            <Label text="Número:" />
+            <TextField fx:id="numeroField" disable="true" prefHeight="26.0" prefWidth="312.0" />
             <Label text="Estado:" />
             <TextField fx:id="estadoField" disable="true" prefHeight="26.0" prefWidth="160.0" />
             <Label text="Cidade:" />

@@ -7,21 +7,25 @@ public class UsuarioModel {
     private String sobrenome;
     private String email;
     private String cpf;
+    private String bairro;
+    private String rua;
+    private String numero;
     private String cep;
-    private String endereco;
     private String cidade;
     private String estado;
     private String password;
     private int pessoasNaCasa;
 
     //(Construtor da classe usuario)------------------------------------------------------------------------------------
-    public UsuarioModel(String nome, String sobrenome, String email, String cpf, String cep, String endereco, String cidade, String estado, String password, int pessoasNaCasa) {
+    public UsuarioModel(String nome, String sobrenome, String email, String cpf, String cep, String endereco, String rua, String numero, String cidade, String estado, String password, int pessoasNaCasa) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
         this.cpf = cpf;
         this.cep = cep;
-        this.endereco = endereco;
+        this.bairro = endereco;
+        this.rua = rua;
+        this.numero = numero;
         this.cidade = cidade;
         this.estado = estado;
         this.password = password;
@@ -65,12 +69,28 @@ public class UsuarioModel {
         this.cep = cep;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getRua() {
+        return rua;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setRua(String cep) {
+        this.rua = rua;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String cep) {
+        this.numero = numero;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
     public String getCidade() {

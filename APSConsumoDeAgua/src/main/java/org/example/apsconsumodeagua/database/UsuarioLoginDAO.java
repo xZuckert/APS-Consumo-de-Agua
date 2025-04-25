@@ -35,7 +35,7 @@ public class UsuarioLoginDAO {
         try {
             Connection conexao = DatabaseConnection.getConexao();
             String sql = "select usuario.nome, usuario.sobrenome, usuario.email, usuario.cpf, usuario.senha,\n" +
-                    "cep.bairro, cep.cidade, cep.estado, cep.cep, usuario.nummoradores\n" +
+                    "cep.bairro, cep.rua, endereco.numero, cep.cidade, cep.estado, cep.cep, usuario.nummoradores\n" +
                     "from usuario\n" +
                     "join cep on usuario.cepfk = cep.cep\n" +
                     "join endereco on cep.cep = endereco.cep where usuario.cpf = ? and usuario.senha = ?;";
@@ -52,7 +52,9 @@ public class UsuarioLoginDAO {
                 usuarioRequestLoginDTO.setCpf(rs.getString("cpf"));
                 usuarioRequestLoginDTO.setCep(rs.getString("cep"));
                 usuarioRequestLoginDTO.setPassword(rs.getString("senha"));
-                usuarioRequestLoginDTO.setEndereco(rs.getString("bairro"));
+                usuarioRequestLoginDTO.setBairro(rs.getString("bairro"));
+                usuarioRequestLoginDTO.setRua(rs.getString("rua"));
+                usuarioRequestLoginDTO.setNumero(rs.getString("numero"));
                 usuarioRequestLoginDTO.setCidade(rs.getString("cidade"));
                 usuarioRequestLoginDTO.setEstado(rs.getString("estado"));
                 usuarioRequestLoginDTO.setPessoasNaCasa(Integer.parseInt(rs.getString("nummoradores")));
