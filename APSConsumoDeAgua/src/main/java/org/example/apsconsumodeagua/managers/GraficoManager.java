@@ -4,15 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
-import org.example.apsconsumodeagua.models.grafico.GraficoBarraModel;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
-import org.example.apsconsumodeagua.models.grafico.GraficoLinhaModel;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 //(Classe para manipular os dados dos graficos)--------------------------------------------------------------------------
 public class GraficoManager {
@@ -29,9 +25,6 @@ public class GraficoManager {
     public void gerarGrafico(String ano, TipoGrafico tipoGrafico) {
         valores.put(ano, gerarValores(tipoGrafico));
         graficos.put(ano, factory.criarGrafico(ano,valores.get(ano),tipoGrafico));
-    }
-    public GraficoModel gerarGrafico(TipoGrafico tipoGrafico) {
-        return factory.criarGrafico(null,gerarValores(tipoGrafico),tipoGrafico);
     }
 
     //(Função chamadas para atualizar dados)----------------------------------------------------------------------------
@@ -86,6 +79,16 @@ public class GraficoManager {
     //(Funções chamadas para pegar dados e graficos)--------------------------------------------------------------------
     public Set<String> getAnos() {
         return graficos.keySet();
+    }
+    public int[] getDados(String ano){
+        int[] dados = new int[12];
+        for(XYChart.Data<String, Number> dado : valores.get(ano)) {
+            if (dado.getYValue() != null) {
+                Integer index = AppConstantes.MES_INDEX.get(dado.getXValue());
+                dados[index] = dado.getYValue().intValue();
+            }
+        }
+        return dados;
     }
     public GraficoModel getGrafico(String ano) {
         return graficos.get(ano);
