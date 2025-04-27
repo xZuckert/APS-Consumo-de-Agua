@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
+import org.example.apsconsumodeagua.services.UsuarioService;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
@@ -25,6 +26,7 @@ public class GraficoManager {
     public void gerarGrafico(String ano, TipoGrafico tipoGrafico) {
         valores.put(ano, gerarValores(tipoGrafico));
         graficos.put(ano, factory.criarGrafico(ano,valores.get(ano),tipoGrafico));
+        graficos.get(ano).getData().add(gerarDadosConsumoIdeal(UsuarioService.getInstance().getUsuarioLogado().getPessoasNaCasa()));
     }
 
     //(Função chamadas para atualizar dados)----------------------------------------------------------------------------
@@ -41,10 +43,16 @@ public class GraficoManager {
     public ObservableList<XYChart.Data<String,Number>> gerarValores(TipoGrafico tipoGrafico) {
         ObservableList<XYChart.Data<String,Number>> dados = FXCollections.observableArrayList();
         switch (tipoGrafico) {
+            case AREA -> gerarDadosArea(dados);
             case LINHA -> gerarDadosLinha(dados);
             case BARRA -> gerarDadosBarra(dados);
         }
         return dados;
+    }
+    private void gerarDadosArea(ObservableList<XYChart.Data<String,Number>> dados) {
+        for(String mes : AppConstantes.MESES){
+            dados.add(new XYChart.Data<>(mes,0));
+        }
     }
     private void gerarDadosBarra(ObservableList<XYChart.Data<String,Number>> dados) {
         for(String mes : AppConstantes.MESES){
@@ -53,8 +61,18 @@ public class GraficoManager {
     }
     private void gerarDadosLinha(ObservableList<XYChart.Data<String,Number>> dados){
         for(String mes : AppConstantes.MESES){
-            dados.add(new XYChart.Data<>(mes,20));
+            dados.add(new XYChart.Data<>(mes,0));
         }
+    }
+    private XYChart.Series<String,Number> gerarDadosConsumoIdeal(Integer quantiaPessoasNaCasa) {
+        XYChart.Series<String,Number> series = new XYChart.Series<>();
+        List<XYChart.Data<String, Number>> dados = new ArrayList<>();
+        for (String mes : AppConstantes.MESES) {
+            dados.add(new XYChart.Data<>(mes, AppConstantes.CONSUMO_IDEAL_POR_PESSOA * 30 * quantiaPessoasNaCasa));
+        }
+        series.getData().addAll(dados);
+        series.setName("Consumo Ideal");
+        return series;
     }
 
     //(Função para atualizar os dados do grafico template)--------------------------------------------------------------
@@ -73,7 +91,9 @@ public class GraficoManager {
         if (grafico == null) return null;
 
         ObservableList<XYChart.Data<String, Number>> dadosClonados = clonarSerie(ano);
-        return factory.criarGrafico(ano,dadosClonados,grafico.getTipoGrafico());
+        GraficoModel graficoClone = factory.criarGrafico(ano,dadosClonados,grafico.getTipoGrafico());
+        graficoClone.getData().add(gerarDadosConsumoIdeal(UsuarioService.getInstance().getUsuarioLogado().getPessoasNaCasa()));
+        return graficoClone;
     }
 
     //(Funções chamadas para pegar dados e graficos)--------------------------------------------------------------------

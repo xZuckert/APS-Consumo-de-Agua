@@ -1,14 +1,18 @@
 package org.example.apsconsumodeagua.utils.constantes;
 
+import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class AppConstantes {
     private AppConstantes(){}
+    public static final TipoGrafico tipoGrafico = TipoGrafico.AREA;
     public static final Integer VELOCIDADE_ANIMACOES = 300;
     public static final Integer ANOS_ANTERIORES = 20;
+    public static final Double CONSUMO_IDEAL_POR_PESSOA = 0.11;
     public static final String[] MESES = {"Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"};
-    public static final Map<String, Integer> MES_INDEX = new HashMap<String, Integer>() {{
+    public static final Map<String, Integer> MES_INDEX = new HashMap<>() {{
         put("Jan", 0);
         put("Fev", 1);
         put("Mar", 2);

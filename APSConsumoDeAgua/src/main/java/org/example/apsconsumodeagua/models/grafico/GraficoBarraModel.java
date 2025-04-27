@@ -16,8 +16,6 @@ public class GraficoBarraModel extends GraficoModel {
         barChart = new BarChart<>(xAxis(), yAxis());
         barChart.setTitle(getAno());
         barChart.getData().add(getSeries());
-        barChart.setLegendVisible(false);
-        barChart.getStyleClass().add("grafico");
     }
 
     //(Função para atualizar o tamanho maximo do eixo Y)----------------------------------------------------------------
@@ -27,4 +25,10 @@ public class GraficoBarraModel extends GraficoModel {
     public BarChart<String,Number> getChart() {
         return barChart;
     }
+
+    @Override
+    public ObservableList<XYChart.Series<String, Number>> getData() {
+        return barChart.getData();
+    }
+
 }

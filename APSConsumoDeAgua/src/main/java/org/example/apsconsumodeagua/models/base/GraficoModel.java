@@ -49,6 +49,7 @@ public abstract class GraficoModel {
 
     //(Funções para pegar os dados da classe)---------------------------------------------------------------------------
     public abstract Chart getChart();
+    public abstract ObservableList<XYChart.Series<String,Number>> getData();
 
     public XYChart.Series<String, Number> getSeries() {
         return this.series;

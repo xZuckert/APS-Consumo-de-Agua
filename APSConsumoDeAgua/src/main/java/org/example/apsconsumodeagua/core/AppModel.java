@@ -66,7 +66,7 @@ public class AppModel {
     private void inicializarGraficoAtual(){
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoManager.getGrafico(anoAtual) == null) {
-            graficoManager.gerarGrafico(anoAtual, TipoGrafico.BARRA);
+            graficoManager.gerarGrafico(anoAtual, AppConstantes.tipoGrafico);
             tabGraficosController.adicionarGraficoNaTab(anoAtual,rootPane);
             tabHomeController.selecionarGrafico(anoAtual);
         }

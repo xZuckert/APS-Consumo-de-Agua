@@ -2,9 +2,8 @@ package org.example.apsconsumodeagua.factory;
 
 
 import javafx.collections.ObservableList;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import org.example.apsconsumodeagua.models.grafico.GraficoAreaModel;
 import org.example.apsconsumodeagua.models.grafico.GraficoBarraModel;
 import org.example.apsconsumodeagua.models.grafico.GraficoLinhaModel;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
@@ -18,7 +17,8 @@ public class GraficoFactory {
             return graficoModel;
         }
         switch (tipoGrafico) {
-            case LINHA -> graficoModel = new GraficoLinhaModel(ano, dados,tipoGrafico,new CategoryAxis(),new NumberAxis());
+            case AREA -> graficoModel = new GraficoAreaModel(ano, dados,tipoGrafico);
+            case LINHA -> graficoModel = new GraficoLinhaModel(ano, dados,tipoGrafico);
             case BARRA -> graficoModel = new GraficoBarraModel(ano, dados,tipoGrafico);
         }
         return graficoModel;

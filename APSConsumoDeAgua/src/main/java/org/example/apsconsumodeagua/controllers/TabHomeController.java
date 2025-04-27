@@ -54,7 +54,7 @@ public class TabHomeController {
         if (manager.getGrafico(ano) != null) {
             manager.atualizarDados(ano, mes, consumo);
         } else {
-            manager.gerarGrafico(ano, TipoGrafico.BARRA);
+            manager.gerarGrafico(ano, AppConstantes.tipoGrafico);
             manager.atualizarDados(ano, mes, consumo);
             appModel.getTabGraficosController().adicionarGraficoNaTab(ano, appModel.getRootPane());
         }
