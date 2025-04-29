@@ -29,6 +29,17 @@ public class GraficoManager {
         graficos.get(ano).getData().add(gerarDadosConsumoIdeal(UsuarioService.getInstance().getUsuarioLogado().getPessoasNaCasa()));
     }
 
+    public void trocarTipoGrafico(TipoGrafico tipoGrafico){
+        int quantiaGraficos = graficos.size();
+        String[] anos = graficos.keySet().toArray(new String[quantiaGraficos]);
+        graficos.clear();
+        for (int i = 0; i < quantiaGraficos; i++) {
+            GraficoModel grafico = factory.criarGrafico(anos[i],valores.get(anos[i]),tipoGrafico);
+            grafico.getData().add(gerarDadosConsumoIdeal(UsuarioService.getInstance().getUsuarioLogado().getPessoasNaCasa()));
+            graficos.put(anos[i],grafico);
+        }
+    }
+
     //(Função chamadas para atualizar dados)----------------------------------------------------------------------------
     public void atualizarDados(String ano,String mes, int consumo) {
         for (XYChart.Data<String, Number> dado : valores.get(ano)) {

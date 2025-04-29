@@ -16,7 +16,7 @@ public abstract class GraficoModel {
     private final String ano;
 
     //(Construtor da classe)--------------------------------------------------------------------------------------------
-    public GraficoModel(String ano, ObservableList<XYChart.Data<String, Number>> dados, TipoGrafico tipoGrafico) {
+    protected GraficoModel(String ano, ObservableList<XYChart.Data<String, Number>> dados, TipoGrafico tipoGrafico) {
         this.ano = ano;
         this.tipoGrafico = tipoGrafico;
         this.series = new XYChart.Series<>();
@@ -29,7 +29,7 @@ public abstract class GraficoModel {
     }
 
     //(Função para congigurar os eixos do grafico)----------------------------------------------------------------------
-    void configuarAxis(){
+    private void configuarAxis(){
         yAxis().setAutoRanging(false);
         yAxis().setUpperBound(50);
         yAxis().setTickUnit(10);
@@ -65,11 +65,5 @@ public abstract class GraficoModel {
     }
     public NumberAxis yAxis() {
         return this.yAxis;
-    }
-    public void setXAxis(CategoryAxis xAxis) {
-        this.xAxis = xAxis;
-    }
-    public void setYAxis(NumberAxis yAxis) {
-        this.yAxis = yAxis;
     }
 }

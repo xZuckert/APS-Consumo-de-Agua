@@ -10,9 +10,11 @@ import org.example.apsconsumodeagua.controllers.TabUsuarioController;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.managers.TabManager;
 import org.example.apsconsumodeagua.managers.GraficoManager;
+import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
+import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 
 import java.io.IOException;
 import java.time.Year;
@@ -31,17 +33,20 @@ public class AppModel {
     //(Pane principal da aplicação)-------------------------------------------------------------------------------------
     private AnchorPane rootPane;
 
+    private TipoGrafico tipoGrafico;
+    private String graficoSelecionadoAtual;
     private final GraficoManager graficoManager;
 
-    //(Instancias das classes de manipulação das view)------------------------------------------------------------------
+    //(Instancias das classes de manipulação das views)------------------------------------------------------------------
     private TabManager tabManager;
 
     private TabUsuarioController tabUsuarioController;
     private TabHomeController tabHomeController;
     private TabGraficosController tabGraficosController;
 
-    //(Construtor da classe, ela está privada para não ser possivel criar novas instancias)-----------------------------
+    //(Construtor da classe, ela está privada para não ser possível criar novas instancias)-----------------------------
     private AppModel() {
+        setTipoGrafico(TipoGrafico.AREA);
         //(Instancias das classes de manipulação dos graficos)----------------------------------------------------------
         GraficoFactory graficoFactory = new GraficoFactory();
         graficoManager = new GraficoManager(graficoFactory);
@@ -66,9 +71,10 @@ public class AppModel {
     private void inicializarGraficoAtual(){
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoManager.getGrafico(anoAtual) == null) {
-            graficoManager.gerarGrafico(anoAtual, AppConstantes.tipoGrafico);
+            graficoManager.gerarGrafico(anoAtual, tipoGrafico);
             tabGraficosController.adicionarGraficoNaTab(anoAtual,rootPane);
             tabHomeController.selecionarGrafico(anoAtual);
+            graficoSelecionadoAtual = anoAtual;
         }
     }
     private void inicializarBoxAnos(){
@@ -81,7 +87,14 @@ public class AppModel {
         tabHomeController.boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
             if (valorNovo != null) {
                 tabHomeController.selecionarGrafico(valorNovo);
+                graficoSelecionadoAtual = valorNovo;
             }
+        });
+        tabGraficosController.tipoGrafico.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
+            setTipoGrafico(valorNovo);
+            graficoManager.trocarTipoGrafico(valorNovo);
+            tabGraficosController.atualizarGraficoNaTab();
+            tabHomeController.selecionarGrafico(graficoSelecionadoAtual);
         });
     }
 
@@ -96,7 +109,7 @@ public class AppModel {
             return loader.getController();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.mostrarToast(rootPane,"Não foi possível localizar a nova página", ToastEnum.ERRO);
         }
         return null;
     }
@@ -139,5 +152,13 @@ public class AppModel {
     //(Função que seta o pane principal da aplicação)-------------------------------------------------------------------
     public void setRootPane(AnchorPane rootPane) {
         this.rootPane = rootPane;
+    }
+
+    public TipoGrafico getTipoGrafico() {
+        return tipoGrafico;
+    }
+
+    public void setTipoGrafico(TipoGrafico tipoGrafico) {
+        this.tipoGrafico = tipoGrafico;
     }
 }

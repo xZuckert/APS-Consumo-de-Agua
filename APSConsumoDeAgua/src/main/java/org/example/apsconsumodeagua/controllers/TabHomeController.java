@@ -8,10 +8,8 @@ import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.core.AppModel;
 import org.example.apsconsumodeagua.managers.GraficoManager;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
-import org.example.apsconsumodeagua.models.grafico.GraficoLinhaModel;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.UIUtils;
-import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
 import java.time.LocalDate;
 import java.time.Year;
@@ -54,7 +52,7 @@ public class TabHomeController {
         if (manager.getGrafico(ano) != null) {
             manager.atualizarDados(ano, mes, consumo);
         } else {
-            manager.gerarGrafico(ano, AppConstantes.tipoGrafico);
+            manager.gerarGrafico(ano, appModel.getTipoGrafico());
             manager.atualizarDados(ano, mes, consumo);
             appModel.getTabGraficosController().adicionarGraficoNaTab(ano, appModel.getRootPane());
         }
