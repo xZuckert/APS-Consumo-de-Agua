@@ -1,23 +1,25 @@
 package org.example.apsconsumodeagua.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 public class DatabaseConnection {
 
-    public static Connection conectarDB(Connection conexao) {
+    private static final String URL = "jdbc:mysql://metro.proxy.rlwy.net:52382/railway";
+    private static final String USER = "root";
+    private static final String PASSWORD = "bWnNpXxdRFOOmaZPYTjSGgOuhDgSlACm";
+
+    public static Connection conectarDB() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conexao = DriverManager.getConnection("jdbc:mysql://metro.proxy.rlwy.net:52382/railway?user=root&password=bWnNpXxdRFOOmaZPYTjSGgOuhDgSlACm"); // Cria a conexão
-            return conexao;
+            return DriverManager.getConnection(URL, USER, PASSWORD); // Conecta e retorna a conexão
         } catch (Exception e) {
-            System.out.println("Erro ao conectar ao banco de dados " + e);
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
             return null;
         }
     }
 
     public static Connection getConexao() {
-        Connection conexao = null;
-        conexao = DatabaseConnection.conectarDB(conexao);
-        return conexao;
+        return conectarDB(); // Método simplificado para obter a conexão
     }
 }

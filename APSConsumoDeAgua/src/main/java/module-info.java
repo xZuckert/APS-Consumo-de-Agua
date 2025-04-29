@@ -13,6 +13,7 @@ module org.example.apsconsumodeagua {
     requires java.desktop;
     requires java.sql;
     requires mysql.connector.j;
+    requires jbcrypt;
 
     opens org.example.apsconsumodeagua to javafx.fxml;
     exports org.example.apsconsumodeagua;

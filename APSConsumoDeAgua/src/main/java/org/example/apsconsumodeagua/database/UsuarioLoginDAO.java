@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.dtos.usuario.UsuarioRequestDTO;
 import org.example.apsconsumodeagua.utils.Toast;
+import org.example.apsconsumodeagua.utils.encryptor.PasswordVerifier;
 import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,37 +12,37 @@ import java.util.List;
 
 public class UsuarioLoginDAO {
     @FXML
-    private AnchorPane paneInterface;
-    Connection conexao;
+    private PasswordVerifier verifier = new PasswordVerifier();
 
-    public ResultSet autenticacaoUsuario(UsuarioRequestDTO objUsuarioRequestDTO) {
-        conexao = DatabaseConnection.conectarDB(conexao);
-        try {
-            //verifica se existe os cpf e a senha na tabela de usuario
-            String sql = "select * from usuario where cpf = ? and senha = ?";
-            PreparedStatement pstm = conexao.prepareStatement(sql);
-            pstm.setString(1, objUsuarioRequestDTO.getCpf());
-            pstm.setString(2, objUsuarioRequestDTO.getPassword());
-            ResultSet rs = pstm.executeQuery();
-            return rs;
-        } catch (SQLException erro) {
-            Toast.mostrarToast(paneInterface, "CPF ou Senha incorretos", ToastEnum.ERRO);
-            return null;
+    public boolean autenticacaoUsuario(UsuarioRequestDTO objUsuarioRequestDTO) {
+        try (Connection conexao = DatabaseConnection.conectarDB()) {
+            assert conexao != null;
+            try (PreparedStatement pstm = conexao.prepareStatement("SELECT senha FROM usuario WHERE cpf = ?")) {
+                pstm.setString(1, objUsuarioRequestDTO.getCpf());
+                try (ResultSet rs = pstm.executeQuery()) {
+                    if (rs.next()) {
+                        return verifier.verifyPassword(objUsuarioRequestDTO.getPassword(), rs.getString("senha"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
         }
+        return false;
     }
 
-    public static List<UsuarioRequestDTO> getDadosTeste(UsuarioRequestDTO objUsuarioRequestDTO) {
+    public static List<UsuarioRequestDTO> getDadosTeste(String cpf) {
         List<UsuarioRequestDTO> todosDados = new ArrayList<>();
         try {
             Connection conexao = DatabaseConnection.getConexao();
-            String sql = "select usuario.nome, usuario.sobrenome, usuario.email, usuario.cpf, usuario.senha,\n" +
-                    "cep.bairro, cep.rua, endereco.numero, cep.cidade, cep.estado, cep.cep, usuario.nummoradores\n" +
-                    "from usuario\n" +
-                    "join cep on usuario.cepfk = cep.cep\n" +
-                    "join endereco on cep.cep = endereco.cep where usuario.cpf = ? and usuario.senha = ?;";
+            String sql = "SELECT usuario.nome, usuario.sobrenome, usuario.email, usuario.cpf, usuario.senha, " +
+                    "cep.bairro, cep.rua, endereco.numero, cep.cidade, cep.estado, cep.cep, usuario.nummoradores " +
+                    "FROM usuario " +
+                    "JOIN cep ON usuario.cepfk = cep.cep " +
+                    "JOIN endereco ON cep.cep = endereco.cep " +
+                    "WHERE usuario.cpf = ?";
             PreparedStatement pstm = conexao.prepareStatement(sql);
-            pstm.setString(1, objUsuarioRequestDTO.getCpf());
-            pstm.setString(2, objUsuarioRequestDTO.getPassword());
+            pstm.setString(1, cpf);
 
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
@@ -62,7 +63,6 @@ public class UsuarioLoginDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
         }
         return todosDados;
     }
