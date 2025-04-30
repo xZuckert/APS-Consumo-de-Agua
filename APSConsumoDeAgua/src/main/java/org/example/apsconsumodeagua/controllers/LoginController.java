@@ -12,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.apsconsumodeagua.Application;
-import org.example.apsconsumodeagua.database.DatabaseConnection;
 import org.example.apsconsumodeagua.database.UsuarioLoginDAO;
 import org.example.apsconsumodeagua.dtos.usuario.UsuarioRequestDTO;
 import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
@@ -24,9 +23,6 @@ import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
