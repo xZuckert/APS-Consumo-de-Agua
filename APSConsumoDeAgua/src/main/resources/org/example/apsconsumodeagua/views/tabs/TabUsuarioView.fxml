@@ -39,7 +39,12 @@
             <TextField fx:id="estadoField" disable="true" prefHeight="26.0" prefWidth="160.0" />
             <Region prefHeight="200.0" prefWidth="200.0" />
             <Label text="Número de Moradores:" />
-            <TextField fx:id="pessoasField" />
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+                  <TextField fx:id="pessoasField" HBox.hgrow="ALWAYS" />
+               <Button mnemonicParsing="false" onAction="#atualizarQuantidadeMoradores" text="OK" />
+            </children>
+         </HBox>
             <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
         </VBox>
     </AnchorPane>

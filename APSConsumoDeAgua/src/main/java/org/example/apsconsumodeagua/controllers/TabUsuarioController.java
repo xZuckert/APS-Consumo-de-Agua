@@ -4,14 +4,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import org.example.apsconsumodeagua.core.AppModel;
 import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
 import org.example.apsconsumodeagua.services.UsuarioService;
+import org.example.apsconsumodeagua.utils.Validadores;
+import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 //(Classe que controla a view Usuario)----------------------------------------------------------------------------------
 public class TabUsuarioController implements Initializable {
+    AppModel appModel = AppModel.getInstance();
     //(Variavel que recebe o usuario logado)----------------------------------------------------------------------------
     final UsuarioModel usuario = UsuarioService.getInstance().getUsuarioLogado();
     @FXML
@@ -33,5 +37,14 @@ public class TabUsuarioController implements Initializable {
         estadoField.setText(usuario.getEstado());
         cidadeField.setText(usuario.getCidade());
         pessoasField.setText(String.valueOf(usuario.getPessoasNaCasa()));
+    }
+
+    @FXML
+    public void atualizarQuantidadeMoradores(){
+        if(Validadores.osCamposEstaoPreenchidosComInteiros(appModel.getRootPane(),pessoasField)){
+            UsuarioModel usuario = UsuarioService.getInstance().getUsuarioLogado();
+            usuario.setPessoasNaCasa(Integer.parseInt(pessoasField.getText()));
+            usuario.setConsumoIdeal(AppConstantes.CONSUMO_IDEAL_POR_PESSOA * 30 * usuario.getPessoasNaCasa());
+        }
     }
 }

@@ -15,6 +15,7 @@ public class UsuarioModel {
     private String estado;
     private String password;
     private int pessoasNaCasa;
+    private double consumoIdeal;
 
     //(Construtor da classe usuario)------------------------------------------------------------------------------------
     public UsuarioModel(String nome, String sobrenome, String email, String cpf, String cep, String endereco, String rua, String numero, String cidade, String estado, String password, int pessoasNaCasa) {
@@ -131,5 +132,13 @@ public class UsuarioModel {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public double getConsumoIdeal() {
+        return consumoIdeal;
+    }
+
+    public void setConsumoIdeal(double consumoIdeal) {
+        this.consumoIdeal = consumoIdeal;
     }
 }

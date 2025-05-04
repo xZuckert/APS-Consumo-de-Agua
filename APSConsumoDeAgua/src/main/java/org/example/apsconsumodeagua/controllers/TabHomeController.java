@@ -2,12 +2,14 @@ package org.example.apsconsumodeagua.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.core.AppModel;
 import org.example.apsconsumodeagua.managers.GraficoManager;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
+import org.example.apsconsumodeagua.services.UsuarioService;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.UIUtils;
 
@@ -29,6 +31,8 @@ public class TabHomeController {
     public ComboBox<String> boxGraficos,boxMeses,boxAnos;
     @FXML
     public TextField consumoField;
+    @FXML
+    public Label mediaGrafico, dicaConsumo;
 
     //(Função que coleta os dados da tela de registro de consumo)-------------------------------------------------------
     @FXML
@@ -69,6 +73,8 @@ public class TabHomeController {
 
     //(Função chamada para selecionar o grafico na Home)----------------------------------------------------------------
     public void selecionarGrafico(String ano) {
+        mediaGrafico.setText(String.valueOf(manager.getMedia(ano)));
+        mostrarMensagemDeConsumo(ano);
         GraficoModel grafico = manager.getGrafico(ano);
         if (grafico != null) {
             paneGraficoTemplate.getChildren().clear();
@@ -77,6 +83,17 @@ public class TabHomeController {
             boxGraficos.selectionModelProperty().get().select(ano);
         }
     }
+
+    private void mostrarMensagemDeConsumo(String ano){
+        if (manager.getGrafico(ano) != null) {
+            if (manager.getMedia(ano) < UsuarioService.getInstance().getUsuarioLogado().getConsumoIdeal()) {
+                dicaConsumo.setText("Parabens você está dentro do consumo ideal de água.");
+            } else if (manager.getMedia(ano) > UsuarioService.getInstance().getUsuarioLogado().getConsumoIdeal()) {
+                dicaConsumo.setText("Atenção!! Você precisa economizar água.");
+            }
+        }
+    }
+
 
     //(Funções chamadas para atualizar os valores nos ComboBox)---------------------------------------------------------
     public void atualizarBoxGraficos() {
