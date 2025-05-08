@@ -1,18 +1,22 @@
 package org.example.apsconsumodeagua.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.apsconsumodeagua.Application;
+import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
 import org.example.apsconsumodeagua.database.UsuarioLoginDAO;
+import org.example.apsconsumodeagua.dtos.usuario.UsuarioGraficoDTO;
 import org.example.apsconsumodeagua.dtos.usuario.UsuarioRequestDTO;
 import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
 import org.example.apsconsumodeagua.services.UsuarioService;
@@ -23,7 +27,9 @@ import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -56,17 +62,17 @@ public class LoginController implements Initializable {
     }
 
     public void login(ActionEvent event) throws IOException {
+        //verifica se o cpf e senha existem no Banco de Dados-----------------------------------------------------------
         if (Validadores.osCamposEstaoPreenchidos(paneInterface, cpfLoginField, senhaLoginField)) {
-            //verifica se o cpf e senha existem no Banco de Dados
             UsuarioRequestDTO objUsuarioRequestDTO = new UsuarioRequestDTO();
             objUsuarioRequestDTO.setCpf(cpfLoginField.getText());
             objUsuarioRequestDTO.setPassword(senhaLoginField.getText());
             UsuarioLoginDAO objUsuarioLoginDAO = new UsuarioLoginDAO();
+            //puxa os dados do usuário no Banco de Dados----------------------------------------------------------------
             if (objUsuarioLoginDAO.autenticacaoUsuario(objUsuarioRequestDTO)) {
-                List<UsuarioRequestDTO> dadosUsuario = UsuarioLoginDAO.getDadosTeste(objUsuarioRequestDTO.getCpf());
+                List<UsuarioRequestDTO> dadosUsuario = UsuarioLoginDAO.getDados(objUsuarioRequestDTO.getCpf());
 
                 UsuarioRequestDTO usuario = dadosUsuario.get(0);
-
                 String nome = usuario.getNome();
                 String sobrenome = usuario.getSobrenome();
                 String email = usuario.getEmail();
@@ -80,13 +86,18 @@ public class LoginController implements Initializable {
                 String estado = usuario.getEstado();
                 int pessoas = usuario.getPessoasNaCasa();
 
-                //Executar login
+                //puxa os dados do gráfico no Banco de Dados------------------------------------------------------------
+                Map<String, ObservableList<XYChart.Data<String, Number>>> dadosGrafico = UsuarioGraficoDAO.dadosGraficoDB(objUsuarioRequestDTO.getCpf());
+                System.out.println(dadosGrafico);
+
+                //Executar login----------------------------------------------------------------------------------------
                 usuarioService.setUsuarioLogado(new UsuarioModel(nome, sobrenome, email, cpf, cep, bairro, rua, numero, cidade, estado, senha, pessoas));
                 FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/Aplicacao.fxml"));
                 Scene novaCena = new Scene(novaTela.load());
                 Stage palco = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 palco.setScene(novaCena);
                 palco.show();
+                //------------------------------------------------------------------------------------------------------
             } else {
                 Toast.mostrarToast(paneInterface, "CPF ou Senha incorretos", ToastEnum.ERRO);
             }

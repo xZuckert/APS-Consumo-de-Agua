@@ -1,11 +1,9 @@
 package org.example.apsconsumodeagua.database;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.dtos.usuario.UsuarioRequestDTO;
-import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.encryptor.PasswordVerifier;
-import org.example.apsconsumodeagua.utils.enums.ToastEnum;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ public class UsuarioLoginDAO {
         return false;
     }
 
-    public static List<UsuarioRequestDTO> getDadosTeste(String cpf) {
+    public static List<UsuarioRequestDTO> getDados(String cpf) {
         List<UsuarioRequestDTO> todosDados = new ArrayList<>();
         try {
             Connection conexao = DatabaseConnection.getConexao();
