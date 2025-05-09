@@ -3,7 +3,7 @@ package org.example.apsconsumodeagua.models.usuario;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-//(Classe modelo de usuario)--------------------------------------------------------------------------------------------
+//Classe modelo de usuario----------------------------------------------------------------------------------------------
 public class UsuarioModel {
     private Long id;
     private String nome;
@@ -19,8 +19,7 @@ public class UsuarioModel {
     private String password;
     private int pessoasNaCasa;
     private final DoubleProperty consumoIdeal = new SimpleDoubleProperty();
-
-    //(Construtor da classe usuario)------------------------------------------------------------------------------------
+    //Construtor da classe usuario--------------------------------------------------------------------------------------
     public UsuarioModel(String nome, String sobrenome, String email, String cpf, String cep, String endereco, String rua, String numero, String cidade, String estado, String password, int pessoasNaCasa) {
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -35,8 +34,7 @@ public class UsuarioModel {
         this.password = password;
         this.pessoasNaCasa = pessoasNaCasa;
     }
-
-    //(Funções para manipular os dados do usuario)----------------------------------------------------------------------
+    //Funções para manipular os dados do usuario------------------------------------------------------------------------
     public Long getId() {
         return id;
     }
@@ -144,7 +142,9 @@ public class UsuarioModel {
     public void setConsumoIdeal(double consumoIdeal) {
         this.consumoIdeal.set(consumoIdeal);
     }
+
     public DoubleProperty consumoIdealProperty() {
         return consumoIdeal;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

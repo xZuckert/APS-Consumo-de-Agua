@@ -8,10 +8,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.core.AppModel;
-import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
 import org.example.apsconsumodeagua.managers.GraficoManager;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
-import org.example.apsconsumodeagua.services.UsuarioService;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.UIUtils;
 import org.example.apsconsumodeagua.utils.Validadores;
@@ -31,19 +29,18 @@ public class TabGraficosController implements Initializable {
     public AnchorPane contentTabGraficos;
     @FXML
     public TabPane tabPaneGraficos;
+    //Inicializa os gráficos--------------------------------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tipoGrafico.getItems().addAll(TipoGrafico.values());
         tipoGrafico.getSelectionModel().selectFirst();
     }
-
     //Função chamada para adicionar novos tabs--------------------------------------------------------------------------
     private void criarTab(String titulo, Node conteudo){
         Tab tab = new Tab(titulo);
         tab.setContent(conteudo);
         tabPaneGraficos.getTabs().add(tab);
     }
-
     //Função chamada para adicionar novos graficos nos tabs-------------------------------------------------------------
     public void adicionarGraficoNaTab(String ano,AnchorPane paneInterface) {
         GraficoModel grafico = manager.getGrafico(ano);

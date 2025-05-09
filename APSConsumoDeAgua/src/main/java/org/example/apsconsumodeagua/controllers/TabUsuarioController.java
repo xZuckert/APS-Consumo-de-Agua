@@ -23,7 +23,6 @@ public class TabUsuarioController implements Initializable {
     public AnchorPane contentTabUsuario;
     @FXML
     public TextField nomeField,sobrenomeField,cpfField,emailField,cepField, bairroField, ruaField, numeroField,estadoField,cidadeField,pessoasField;
-
     //Função chamada ao iniciar o fxml de usuario-----------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

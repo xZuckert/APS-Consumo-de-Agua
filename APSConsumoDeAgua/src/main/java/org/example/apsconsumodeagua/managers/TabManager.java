@@ -7,25 +7,25 @@ import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.UIUtils;
 import org.example.apsconsumodeagua.utils.constantes.TabId;
 
-//(Classe para manipular a navegação do app)----------------------------------------------------------------------------
+//Classe para manipular a navegação do app------------------------------------------------------------------------------
 public class TabManager {
     private final AppModel appModel = AppModel.getInstance();
     private final ToggleButton tabUsuario, tabHome, tabGraficos;
     private String antigoId;
-
-    //(Construtor da classe)--------------------------------------------------------------------------------------------
+    //Construtor da classe----------------------------------------------------------------------------------------------
     public TabManager(ToggleButton tabUsuario, ToggleButton tabHome, ToggleButton tabGraficos) {
         antigoId = TabId.TAB_HOME;
         this.tabUsuario = tabUsuario;
         this.tabHome = tabHome;
         this.tabGraficos = tabGraficos;
     }
-
+    //Define a inicialização na Tab Home--------------------------------------------------------------------------------
     public void inicializarComTabInicial(String id) {
         appModel.getRootPane().getChildren().addFirst(appModel.getTela(id));
         String tabId = getTabIdPeloCaminhoFxml(id);
         alterarBotaoSelecionado(tabId);
     }
+    //Função para alternar entre as Tabs no aplicativo------------------------------------------------------------------
     public void alternarAba(ToggleButton toggleButton) {
         String id = toggleButton.getId();
         appModel.getTabHomeController().esconderPaneAdicionarConsumo();
@@ -87,7 +87,7 @@ public class TabManager {
             }
         }
     }
-
+    //Puxa o id da Tab atual pelo caminho do codigo FXML----------------------------------------------------------------
     private String getTabIdPeloCaminhoFxml(String caminhoFxml) {
         return switch (caminhoFxml) {
             case CaminhoFxml.TAB_USUARIO -> TabId.TAB_USUARIO;
@@ -96,4 +96,5 @@ public class TabManager {
             default -> null;
         };
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

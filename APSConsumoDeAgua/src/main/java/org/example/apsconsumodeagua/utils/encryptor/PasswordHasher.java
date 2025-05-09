@@ -19,7 +19,6 @@ public class PasswordHasher {
         String salt = BCrypt.gensalt(WORK_FACTOR);
         return BCrypt.hashpw(plainPassword, salt);
     }
-
     public String hashPasswordWithDefaults(String plainPassword) {
         if (plainPassword == null || plainPassword.isEmpty()) {
             throw new IllegalArgumentException("A senha não pode ser nula ou vazia.");
@@ -27,4 +26,5 @@ public class PasswordHasher {
         // Usa BCrypt.gensalt() sem argumentos para o work factor padrão (geralmente 10)
         return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

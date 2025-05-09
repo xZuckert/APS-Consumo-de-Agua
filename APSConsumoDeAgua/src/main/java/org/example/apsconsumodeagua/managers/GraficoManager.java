@@ -15,18 +15,16 @@ import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
 import java.util.*;
 
-//(Classe para manipular os dados dos graficos)--------------------------------------------------------------------------
+//Classe para manipular os dados dos graficos---------------------------------------------------------------------------
 public class GraficoManager {
     public final Map<String, ObservableList<XYChart.Data<String,Number>>> valores = new HashMap<>();
     private final Map<String, GraficoModel> graficos = new HashMap<>();
     private final UsuarioModel usuario;
     private boolean graficosCarregados;
-
     GraficoFactory factory;
     TabGraficosController tabGraficosController;
     AnchorPane rootPane;
-
-
+    //Define o Construtor do gráfico------------------------------------------------------------------------------------
     public GraficoManager(GraficoFactory factory, TabGraficosController tabGraficosController, AnchorPane rootPane) {
         usuario = UsuarioService.getInstance().getUsuarioLogado();
         this.factory = factory;
@@ -34,8 +32,7 @@ public class GraficoManager {
         this.rootPane = rootPane;
         graficosCarregados = true;
     }
-
-    //(função chamada para gerar novos graficos e vincular com os dados)------------------------------------------------
+    //função chamada para gerar novos graficos e vincular com os dados--------------------------------------------------
     public void gerarGrafico(String ano, TipoGrafico tipoGrafico) {
         if (graficosCarregados && !valores.containsKey(ano)) {
             valores.put(ano, gerarValoresIniciais(tipoGrafico));
@@ -44,7 +41,7 @@ public class GraficoManager {
         graficos.get(ano).getData().add(gerarDadosConsumoIdeal());
         UsuarioGraficoDAO.criarGraficoDB(usuario.getCpf(),ano);
     }
-
+    //Alterna o modelo do gráfico---------------------------------------------------------------------------------------
     public void trocarTipoGrafico(TipoGrafico tipoGrafico){
         int quantiaGraficos = graficos.size();
         String[] anos = graficos.keySet().toArray(new String[quantiaGraficos]);
@@ -55,19 +52,17 @@ public class GraficoManager {
             graficos.put(anos[i],grafico);
         }
     }
-
-    //(Função chamadas para atualizar dados)----------------------------------------------------------------------------
+    //Função chamadas para atualizar dados------------------------------------------------------------------------------
     public void atualizarDados(String ano,String mes, int consumo) {
         for (XYChart.Data<String, Number> dado : valores.get(ano)) {
-            if(dado.getXValue().equals(mes)) {
+            if (dado.getXValue().equals(mes)) {
                 dado.setYValue(consumo);
             }
         }
         graficos.get(ano).atualizarYAxis();
         UsuarioGraficoDAO.atualizarGraficoDB(usuario.getCpf(), ano);
     }
-
-    //(Funções chamadas para gerar dados iniciais)----------------------------------------------------------------------
+    //Funções chamadas para gerar dados iniciais------------------------------------------------------------------------
     public ObservableList<XYChart.Data<String,Number>> gerarValoresIniciais(TipoGrafico tipoGrafico) {
         ObservableList<XYChart.Data<String,Number>> dados = FXCollections.observableArrayList();
         switch (tipoGrafico) {
@@ -77,6 +72,7 @@ public class GraficoManager {
         }
         return dados;
     }
+    //Gera os dados dos tipos de gráfico--------------------------------------------------------------------------------
     private void gerarDadosArea(ObservableList<XYChart.Data<String,Number>> dados) {
         for(String mes : AppConstantes.MESES){
             dados.add(new XYChart.Data<>(mes,0));
@@ -92,16 +88,15 @@ public class GraficoManager {
             dados.add(new XYChart.Data<>(mes,0));
         }
     }
+    //Função para gerar o os dados do calculo de consumo ideal----------------------------------------------------------
     private XYChart.Series<String, Number> gerarDadosConsumoIdeal() {
         ObservableList<XYChart.Data<String, Number>> dados = FXCollections.observableArrayList();
         XYChart.Series<String, Number> series = new XYChart.Series<>(dados);
         series.setName("Consumo Ideal");
-
         if (Objects.requireNonNull(UsuarioService.getInstance().getTipoGrafico()) == TipoGrafico.BARRA) {
             XYChart.Data<String, Number> dadoUnico = new XYChart.Data<>("Consumo Ideal", usuario.getConsumoIdeal());
             dados.add(dadoUnico);
             usuario.consumoIdealProperty().addListener((obs, oldVal, newVal) -> dadoUnico.setYValue(newVal));
-
             for (String mes : AppConstantes.MESES) {
                 dados.add(new XYChart.Data<>(mes, 0));
             }
@@ -112,33 +107,26 @@ public class GraficoManager {
                 usuario.consumoIdealProperty().addListener((obs, oldVal, newVal) -> dado.setYValue(newVal));
             }
         }
-
         return series;
     }
-
-
-    //(Função para atualizar os dados do grafico template)--------------------------------------------------------------
+    //Função para atualizar os dados do grafico template----------------------------------------------------------------
     public ObservableList<XYChart.Data<String, Number>> clonarSerie(String ano) {
         XYChart.Series<String, Number> serieOriginal = graficos.get(ano).getSeries();
         ObservableList<XYChart.Data<String, Number>> novaData = FXCollections.observableArrayList();
-
         for (XYChart.Data<String, Number> dado : serieOriginal.getData()) {
             novaData.add(new XYChart.Data<>(dado.getXValue(), dado.getYValue()));
         }
-
         return novaData;
     }
     public GraficoModel clonarGrafico(String ano) {
         GraficoModel grafico = graficos.get(ano);
         if (grafico == null) return null;
-
         ObservableList<XYChart.Data<String, Number>> dadosClonados = clonarSerie(ano);
         GraficoModel graficoClone = factory.criarGrafico(ano,dadosClonados,grafico.getTipoGrafico());
         graficoClone.getData().add(gerarDadosConsumoIdeal());
         return graficoClone;
     }
-
-    //(Funções chamadas para pegar dados e graficos)--------------------------------------------------------------------
+    //Funções chamadas para pegar dados e graficos----------------------------------------------------------------------
     public Set<String> getAnos() {
         return graficos.keySet();
     }
@@ -169,5 +157,5 @@ public class GraficoManager {
     public void setGraficosCarregados(boolean carregar) {
         this.graficosCarregados = carregar;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }
-

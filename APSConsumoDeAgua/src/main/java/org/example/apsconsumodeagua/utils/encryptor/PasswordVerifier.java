@@ -1,16 +1,14 @@
 package org.example.apsconsumodeagua.utils.encryptor;
 
 import org.mindrot.jbcrypt.BCrypt;
-
+//Classe que faz a verificação da senha do usuário----------------------------------------------------------------------
 public class PasswordVerifier {
-
     public boolean verifyPassword(String plainPassword, String hashedPassword) {
         if (plainPassword == null || plainPassword.isEmpty() || hashedPassword == null || hashedPassword.isEmpty()) {
             // Ou lançar uma exceção, dependendo da sua lógica de tratamento de erros.
             System.err.println("Senha ou hash inválidos para verificação.");
             return false;
         }
-
         try {
             // BCrypt.checkpw extrai automaticamente o salt do hashedPassword,
             // hasheia o plainPassword com esse salt e compara os resultados.
@@ -21,4 +19,5 @@ public class PasswordVerifier {
             return false;
         }
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

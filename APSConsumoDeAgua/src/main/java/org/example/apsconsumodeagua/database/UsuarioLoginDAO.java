@@ -3,6 +3,7 @@ package org.example.apsconsumodeagua.database;
 import javafx.fxml.FXML;
 import org.example.apsconsumodeagua.dtos.usuario.UsuarioRequestDTO;
 import org.example.apsconsumodeagua.utils.encryptor.PasswordVerifier;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +40,8 @@ public class UsuarioLoginDAO {
                      "WHERE usuario.cpf = ?";
         try(Connection conexao = DatabaseConnection.getConexao();
             PreparedStatement pstm = conexao.prepareStatement(sql)){
-
             pstm.setString(1, cpf);
             ResultSet rs = pstm.executeQuery();
-
             while (rs.next()) {
                 UsuarioRequestDTO usuarioRequestLoginDTO = new UsuarioRequestDTO();
                 usuarioRequestLoginDTO.setNome(rs.getString("nome"));
@@ -68,7 +67,6 @@ public class UsuarioLoginDAO {
     public static void registrarDados(String nome, String sobrenome, String email, String cpf, String cep, String bairro,
         String rua, String numero, String cidade, String estado, String senha, int pessoas) {
         String sqlCep = "insert into cep values ( ?, ?, ?, ?, ?);";
-
         try(Connection conexao = DatabaseConnection.getConexao();
             PreparedStatement pstmCep = conexao.prepareStatement(sqlCep)) {
             pstmCep.setString(1, cep);

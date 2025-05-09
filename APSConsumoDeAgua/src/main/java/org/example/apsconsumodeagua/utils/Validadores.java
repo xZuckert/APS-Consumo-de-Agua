@@ -7,7 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 
+//Classe de validadores da aplicação------------------------------------------------------------------------------------
 public class Validadores {
+    //Validador para verificar se as Tabs existem-----------------------------------------------------------------------
     public static boolean tabExiste(String ano, TabPane tabPane) {
         for (Tab tab : tabPane.getTabs()) {
             if (tab.getText().equals(ano)) {
@@ -16,6 +18,7 @@ public class Validadores {
         }
         return false;
     }
+    //Validador para verificar se os campos estão preenchidos-----------------------------------------------------------
     public static boolean osCamposEstaoPreenchidos(AnchorPane anchorPane, TextField ... fields) {
         for (TextField textField : fields) {
             if (textField.getText() == null || textField.getText().trim().isEmpty()) {
@@ -25,6 +28,7 @@ public class Validadores {
         }
         return true;
     }
+    //Validador pra verificar dois campos são iguais--------------------------------------------------------------------
     public static boolean osCamposSaoIguais(AnchorPane anchorPane, TextField ... fields) {
         if (fields.length < 2) {
             return true;
@@ -43,6 +47,7 @@ public class Validadores {
         }
         return true;
     }
+    //Validador para verificar se os campos foram preenchidos apenas com números inteiros-------------------------------
     public static boolean osCamposEstaoPreenchidosComInteiros(AnchorPane anchorPane, TextField ... fields) {
             osCamposEstaoPreenchidos(anchorPane, fields);
         for (TextField textField : fields) {
@@ -53,5 +58,5 @@ public class Validadores {
         }
         return true;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }
-

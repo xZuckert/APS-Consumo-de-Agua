@@ -7,9 +7,10 @@ import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+//Classe com utilitarios para o código----------------------------------------------------------------------------------
 public class UIUtils {
     public enum direcao {DE_BAIXO_PRA_CIMA, DE_CIMA_PRA_BAIXO, DA_DIREITA_PRA_ESQUERDA, DA_ESQUERDA_PRA_DIREITA}
-
+    //Função para mostrar um Pane com animação deslizando---------------------------------------------------------------
     public static void mostrarDeslizando(Pane pane, double duracao, direcao direcao) {
         TranslateTransition slideIn = new TranslateTransition(Duration.millis(duracao), pane);
         switch (direcao) {
@@ -34,47 +35,38 @@ public class UIUtils {
                 slideIn.setToX(0);
                 break;
         }
-
         pane.setVisible(true);
-
         ParallelTransition animation = new ParallelTransition(slideIn);
         animation.play();
     }
-
+    //Funções de centralização dos Nodes--------------------------------------------------------------------------------
     public static VBox criarNodeCentralizadoVerticalmente(Node node) {
         VBox vbox = new VBox();
-
         Region espacoTopo = new Region();
         Region espacoBaixo = new Region();
-
         VBox.setVgrow(espacoTopo, javafx.scene.layout.Priority.ALWAYS);
         VBox.setVgrow(espacoBaixo, javafx.scene.layout.Priority.ALWAYS);
         vbox.getChildren().addAll(espacoTopo, node, espacoBaixo);
-
         AnchorPane.setTopAnchor(vbox, 10.0);
         AnchorPane.setBottomAnchor(vbox, 10.0);
         AnchorPane.setLeftAnchor(vbox, 10.0);
         AnchorPane.setRightAnchor(vbox, 10.0);
         return vbox;
     }
-
     private HBox criarNodeCentralizadoHorizontalmente(Node node) {
         HBox hBox = new HBox();
-
         Region espacoEsquerdo = new Region();
         Region espacoDireito = new Region();
-
         HBox.setHgrow(espacoEsquerdo, javafx.scene.layout.Priority.ALWAYS);
         HBox.setHgrow(espacoDireito, javafx.scene.layout.Priority.ALWAYS);
         hBox.getChildren().addAll(espacoEsquerdo, node, espacoDireito);
-
         AnchorPane.setTopAnchor(hBox, 10.0);
         AnchorPane.setBottomAnchor(hBox, 10.0);
         AnchorPane.setLeftAnchor(hBox, 10.0);
         AnchorPane.setRightAnchor(hBox, 10.0);
         return hBox;
     }
-
+    //Cria e retorna um StackPane contendo todos os Nodes passados como argumento---------------------------------------
     public static StackPane addNodeNoStackPane(Node ... nodes) {
         StackPane stackPaneCriado = new StackPane();
         for (Node node : nodes) {
@@ -84,4 +76,5 @@ public class UIUtils {
         }
         return stackPaneCriado;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

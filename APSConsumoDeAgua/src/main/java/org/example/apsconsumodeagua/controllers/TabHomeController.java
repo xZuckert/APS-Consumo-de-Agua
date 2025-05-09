@@ -20,11 +20,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-//(Classe que controla a view Home)-------------------------------------------------------------------------------------
+//Classe que controla a view Home---------------------------------------------------------------------------------------
 public class TabHomeController {
     private final AppModel appModel = AppModel.getInstance();
     GraficoManager manager = appModel.getGraficoManager();
-
     @FXML
     public AnchorPane contentTabHome,adicionarConsumo,paneGraficoTemplate;
     @FXML
@@ -33,8 +32,7 @@ public class TabHomeController {
     public TextField consumoField;
     @FXML
     public Label mediaGrafico, dicaConsumo;
-
-    //(Função que coleta os dados da tela de registro de consumo)-------------------------------------------------------
+    //Função que coleta os dados da tela de registro de consumo---------------------------------------------------------
     @FXML
     public void registrarConsumo() {
         int consumo = Integer.parseInt(consumoField.getText());
@@ -42,7 +40,6 @@ public class TabHomeController {
         String mes = boxMeses.getValue();
         registrarValores(ano,mes,consumo);
     }
-
     //(Função que mostra a tela para o usuario registrar um consumo)----------------------------------------------------
     @FXML
     public void abrirPaneAdicionarConsumo() {
@@ -50,8 +47,7 @@ public class TabHomeController {
             UIUtils.mostrarDeslizando(adicionarConsumo,300, UIUtils.direcao.DE_BAIXO_PRA_CIMA);
         }
     }
-
-    //(Função chamada para criar ou atualizar um grafico)---------------------------------------------------------------
+    //Função chamada para criar ou atualizar um grafico-----------------------------------------------------------------
     private void registrarValores(String ano,String mes,int consumo) {
         if (manager.getGrafico(ano) != null) {
             manager.atualizarDados(ano, mes, consumo);
@@ -64,14 +60,13 @@ public class TabHomeController {
         selecionarGrafico(ano);
         adicionarConsumo.setVisible(false);
     }
-
+    //Alterna a aba de adicionar consumo--------------------------------------------------------------------------------
     public void esconderPaneAdicionarConsumo(){
         if(adicionarConsumo.isVisible()){
             adicionarConsumo.setVisible(false);
         }
     }
-
-    //(Função chamada para selecionar o grafico na Home)----------------------------------------------------------------
+    //Função chamada para selecionar o grafico na Home------------------------------------------------------------------
     public void selecionarGrafico(String ano) {
         mediaGrafico.setText(String.valueOf(manager.getMedia(ano)));
         mostrarMensagemDeConsumo(ano);
@@ -83,7 +78,7 @@ public class TabHomeController {
             boxGraficos.selectionModelProperty().get().select(ano);
         }
     }
-
+    //Exibe a mensagem de como está a média de consumo ideal do usuário-------------------------------------------------
     private void mostrarMensagemDeConsumo(String ano){
         if (manager.getGrafico(ano) != null) {
             if (manager.getMedia(ano) < UsuarioService.getInstance().getUsuarioLogado().getConsumoIdeal()) {
@@ -93,8 +88,6 @@ public class TabHomeController {
             }
         }
     }
-
-
     //(Funções chamadas para atualizar os valores nos ComboBox)---------------------------------------------------------
     public void atualizarBoxGraficos() {
         Set<String> anos = appModel.getGraficoManager().getAnos();
@@ -104,8 +97,10 @@ public class TabHomeController {
             selectionModel.selectLast();
         }
     }
+    //Função para mostrar os meses no ChoiceBox até a data atual--------------------------------------------------------
     public void atualizarBoxMeses(String ano) {
         int limiteMeses = 12;
+        //Condicional que limita até o mês atual caso o usuário esteja cadastrando no ano atual-------------------------
         if (ano.equals(String.valueOf(Year.now().getValue()))) {
             limiteMeses = LocalDate.now().getMonth().getValue();
         }
@@ -113,4 +108,5 @@ public class TabHomeController {
         boxMeses.getItems().setAll(meses);
         boxMeses.setDisable(false);
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

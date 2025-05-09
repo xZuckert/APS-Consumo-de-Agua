@@ -3,6 +3,7 @@ package org.example.apsconsumodeagua.utils.constantes;
 import java.util.HashMap;
 import java.util.Map;
 
+//Classe que define e as constantes do grafico--------------------------------------------------------------------------
 public class AppConstantes {
     private AppConstantes(){}
     public static final Integer VELOCIDADE_ANIMACOES = 300;
@@ -23,4 +24,5 @@ public class AppConstantes {
         put("Nov", 10);
         put("Dez", 11);
     }};
+    //------------------------------------------------------------------------------------------------------------------
 }

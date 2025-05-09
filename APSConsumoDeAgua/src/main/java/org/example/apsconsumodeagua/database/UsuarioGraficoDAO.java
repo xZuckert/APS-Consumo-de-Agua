@@ -28,10 +28,8 @@ public class UsuarioGraficoDAO {
                      "WHERE usuario.cpf = ?";
         try(Connection conexao = DatabaseConnection.getConexao();
             PreparedStatement pstm = conexao.prepareStatement(sql)) {
-
             pstm.setString(1, cpf);
             ResultSet rs = pstm.executeQuery();
-
             manager.setGraficosCarregados(false);
             while (rs.next()) {
                 String ano = rs.getString("ano");
@@ -45,7 +43,6 @@ public class UsuarioGraficoDAO {
                 manager.valores.put(ano, dados);
             }
             manager.setGraficosCarregados(true);
-
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());

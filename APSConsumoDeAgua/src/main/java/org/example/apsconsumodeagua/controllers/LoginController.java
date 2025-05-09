@@ -35,7 +35,6 @@ public class LoginController {
     private final PasswordHasher hasher = new PasswordHasher();
     @FXML
     private TextField nomeField, sobrenomeField, cpfField, emailField, cepField, bairroField, ruaField, numeroField, estadoField, cidadeField, pessoasField, cpfLoginField;
-
     //Alterna as janelas entre Login e Registro-------------------------------------------------------------------------
     public void onBtnCadastrarseClick() {
         vboxLogin.setVisible(false);

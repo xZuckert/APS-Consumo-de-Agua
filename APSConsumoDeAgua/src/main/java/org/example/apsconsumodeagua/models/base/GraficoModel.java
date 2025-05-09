@@ -7,15 +7,14 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
 
-//(Classe base para os graficos)----------------------------------------------------------------------------------------
+//Classe base para os graficos------------------------------------------------------------------------------------------
 public abstract class GraficoModel {
     private final XYChart.Series<String, Number> series;
     private final TipoGrafico tipoGrafico;
     private CategoryAxis xAxis;
     private  NumberAxis yAxis;
     private final String ano;
-
-    //(Construtor da classe)--------------------------------------------------------------------------------------------
+    //Construtor da classe----------------------------------------------------------------------------------------------
     protected GraficoModel(String ano, ObservableList<XYChart.Data<String, Number>> dados, TipoGrafico tipoGrafico) {
         this.ano = ano;
         this.tipoGrafico = tipoGrafico;
@@ -27,8 +26,7 @@ public abstract class GraficoModel {
         configuarAxis();
         atualizarYAxis();
     }
-
-    //(Função para congigurar os eixos do grafico)----------------------------------------------------------------------
+    //Função para congigurar os eixos do grafico------------------------------------------------------------------------
     private void configuarAxis(){
         yAxis().setAutoRanging(false);
         yAxis().setUpperBound(50);
@@ -36,7 +34,6 @@ public abstract class GraficoModel {
         xAxis().setLabel("Mês");
         yAxis().setLabel("Consumo (m³)");
     }
-
     public void atualizarYAxis(){
         double valorMaximoY;
         double maxValor = this.getSeries().getData().stream()
@@ -46,11 +43,9 @@ public abstract class GraficoModel {
         valorMaximoY = Math.ceil(maxValor / 10) * 10 + 10;
         yAxis().setUpperBound(Math.max(valorMaximoY, 50));
     }
-
-    //(Funções para pegar os dados da classe)---------------------------------------------------------------------------
+    //Funções para pegar os dados da classe-----------------------------------------------------------------------------
     public abstract Chart getChart();
     public abstract ObservableList<XYChart.Series<String,Number>> getData();
-
     public XYChart.Series<String, Number> getSeries() {
         return this.series;
     }
@@ -66,4 +61,5 @@ public abstract class GraficoModel {
     public NumberAxis yAxis() {
         return this.yAxis;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

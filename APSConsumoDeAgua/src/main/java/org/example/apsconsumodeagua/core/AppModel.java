@@ -23,46 +23,37 @@ import java.time.Year;
 import java.util.HashMap;
 import java.util.Map;
 
-//(Classe criada para comunicação global da aplicação)------------------------------------------------------------------
+//Classe criada para comunicação global da aplicação--------------------------------------------------------------------
 public class AppModel {
-
-    //(Instancia da classe, ela é criada apenas a primeira vez que é chamada, depois disso sempre chama o mesmo objeto)-
+    //Instancia da classe, ela é criada apenas a primeira vez que é chamada, depois disso sempre chama o mesmo objeto---
     private static AppModel instance;
-
-    //(Map que guarda o caminho e os dados das páginas)-----------------------------------------------------------------
+    //Map que guarda o caminho e os dados das páginas-------------------------------------------------------------------
     private final Map<String, Parent> rotas = new HashMap<>();
-
-    //(Pane principal da aplicação)-------------------------------------------------------------------------------------
+    //Pane principal da aplicação---------------------------------------------------------------------------------------
     private AnchorPane rootPane;
-
     private final UsuarioService usuarioService = UsuarioService.getInstance();
     private String graficoSelecionadoAtual;
     private final GraficoManager graficoManager;
-
-    //(Instancias das classes de manipulação das views)------------------------------------------------------------------
+    //Instancias das classes de manipulação das views-------------------------------------------------------------------
     private TabManager tabManager;
-
     private TabUsuarioController tabUsuarioController;
     private TabHomeController tabHomeController;
     private TabGraficosController tabGraficosController;
-
-    //(Construtor da classe, ela está privada para não ser possível criar novas instancias)-----------------------------
+    //Construtor da classe, ela está privada para não ser possível criar novas instancias-------------------------------
     private AppModel() {
         usuarioService.setTipoGrafico(TipoGrafico.AREA);
-        //(Instancias das classes de manipulação dos graficos)----------------------------------------------------------
+        //Instancias das classes de manipulação dos graficos------------------------------------------------------------
         GraficoFactory graficoFactory = new GraficoFactory();
         graficoManager = new GraficoManager(graficoFactory, tabGraficosController, rootPane);
     }
-
-    //(Primeira função chamada pela aplicação)--------------------------------------------------------------------------
+    //Primeira função chamada pela aplicação----------------------------------------------------------------------------
     public void carregarAplicacao(ToggleButton ... tabs) {
         inicializarTabs(tabs);
         inicializarGraficos();
         inicializarBoxAnos();
         inicializarListeners();
     }
-
-    //(Funções de inicialização)----------------------------------------------------------------------------------------
+    //Funções de inicialização------------------------------------------------------------------------------------------
     private void inicializarTabs(ToggleButton ... tabs) {
         tabManager = new TabManager(tabs[0], tabs[1], tabs[2]);
         tabUsuarioController = carregarFXMLComController(CaminhoFxml.TAB_USUARIO);
@@ -71,6 +62,7 @@ public class AppModel {
         tabManager.inicializarComTabInicial(CaminhoFxml.TAB_HOME);
         tabUsuarioController.atualizarConsumoIdeal();
     }
+    //Cria o grafico na tela inicial ao inicializar o aplicativo--------------------------------------------------------
     private void inicializarGraficos(){
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoManager.getGrafico(anoAtual) == null) {
@@ -91,11 +83,13 @@ public class AppModel {
             });
         }
     }
+    //Função para carregar os anos ao inicializar a aplicação-----------------------------------------------------------
     private void inicializarBoxAnos(){
         for (int i = Year.now().getValue(); i >= Year.now().getValue() - AppConstantes.ANOS_ANTERIORES; i--) {
             tabHomeController.boxAnos.getItems().add(String.valueOf(i));
         }
     }
+    //Carrega os listeners do grafico ao inicializar o aplicativo-------------------------------------------------------
     private void inicializarListeners(){
         tabHomeController.boxAnos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> tabHomeController.atualizarBoxMeses(valorNovo));
         tabHomeController.boxGraficos.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
@@ -111,8 +105,7 @@ public class AppModel {
             tabHomeController.selecionarGrafico(graficoSelecionadoAtual);
         });
     }
-
-    //(Função que carrega as telas e armazena no map rotas)-------------------------------------------------------------
+    //Função que carrega as telas e armazena no map rotas---------------------------------------------------------------
     public <T> T carregarFXMLComController(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -127,12 +120,11 @@ public class AppModel {
         }
         return null;
     }
-
+    //Função para trocar as tabs do inicio do aplicativo----------------------------------------------------------------
     public void trocarTela(String fxmlPath) {
         getRootPane().getChildren().set(0,getTela(fxmlPath));
     }
-
-    //(Funções para pegar instancias)-----------------------------------------------------------------------------------
+    //Funções para pegar instancias-------------------------------------------------------------------------------------
     public GraficoManager getGraficoManager() {
         return this.graficoManager;
     }
@@ -154,20 +146,19 @@ public class AppModel {
     public TabManager getTabManager() {
         return tabManager;
     }
-
-    //(Função que garante a instancia unica da classe)------------------------------------------------------------------
+    //Função que garante a instancia unica da classe--------------------------------------------------------------------
     public static synchronized AppModel getInstance() {
         if (instance == null) {
             instance = new AppModel();
         }
         return instance;
     }
-
-    //(Função que seta o pane principal da aplicação)-------------------------------------------------------------------
+    //Função que seta o pane principal da aplicação---------------------------------------------------------------------
     public void setRootPane(AnchorPane rootPane) {
         this.rootPane = rootPane;
     }
     public UsuarioService getUsuarioService() {
         return usuarioService;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

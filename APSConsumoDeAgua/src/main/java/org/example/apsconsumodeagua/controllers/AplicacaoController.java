@@ -7,27 +7,23 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import org.example.apsconsumodeagua.core.AppModel;
-import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
-import org.example.apsconsumodeagua.services.UsuarioService;
 
 import java.net.URL;
 import java.util.*;
+
 //Classe que controla a view Aplicacao----------------------------------------------------------------------------------
 public class AplicacaoController implements Initializable {
     private final AppModel appModel = AppModel.getInstance();
-
     @FXML
     public ToggleButton tabUsuario, tabHome, tabGraficos;
     @FXML
     private AnchorPane paneInterface;
-
     //Função chamada ao inicializar o fxml------------------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appModel.setRootPane(paneInterface);
         appModel.carregarAplicacao(tabUsuario, tabHome, tabGraficos);
     }
-
     //Função para trocar de tela----------------------------------------------------------------------------------------
     @FXML
     public void trocarTab(ActionEvent event) {
