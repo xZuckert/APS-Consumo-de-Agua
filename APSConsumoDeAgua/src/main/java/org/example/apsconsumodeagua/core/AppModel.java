@@ -11,7 +11,6 @@ import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.managers.TabManager;
 import org.example.apsconsumodeagua.managers.GraficoManager;
-import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
 import org.example.apsconsumodeagua.services.UsuarioService;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;

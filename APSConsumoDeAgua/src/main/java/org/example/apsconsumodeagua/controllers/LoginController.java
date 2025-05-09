@@ -3,7 +3,6 @@ package org.example.apsconsumodeagua.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
@@ -12,50 +11,41 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.apsconsumodeagua.Application;
-import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
 import org.example.apsconsumodeagua.database.UsuarioLoginDAO;
 import org.example.apsconsumodeagua.dtos.usuario.UsuarioRequestDTO;
 import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
 import org.example.apsconsumodeagua.services.UsuarioService;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.Validadores;
+import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
 import org.example.apsconsumodeagua.utils.encryptor.PasswordHasher;
 import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+//Classe responsavel por efetuar o Registro e Login do usuário ao iniciar o aplicativo----------------------------------
+public class LoginController {
     public AnchorPane paneInterface;
     private final UsuarioService usuarioService = UsuarioService.getInstance();
-
     @FXML
     public VBox vboxLogin, vboxRegistrar;
-
     @FXML
     public PasswordField senhaField, confSenhaField, senhaLoginField;
-    private PasswordHasher hasher = new PasswordHasher();
-
+    private final PasswordHasher hasher = new PasswordHasher();
     @FXML
     private TextField nomeField, sobrenomeField, cpfField, emailField, cepField, bairroField, ruaField, numeroField, estadoField, cidadeField, pessoasField, cpfLoginField;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
-    public void onBtnCadastrarseClick(ActionEvent actionEvent) {
+    //Alterna as janelas entre Login e Registro-------------------------------------------------------------------------
+    public void onBtnCadastrarseClick() {
         vboxLogin.setVisible(false);
         vboxRegistrar.setVisible(true);
     }
-
-    public void onBtnLoginRegistrarClick(ActionEvent actionEvent) {
+    public void onBtnLoginRegistrarClick() {
         vboxRegistrar.setVisible(false);
         vboxLogin.setVisible(true);
     }
-
+    //Faz o login do usuário--------------------------------------------------------------------------------------------
     public void login(ActionEvent event) throws IOException {
         //verifica se o cpf e senha existem no Banco de Dados-----------------------------------------------------------
         if (Validadores.osCamposEstaoPreenchidos(paneInterface, cpfLoginField, senhaLoginField)) {
@@ -66,8 +56,7 @@ public class LoginController implements Initializable {
             //puxa os dados do usuário no Banco de Dados----------------------------------------------------------------
             if (objUsuarioLoginDAO.autenticacaoUsuario(objUsuarioRequestDTO)) {
                 List<UsuarioRequestDTO> dadosUsuario = UsuarioLoginDAO.getDados(objUsuarioRequestDTO.getCpf());
-
-                UsuarioRequestDTO usuario = dadosUsuario.get(0);
+                UsuarioRequestDTO usuario = dadosUsuario.getFirst();
                 String nome = usuario.getNome();
                 String sobrenome = usuario.getSobrenome();
                 String email = usuario.getEmail();
@@ -80,26 +69,21 @@ public class LoginController implements Initializable {
                 String cidade = usuario.getCidade();
                 String estado = usuario.getEstado();
                 int pessoas = usuario.getPessoasNaCasa();
-
-                //puxa os dados do gráfico no Banco de Dados------------------------------------------------------------
-                //Executar login----------------------------------------------------------------------------------------
+                //Executa o login---------------------------------------------------------------------------------------
                 usuarioService.setUsuarioLogado(new UsuarioModel(nome, sobrenome, email, cpf, cep, bairro, rua, numero, cidade, estado, senha, pessoas));
-                FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/Aplicacao.fxml"));
-                Scene novaCena = new Scene(novaTela.load());
-                Stage palco = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                palco.setScene(novaCena);
-                palco.show();
-                //------------------------------------------------------------------------------------------------------
+                carregarTelaAplicacao(event);
             } else {
                 Toast.mostrarToast(paneInterface, "CPF ou Senha incorretos", ToastEnum.ERRO);
             }
         }
     }
-
-    public void registrar(ActionEvent event) throws IOException {
+    //Faz o registro do usuário-----------------------------------------------------------------------------------------
+    public void registrar(ActionEvent event){
+        //Verifica se todos os campos estão estão preenchidos da maneira correta----------------------------------------
         if (Validadores.osCamposEstaoPreenchidos(paneInterface, nomeField, sobrenomeField, emailField, cpfField, cepField, bairroField, ruaField, numeroField, estadoField, pessoasField)) {
             if (!Validadores.osCamposSaoIguais(paneInterface, senhaField, confSenhaField)) return;
             if (!Validadores.osCamposEstaoPreenchidosComInteiros(paneInterface, pessoasField)) return;
+            //Pega o registro e adiciona ao banco de dados--------------------------------------------------------------
             try {
                 String nome = nomeField.getText();
                 String sobrenome = sobrenomeField.getText();
@@ -115,16 +99,20 @@ public class LoginController implements Initializable {
                 String senhaGerada = hasher.hashPassword(senha);
                 int pessoas = Integer.parseInt(pessoasField.getText());
                 UsuarioLoginDAO.registrarDados(nome, sobrenome, email, cpf, cep, bairro, rua, numero, cidade, estado, senhaGerada, pessoas);
-
+                //Efetua o login----------------------------------------------------------------------------------------
                 usuarioService.setUsuarioLogado(new UsuarioModel(nome, sobrenome, email, cpf, cep, bairro, rua, numero, cidade, estado, senha, pessoas));
-                FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/Aplicacao.fxml"));
-                Scene novaCena = new Scene(novaTela.load());
-                Stage palco = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                palco.setScene(novaCena);
-                palco.show();
+                carregarTelaAplicacao(event);
             } catch (Exception e) {
                 Toast.mostrarToast(paneInterface, "Erro no cadastro", ToastEnum.ERRO);
             }
         }
     }
+    private void carregarTelaAplicacao(ActionEvent event) throws IOException {
+        FXMLLoader novaTela = new FXMLLoader(Application.class.getResource(CaminhoFxml.APLICACAO));
+        Scene novaCena = new Scene(novaTela.load());
+        Stage palco = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        palco.setScene(novaCena);
+        palco.show();
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }

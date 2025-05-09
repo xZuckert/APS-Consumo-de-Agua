@@ -10,25 +10,26 @@ import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+//Classe responsável pelo acesso e persistência dos dados do grafico do usuário integrada com o banco de dados----------
 public class UsuarioGraficoDAO {
     private final static AppModel appModel = AppModel.getInstance();
     private final static GraficoManager manager = appModel.getGraficoManager();
     public static Map<String, double[]> dados = new HashMap<>();
-
+    //Pega os dados do grafico do usuario no banco de dados e insere no aplicativo local--------------------------------
     public static void getDadosUsuarioGraficoDB(String cpf) {
-        try {
-            Connection conexao = DatabaseConnection.getConexao();
-            String sql = "SELECT grafico.ano, grafico.janeiro, grafico.fevereiro, grafico.março, grafico.abril, grafico.maio, grafico.junho,\n" +
-                    "grafico.julho, grafico.agosto, grafico.setembro, grafico.outubro, grafico.novembro, grafico.dezembro\n" +
-                    "FROM grafico\n" +
-                    "JOIN usuario ON grafico.cpfUsuario = usuario.cpf\n" +
-                    "WHERE usuario.cpf = ?";
-            PreparedStatement pstm = conexao.prepareStatement(sql);
-            pstm.setString(1, cpf);
+        String sql = "SELECT grafico.ano, grafico.janeiro, grafico.fevereiro, grafico.março, grafico.abril, grafico.maio, grafico.junho,\n" +
+                     "grafico.julho, grafico.agosto, grafico.setembro, grafico.outubro, grafico.novembro, grafico.dezembro\n" +
+                     "FROM grafico\n" +
+                     "JOIN usuario ON grafico.cpfUsuario = usuario.cpf\n" +
+                     "WHERE usuario.cpf = ?";
+        try(Connection conexao = DatabaseConnection.getConexao();
+            PreparedStatement pstm = conexao.prepareStatement(sql)) {
 
+            pstm.setString(1, cpf);
             ResultSet rs = pstm.executeQuery();
 
             manager.setGraficosCarregados(false);
@@ -50,7 +51,7 @@ public class UsuarioGraficoDAO {
             System.out.println(e.getMessage());
         }
     }
-
+    //Recebe os dados do banco de dados e transforma no tipo de dado usado nos graficos---------------------------------
     private static ObservableList<XYChart.Data<String, Number>> gerarDados(double... consumos) {
         ObservableList<XYChart.Data<String, Number>> dados = FXCollections.observableArrayList();
         String[] MESES = AppConstantes.MESES;
@@ -59,10 +60,12 @@ public class UsuarioGraficoDAO {
         }
         return dados;
     }
-
+    //Puxa os valores de cada mes do ano--------------------------------------------------------------------------------
     public static double[] getDados(String ano) {
         double[] dados = new double[12];
-        for (XYChart.Data<String, Number> dado : manager.valores.get(ano)) {
+        ObservableList<XYChart.Data<String, Number>> valores = manager.valores.get(ano);
+        if (valores == null) return dados;
+        for (XYChart.Data<String, Number> dado : valores) {
             if (dado.getYValue() != null) {
                 Integer index = AppConstantes.MES_INDEX.get(dado.getXValue());
                 dados[index] = dado.getYValue().intValue();
@@ -70,92 +73,48 @@ public class UsuarioGraficoDAO {
         }
         return dados;
     }
+    //Criar um grafico no banco de dados com os valores que foram puxados-----------------------------------------------
     public static void criarGraficoDB(String cpf, String ano){
-        double[] meses = getDados(ano);
-        double jan = meses[0];
-        double fev = meses[1];
-        double mar = meses[2];
-        double abr = meses[3];
-        double mai = meses[4];
-        double jun = meses[5];
-        double jul = meses[6];
-        double ago = meses[7];
-        double set = meses[8];
-        double out = meses[9];
-        double nov = meses[10];
-        double dez = meses[11];
-        try {
-            Connection conexao = DatabaseConnection.getConexao();
-            String sql = "INSERT INTO grafico " +
-                    "(cpfUsuario,ano,janeiro,fevereiro,março,abril,maio,junho,julho,agosto,setembro,outubro,novembro,dezembro)" +
-                    "SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? " +
-                    "WHERE NOT EXISTS (" +
-                    "    SELECT 1 FROM grafico WHERE cpfUsuario = ? AND ano = ?" +
-                    ")";
-            PreparedStatement pstmGrafico = conexao.prepareStatement(sql);
-            pstmGrafico.setString(1, cpf);
-            pstmGrafico.setString(2, ano);
-            pstmGrafico.setDouble(3, jan);
-            pstmGrafico.setDouble(4, fev);
-            pstmGrafico.setDouble(5, mar);
-            pstmGrafico.setDouble(6, abr);
-            pstmGrafico.setDouble(7, mai);
-            pstmGrafico.setDouble(8, jun);
-            pstmGrafico.setDouble(9, jul);
-            pstmGrafico.setDouble(10, ago);
-            pstmGrafico.setDouble(11, set);
-            pstmGrafico.setDouble(12, out);
-            pstmGrafico.setDouble(13, nov);
-            pstmGrafico.setDouble(14, dez);
-            pstmGrafico.setString(15, cpf);
-            pstmGrafico.setString(16, ano);
-            pstmGrafico.executeUpdate();
+        String sql = "INSERT INTO grafico " +
+                     "(cpfUsuario,ano,janeiro,fevereiro,março,abril,maio,junho,julho,agosto,setembro,outubro,novembro,dezembro)" +
+                     "SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? " +
+                     "WHERE NOT EXISTS (" +
+                     "    SELECT 1 FROM grafico WHERE cpfUsuario = ? AND ano = ?" +
+                     ")";
+        try (Connection conexao = DatabaseConnection.getConexao();
+             PreparedStatement pstm = conexao.prepareStatement(sql)){
+            pstm.setString(1, cpf);
+            pstm.setString(2, ano);
+            setMesesStatement(pstm,getDados(ano),3);
+            pstm.setString(15, cpf);
+            pstm.setString(16, ano);
+            pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
     }
-
+    //Atualiza os valores dos meses no banco de dados pelos inseridos pelo usuario local--------------------------------
     public static void atualizarGraficoDB(String cpf, String ano) {
-        double[] meses = getDados(ano);
-        double jan = meses[0];
-        double fev = meses[1];
-        double mar = meses[2];
-        double abr = meses[3];
-        double mai = meses[4];
-        double jun = meses[5];
-        double jul = meses[6];
-        double ago = meses[7];
-        double set = meses[8];
-        double out = meses[9];
-        double nov = meses[10];
-        double dez = meses[11];
-        try {
-            Connection conexao = DatabaseConnection.getConexao();
-            String sql = "UPDATE grafico " +
-                         "SET janeiro = ?, fevereiro = ?, março = ?, abril = ?, maio = ?, junho = ?, julho = ?, " +
-                         "agosto = ?, setembro = ?, outubro = ?, novembro = ?, dezembro = ?" +
-                         "where cpfUsuario = ? AND ano = ?";
-
-            PreparedStatement pstmGrafico = conexao.prepareStatement(sql);
-            pstmGrafico.setDouble(1, jan);
-            pstmGrafico.setDouble(2, fev);
-            pstmGrafico.setDouble(3, mar);
-            pstmGrafico.setDouble(4, abr);
-            pstmGrafico.setDouble(5, mai);
-            pstmGrafico.setDouble(6, jun);
-            pstmGrafico.setDouble(7, jul);
-            pstmGrafico.setDouble(8, ago);
-            pstmGrafico.setDouble(9, set);
-            pstmGrafico.setDouble(10, out);
-            pstmGrafico.setDouble(11, nov);
-            pstmGrafico.setDouble(12, dez);
-            pstmGrafico.setString(13, cpf);
-            pstmGrafico.setString(14, ano);
-            pstmGrafico.executeUpdate();
+        String sql = "UPDATE grafico " +
+                     "SET janeiro = ?, fevereiro = ?, março = ?, abril = ?, maio = ?, junho = ?, julho = ?, " +
+                     "agosto = ?, setembro = ?, outubro = ?, novembro = ?, dezembro = ?" +
+                     "where cpfUsuario = ? AND ano = ?";
+        try (Connection conexao = DatabaseConnection.getConexao();
+             PreparedStatement pstm = conexao.prepareStatement(sql)){
+            setMesesStatement(pstm,getDados(ano),1);
+            pstm.setString(13, cpf);
+            pstm.setString(14, ano);
+            pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
     }
+    private static void setMesesStatement(PreparedStatement pstm, double[] meses, int offset) throws SQLException {
+        for (int i = 0; i < 12; i++) {
+            pstm.setDouble(i + offset, meses[i]);
+        }
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }

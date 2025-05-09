@@ -21,7 +21,7 @@ import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-//(Classe que controla a view Graficos)---------------------------------------------------------------------------------
+//Classe que controla a view Graficos-----------------------------------------------------------------------------------
 public class TabGraficosController implements Initializable {
     AppModel appModel = AppModel.getInstance();
     GraficoManager manager = appModel.getGraficoManager();
@@ -37,14 +37,14 @@ public class TabGraficosController implements Initializable {
         tipoGrafico.getSelectionModel().selectFirst();
     }
 
-    //(Função chamada para adicionar novos tabs)------------------------------------------------------------------------
+    //Função chamada para adicionar novos tabs--------------------------------------------------------------------------
     private void criarTab(String titulo, Node conteudo){
         Tab tab = new Tab(titulo);
         tab.setContent(conteudo);
         tabPaneGraficos.getTabs().add(tab);
     }
 
-    //(Função chamada para adicionar novos graficos nos tabs)-----------------------------------------------------------
+    //Função chamada para adicionar novos graficos nos tabs-------------------------------------------------------------
     public void adicionarGraficoNaTab(String ano,AnchorPane paneInterface) {
         GraficoModel grafico = manager.getGrafico(ano);
         if (!Validadores.tabExiste(ano, tabPaneGraficos)) {
@@ -52,11 +52,11 @@ public class TabGraficosController implements Initializable {
             Toast.mostrarToast(paneInterface, "Grafico adicionado!", ToastEnum.SUCESSO, 100, 320);
         }
     }
+    //Função para alteração do grafico que mostra na Tab----------------------------------------------------------------
     public void atualizarGraficoNaTab() {
         for (Tab tab : tabPaneGraficos.getTabs()) {
             tab.setContent(UIUtils.criarNodeCentralizadoVerticalmente(manager.getGrafico(tab.getText()).getChart()));
         }
     }
-
-
+    //------------------------------------------------------------------------------------------------------------------
 }

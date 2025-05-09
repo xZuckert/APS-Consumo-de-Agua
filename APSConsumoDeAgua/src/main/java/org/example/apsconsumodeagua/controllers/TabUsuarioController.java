@@ -14,17 +14,17 @@ import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-//(Classe que controla a view Usuario)----------------------------------------------------------------------------------
+//Classe que controla a view Usuario------------------------------------------------------------------------------------
 public class TabUsuarioController implements Initializable {
     AppModel appModel = AppModel.getInstance();
-    //(Variavel que recebe o usuario logado)----------------------------------------------------------------------------
+    //Variavel que recebe o usuario logado------------------------------------------------------------------------------
     final UsuarioModel usuario = UsuarioService.getInstance().getUsuarioLogado();
     @FXML
     public AnchorPane contentTabUsuario;
     @FXML
     public TextField nomeField,sobrenomeField,cpfField,emailField,cepField, bairroField, ruaField, numeroField,estadoField,cidadeField,pessoasField;
 
-    //(Função chamada ao iniciar o fxml de usuario)---------------------------------------------------------------------
+    //Função chamada ao iniciar o fxml de usuario-----------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nomeField.setText(usuario.getNome());
@@ -39,7 +39,7 @@ public class TabUsuarioController implements Initializable {
         cidadeField.setText(usuario.getCidade());
         pessoasField.setText(String.valueOf(usuario.getPessoasNaCasa()));
     }
-
+    //Atualiza o numero de moradores do usuario-------------------------------------------------------------------------
     @FXML
     public void atualizarQuantidadeMoradores(){
         if(Validadores.osCamposEstaoPreenchidosComInteiros(appModel.getRootPane(),pessoasField)){
@@ -51,7 +51,9 @@ public class TabUsuarioController implements Initializable {
             atualizarConsumoIdeal();
         }
     }
+    //Atualiza o calculo de consumo ideal com base no numero de moradores-----------------------------------------------
     public void atualizarConsumoIdeal(){
         usuario.setConsumoIdeal(AppConstantes.CONSUMO_IDEAL_POR_PESSOA * 30 * usuario.getPessoasNaCasa());
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

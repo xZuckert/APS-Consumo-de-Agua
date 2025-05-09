@@ -92,23 +92,30 @@ public class GraficoManager {
             dados.add(new XYChart.Data<>(mes,0));
         }
     }
-    private XYChart.Series<String,Number> gerarDadosConsumoIdeal() {
-        XYChart.Series<String,Number> series = new XYChart.Series<>();
-        List<XYChart.Data<String, Number>> dados = new ArrayList<>();
+    private XYChart.Series<String, Number> gerarDadosConsumoIdeal() {
+        ObservableList<XYChart.Data<String, Number>> dados = FXCollections.observableArrayList();
+        XYChart.Series<String, Number> series = new XYChart.Series<>(dados);
+        series.setName("Consumo Ideal");
+
         if (Objects.requireNonNull(UsuarioService.getInstance().getTipoGrafico()) == TipoGrafico.BARRA) {
-            dados.add(new XYChart.Data<>("Consumo Ideal", usuario.getConsumoIdeal()));
+            XYChart.Data<String, Number> dadoUnico = new XYChart.Data<>("Consumo Ideal", usuario.getConsumoIdeal());
+            dados.add(dadoUnico);
+            usuario.consumoIdealProperty().addListener((obs, oldVal, newVal) -> dadoUnico.setYValue(newVal));
+
             for (String mes : AppConstantes.MESES) {
                 dados.add(new XYChart.Data<>(mes, 0));
             }
         } else {
             for (String mes : AppConstantes.MESES) {
-                dados.add(new XYChart.Data<>(mes, usuario.getConsumoIdeal()));
+                XYChart.Data<String, Number> dado = new XYChart.Data<>(mes, usuario.getConsumoIdeal());
+                dados.add(dado);
+                usuario.consumoIdealProperty().addListener((obs, oldVal, newVal) -> dado.setYValue(newVal));
             }
         }
-        series.getData().addAll(dados);
-        series.setName("Consumo Ideal");
+
         return series;
     }
+
 
     //(Função para atualizar os dados do grafico template)--------------------------------------------------------------
     public ObservableList<XYChart.Data<String, Number>> clonarSerie(String ano) {

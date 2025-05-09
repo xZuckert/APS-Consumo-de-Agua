@@ -12,7 +12,7 @@ import org.example.apsconsumodeagua.services.UsuarioService;
 
 import java.net.URL;
 import java.util.*;
-//(Classe que controla a view Aplicacao)--------------------------------------------------------------------------------
+//Classe que controla a view Aplicacao----------------------------------------------------------------------------------
 public class AplicacaoController implements Initializable {
     private final AppModel appModel = AppModel.getInstance();
 
@@ -21,17 +21,18 @@ public class AplicacaoController implements Initializable {
     @FXML
     private AnchorPane paneInterface;
 
-    //(Função chamada ao inicializar o fxml)----------------------------------------------------------------------------
+    //Função chamada ao inicializar o fxml------------------------------------------------------------------------------
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appModel.setRootPane(paneInterface);
         appModel.carregarAplicacao(tabUsuario, tabHome, tabGraficos);
     }
 
-    //(Função para trocar de tela)--------------------------------------------------------------------------------------
+    //Função para trocar de tela----------------------------------------------------------------------------------------
     @FXML
     public void trocarTab(ActionEvent event) {
         ToggleButton botaoClicado = (ToggleButton) event.getSource();
         appModel.getTabManager().alternarAba(botaoClicado);
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

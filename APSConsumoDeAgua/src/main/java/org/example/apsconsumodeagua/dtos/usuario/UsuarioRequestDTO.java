@@ -1,5 +1,6 @@
 package org.example.apsconsumodeagua.dtos.usuario;
 
+//Classes DTO usadas para entrada de dados do usuário entre as camadas da aplicação-------------------------------------
 public class UsuarioRequestDTO {
     private String nome;
     private String sobrenome;
@@ -85,4 +86,5 @@ public class UsuarioRequestDTO {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

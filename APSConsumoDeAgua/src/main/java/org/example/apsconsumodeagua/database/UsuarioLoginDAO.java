@@ -3,17 +3,17 @@ package org.example.apsconsumodeagua.database;
 import javafx.fxml.FXML;
 import org.example.apsconsumodeagua.dtos.usuario.UsuarioRequestDTO;
 import org.example.apsconsumodeagua.utils.encryptor.PasswordVerifier;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//Classe responsável pelo acesso e persistência dos dados de login do usuário integrada com o banco de dados------------
 public class UsuarioLoginDAO {
     @FXML
-    private PasswordVerifier verifier = new PasswordVerifier();
-
+    private final PasswordVerifier verifier = new PasswordVerifier();
+    //Função de autenticação do logindo do usuario com banco de dados---------------------------------------------------
     public boolean autenticacaoUsuario(UsuarioRequestDTO objUsuarioRequestDTO) {
-        try (Connection conexao = DatabaseConnection.conectarDB()) {
+        try(Connection conexao = DatabaseConnection.conectarDB()) {
             assert conexao != null;
             try (PreparedStatement pstm = conexao.prepareStatement("SELECT senha FROM usuario WHERE cpf = ?")) {
                 pstm.setString(1, objUsuarioRequestDTO.getCpf());
@@ -28,21 +28,21 @@ public class UsuarioLoginDAO {
         }
         return false;
     }
-
+    //Função para pegar os dados do usuário no banco de dados-----------------------------------------------------------
     public static List<UsuarioRequestDTO> getDados(String cpf) {
         List<UsuarioRequestDTO> todosDados = new ArrayList<>();
-        try {
-            Connection conexao = DatabaseConnection.getConexao();
-            String sql = "SELECT usuario.nome, usuario.sobrenome, usuario.email, usuario.cpf, usuario.senha, " +
-                    "cep.bairro, cep.rua, endereco.numero, cep.cidade, cep.estado, cep.cep, usuario.nummoradores " +
-                    "FROM usuario " +
-                    "JOIN cep ON usuario.cepfk = cep.cep " +
-                    "JOIN endereco ON cep.cep = endereco.cep " +
-                    "WHERE usuario.cpf = ?";
-            PreparedStatement pstm = conexao.prepareStatement(sql);
-            pstm.setString(1, cpf);
+        String sql = "SELECT usuario.nome, usuario.sobrenome, usuario.email, usuario.cpf, usuario.senha, " +
+                     "cep.bairro, cep.rua, endereco.numero, cep.cidade, cep.estado, cep.cep, usuario.nummoradores " +
+                     "FROM usuario " +
+                     "JOIN cep ON usuario.cepfk = cep.cep " +
+                     "JOIN endereco ON cep.cep = endereco.cep " +
+                     "WHERE usuario.cpf = ?";
+        try(Connection conexao = DatabaseConnection.getConexao();
+            PreparedStatement pstm = conexao.prepareStatement(sql)){
 
+            pstm.setString(1, cpf);
             ResultSet rs = pstm.executeQuery();
+
             while (rs.next()) {
                 UsuarioRequestDTO usuarioRequestLoginDTO = new UsuarioRequestDTO();
                 usuarioRequestLoginDTO.setNome(rs.getString("nome"));
@@ -64,28 +64,27 @@ public class UsuarioLoginDAO {
         }
         return todosDados;
     }
+    //Registro dos dados do usuário no banco de dados-------------------------------------------------------------------
     public static void registrarDados(String nome, String sobrenome, String email, String cpf, String cep, String bairro,
         String rua, String numero, String cidade, String estado, String senha, int pessoas) {
-        try {
-            Connection conexao = DatabaseConnection.getConexao();
-            String sqlCep = "insert into cep values ( ?, ?, ?, ?, ?);";
-            PreparedStatement pstmCep = conexao.prepareStatement(sqlCep);
+        String sqlCep = "insert into cep values ( ?, ?, ?, ?, ?);";
+
+        try(Connection conexao = DatabaseConnection.getConexao();
+            PreparedStatement pstmCep = conexao.prepareStatement(sqlCep)) {
             pstmCep.setString(1, cep);
             pstmCep.setString(2, rua);
             pstmCep.setString(3, bairro);
             pstmCep.setString(4, cidade);
             pstmCep.setString(5, estado);
             pstmCep.executeUpdate();
-            try {
-                String sqlEndereco = "insert into endereco (cep, numero) values (?, ?);";
-                PreparedStatement pstmEndereco = conexao.prepareStatement(sqlEndereco);
+            String sqlEndereco = "insert into endereco (cep, numero) values (?, ?);";
+            try(PreparedStatement pstmEndereco = conexao.prepareStatement(sqlEndereco)){
                 pstmEndereco.setString(1, cep);
                 pstmEndereco.setString(2, numero);
                 pstmEndereco.executeUpdate();
-                try {
-                    String sqlUsuario = "insert into usuario (nome, sobrenome, email, cpf, senha, cepfk, nummoradores) values \n" +
+                String sqlUsuario = "insert into usuario (nome, sobrenome, email, cpf, senha, cepfk, nummoradores) values \n" +
                             "(?, ?, ?, ?, ?, ?, ?);";
-                    PreparedStatement pstmUsuario = conexao.prepareStatement(sqlUsuario);
+                try (PreparedStatement pstmUsuario = conexao.prepareStatement(sqlUsuario)){
                     pstmUsuario.setString(1, nome);
                     pstmUsuario.setString(2, sobrenome);
                     pstmUsuario.setString(3, email);
@@ -107,21 +106,21 @@ public class UsuarioLoginDAO {
             System.out.println(e.getMessage());
         }
     }
-    //Função para atualizar numero de moradores no banco de dados-------------------------------------------------------
+    //Atualização do numero de moradores no banco de dados--------------------------------------------------------------
     public static void atualizarMoradores(int pessoas, String cpf) {
-        Connection conexao = DatabaseConnection.getConexao();
-        try{
-            String sql = "UPDATE usuario " +
-                    "SET nummoradores = ? " +
-                    "where cpf = ?";
-            PreparedStatement pstm = conexao.prepareStatement(sql);
+        String sql = "UPDATE usuario " +
+                     "SET nummoradores = ? " +
+                     "where cpf = ?";
+        try(Connection conexao = DatabaseConnection.getConexao();
+            PreparedStatement pstm = conexao.prepareStatement(sql)){
+
             pstm.setInt(1, pessoas);
             pstm.setString(2, cpf);
             pstm.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
-    //------------------------------------------------------------------------------------------------------------------
         }
     }
+    //------------------------------------------------------------------------------------------------------------------
 }
