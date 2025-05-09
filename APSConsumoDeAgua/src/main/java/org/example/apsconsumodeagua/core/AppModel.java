@@ -76,6 +76,13 @@ public class AppModel {
         if (graficoManager.getGrafico(anoAtual) == null) {
             UsuarioGraficoDAO.getDadosUsuarioGraficoDB(UsuarioService.getInstance().getUsuarioLogado().getCpf());
             System.out.println(graficoManager.valores);
+            if(graficoManager.valores.isEmpty()) {
+                graficoManager.gerarGrafico(anoAtual, tipoGrafico);
+                tabGraficosController.adicionarGraficoNaTab(anoAtual,rootPane);
+                tabHomeController.selecionarGrafico(anoAtual);
+                graficoSelecionadoAtual = anoAtual;
+                return;
+            }
             graficoManager.valores.forEach((key, value) -> {
                 graficoManager.gerarGrafico(key,tipoGrafico);
                 tabGraficosController.adicionarGraficoNaTab(key,rootPane);
@@ -83,12 +90,6 @@ public class AppModel {
                 tabHomeController.selecionarGrafico(key);
                 graficoSelecionadoAtual = key;
             });
-            if(graficoManager.valores.isEmpty()) {
-                graficoManager.gerarGrafico(anoAtual, tipoGrafico);
-                tabGraficosController.adicionarGraficoNaTab(anoAtual,rootPane);
-                tabHomeController.selecionarGrafico(anoAtual);
-                graficoSelecionadoAtual = anoAtual;
-            }
         }
     }
     private void inicializarBoxAnos(){
