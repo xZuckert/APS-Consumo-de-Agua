@@ -70,7 +70,7 @@ public class AppModel {
         tabHomeController = carregarFXMLComController(CaminhoFxml.TAB_HOME);
         tabGraficosController = carregarFXMLComController(CaminhoFxml.TAB_GRAFICOS);
         tabManager.inicializarComTabInicial(CaminhoFxml.TAB_HOME);
-        getTabUsuarioController().atualizarQuantidadeMoradores();
+        tabUsuarioController.atualizarConsumoIdeal();
     }
     private void inicializarGraficos(){
         String anoAtual = String.valueOf(Year.now().getValue());

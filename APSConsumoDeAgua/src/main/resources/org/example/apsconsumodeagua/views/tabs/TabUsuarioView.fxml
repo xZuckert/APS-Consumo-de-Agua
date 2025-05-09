@@ -42,7 +42,7 @@
          <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
                   <TextField fx:id="pessoasField" HBox.hgrow="ALWAYS" />
-               <Button mnemonicParsing="false" onAction="#atualizarQuantidadeMoradores" text="OK" />
+               <Button fx:id="btnAtualizarMoradores" mnemonicParsing="false" onAction="#atualizarQuantidadeMoradores" text="OK" />
             </children>
          </HBox>
             <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />

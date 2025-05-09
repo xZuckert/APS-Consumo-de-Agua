@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.core.AppModel;
+import org.example.apsconsumodeagua.database.UsuarioLoginDAO;
 import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
 import org.example.apsconsumodeagua.services.UsuarioService;
 import org.example.apsconsumodeagua.utils.Validadores;
@@ -44,7 +45,13 @@ public class TabUsuarioController implements Initializable {
         if(Validadores.osCamposEstaoPreenchidosComInteiros(appModel.getRootPane(),pessoasField)){
             UsuarioModel usuario = UsuarioService.getInstance().getUsuarioLogado();
             usuario.setPessoasNaCasa(Integer.parseInt(pessoasField.getText()));
-            usuario.setConsumoIdeal(AppConstantes.CONSUMO_IDEAL_POR_PESSOA * 30 * usuario.getPessoasNaCasa());
+            int pessoas = usuario.getPessoasNaCasa();
+            String cpf = usuario.getCpf();
+            UsuarioLoginDAO.atualizarMoradores(pessoas, cpf);
+            atualizarConsumoIdeal();
         }
+    }
+    public void atualizarConsumoIdeal(){
+        usuario.setConsumoIdeal(AppConstantes.CONSUMO_IDEAL_POR_PESSOA * 30 * usuario.getPessoasNaCasa());
     }
 }

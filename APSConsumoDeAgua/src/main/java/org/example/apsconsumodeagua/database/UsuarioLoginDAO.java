@@ -107,4 +107,21 @@ public class UsuarioLoginDAO {
             System.out.println(e.getMessage());
         }
     }
+    //Função para atualizar numero de moradores no banco de dados-------------------------------------------------------
+    public static void atualizarMoradores(int pessoas, String cpf) {
+        Connection conexao = DatabaseConnection.getConexao();
+        try{
+            String sql = "UPDATE usuario " +
+                    "SET nummoradores = ? " +
+                    "where cpf = ?";
+            PreparedStatement pstm = conexao.prepareStatement(sql);
+            pstm.setInt(1, pessoas);
+            pstm.setString(2, cpf);
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+    //------------------------------------------------------------------------------------------------------------------
+        }
+    }
 }
