@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.controllers.TabGraficosController;
+import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
 import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
@@ -62,6 +63,7 @@ public class GraficoManager {
             }
         }
         graficos.get(ano).atualizarYAxis();
+        UsuarioGraficoDAO.atualizarGraficoDB(usuario.getCpf(), ano);
     }
 
     //(Funções chamadas para gerar dados iniciais)----------------------------------------------------------------------
