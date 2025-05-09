@@ -25,13 +25,14 @@ public class UsuarioGraficoDAO {
                          "grafico.julho, grafico.agosto, grafico.setembro, grafico.outubro, grafico.novembro, grafico.dezembro\n" +
                          "FROM grafico\n" +
                          "JOIN usuario ON grafico.cpfUsuario = usuario.cpf\n" +
-                         "WHERE usuario.cpf = ? and usuario.cpf = grafico.cpfUsuario;";
+                         "WHERE usuario.cpf = ?";
             PreparedStatement pstm = conexao.prepareStatement(sql);
             pstm.setString(1, cpf);
 
             ResultSet rs = pstm.executeQuery();
+
+            manager.setGraficosCarregados(false);
             while (rs.next()) {
-                manager.setGraficosCarregados(false);
                 String ano = rs.getString("ano");
                 double[] consumos = new double[] {
                         rs.getDouble("janeiro"), rs.getDouble("fevereiro"), rs.getDouble("março"),
@@ -43,6 +44,7 @@ public class UsuarioGraficoDAO {
                 manager.valores.put(ano, dados);
             }
             manager.setGraficosCarregados(true);
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());

@@ -75,7 +75,6 @@ public class AppModel {
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoManager.getGrafico(anoAtual) == null) {
             UsuarioGraficoDAO.getDadosUsuarioGraficoDB(UsuarioService.getInstance().getUsuarioLogado().getCpf());
-            System.out.println(graficoManager.valores);
             if(graficoManager.valores.isEmpty()) {
                 graficoManager.gerarGrafico(anoAtual, tipoGrafico);
                 tabGraficosController.adicionarGraficoNaTab(anoAtual,rootPane);
