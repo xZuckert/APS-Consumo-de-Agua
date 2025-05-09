@@ -92,17 +92,15 @@ public class GraficoManager {
     private XYChart.Series<String,Number> gerarDadosConsumoIdeal() {
         XYChart.Series<String,Number> series = new XYChart.Series<>();
         List<XYChart.Data<String, Number>> dados = new ArrayList<>();
-        switch (UsuarioService.getInstance().getTipoGrafico()){
-            case BARRA:
-                dados.add(new XYChart.Data<>("Consumo Ideal", usuario.getConsumoIdeal()));
-                for (String mes : AppConstantes.MESES) {
-                    dados.add(new XYChart.Data<>(mes, 0));
-                }
-                break;
-                default:
-                    for (String mes : AppConstantes.MESES) {
-                        dados.add(new XYChart.Data<>(mes, usuario.getConsumoIdeal()));
-                    }
+        if (Objects.requireNonNull(UsuarioService.getInstance().getTipoGrafico()) == TipoGrafico.BARRA) {
+            dados.add(new XYChart.Data<>("Consumo Ideal", usuario.getConsumoIdeal()));
+            for (String mes : AppConstantes.MESES) {
+                dados.add(new XYChart.Data<>(mes, 0));
+            }
+        } else {
+            for (String mes : AppConstantes.MESES) {
+                dados.add(new XYChart.Data<>(mes, usuario.getConsumoIdeal()));
+            }
         }
         series.getData().addAll(dados);
         series.setName("Consumo Ideal");
