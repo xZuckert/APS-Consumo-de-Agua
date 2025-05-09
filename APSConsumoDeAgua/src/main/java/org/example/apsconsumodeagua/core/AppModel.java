@@ -1,9 +1,7 @@
 package org.example.apsconsumodeagua.core;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.controllers.TabGraficosController;
@@ -59,7 +57,7 @@ public class AppModel {
     //(Primeira função chamada pela aplicação)--------------------------------------------------------------------------
     public void carregarAplicacao(ToggleButton ... tabs) {
         inicializarTabs(tabs);
-        inicializarGraficoAtual();
+        inicializarGraficos();
         inicializarBoxAnos();
         inicializarListeners();
     }
@@ -73,7 +71,7 @@ public class AppModel {
         tabManager.inicializarComTabInicial(CaminhoFxml.TAB_HOME);
         getTabUsuarioController().atualizarQuantidadeMoradores();
     }
-    private void inicializarGraficoAtual(){
+    private void inicializarGraficos(){
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoManager.getGrafico(anoAtual) == null) {
             UsuarioGraficoDAO.getDadosUsuarioGraficoDB(UsuarioService.getInstance().getUsuarioLogado().getCpf());
