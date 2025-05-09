@@ -42,6 +42,7 @@ public class GraficoManager {
         }
         graficos.put(ano, factory.criarGrafico(ano,valores.get(ano),tipoGrafico));
         graficos.get(ano).getData().add(gerarDadosConsumoIdeal());
+        UsuarioGraficoDAO.criarGraficoDB(usuario.getCpf(),ano);
     }
 
     public void trocarTipoGrafico(TipoGrafico tipoGrafico){

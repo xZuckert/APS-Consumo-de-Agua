@@ -70,6 +70,51 @@ public class UsuarioGraficoDAO {
         }
         return dados;
     }
+    public static void criarGraficoDB(String cpf, String ano){
+        double[] meses = getDados(ano);
+        double jan = meses[0];
+        double fev = meses[1];
+        double mar = meses[2];
+        double abr = meses[3];
+        double mai = meses[4];
+        double jun = meses[5];
+        double jul = meses[6];
+        double ago = meses[7];
+        double set = meses[8];
+        double out = meses[9];
+        double nov = meses[10];
+        double dez = meses[11];
+        try {
+            Connection conexao = DatabaseConnection.getConexao();
+            String sql = "INSERT INTO grafico " +
+                    "(cpfUsuario,ano,janeiro,fevereiro,março,abril,maio,junho,julho,agosto,setembro,outubro,novembro,dezembro)" +
+                    "SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? " +
+                    "WHERE NOT EXISTS (" +
+                    "    SELECT 1 FROM grafico WHERE cpfUsuario = ? AND ano = ?" +
+                    ")";
+            PreparedStatement pstmGrafico = conexao.prepareStatement(sql);
+            pstmGrafico.setString(1, cpf);
+            pstmGrafico.setString(2, ano);
+            pstmGrafico.setDouble(3, jan);
+            pstmGrafico.setDouble(4, fev);
+            pstmGrafico.setDouble(5, mar);
+            pstmGrafico.setDouble(6, abr);
+            pstmGrafico.setDouble(7, mai);
+            pstmGrafico.setDouble(8, jun);
+            pstmGrafico.setDouble(9, jul);
+            pstmGrafico.setDouble(10, ago);
+            pstmGrafico.setDouble(11, set);
+            pstmGrafico.setDouble(12, out);
+            pstmGrafico.setDouble(13, nov);
+            pstmGrafico.setDouble(14, dez);
+            pstmGrafico.setString(15, cpf);
+            pstmGrafico.setString(16, ano);
+            pstmGrafico.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
 
     public static void atualizarGraficoDB(String cpf, String ano) {
         double[] meses = getDados(ano);
