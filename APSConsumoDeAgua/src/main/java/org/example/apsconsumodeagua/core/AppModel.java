@@ -1,15 +1,19 @@
 package org.example.apsconsumodeagua.core;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.controllers.TabGraficosController;
 import org.example.apsconsumodeagua.controllers.TabHomeController;
 import org.example.apsconsumodeagua.controllers.TabUsuarioController;
+import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.managers.TabManager;
 import org.example.apsconsumodeagua.managers.GraficoManager;
+import org.example.apsconsumodeagua.services.UsuarioService;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
@@ -49,7 +53,7 @@ public class AppModel {
         setTipoGrafico(TipoGrafico.AREA);
         //(Instancias das classes de manipulação dos graficos)----------------------------------------------------------
         GraficoFactory graficoFactory = new GraficoFactory();
-        graficoManager = new GraficoManager(graficoFactory);
+        graficoManager = new GraficoManager(graficoFactory, tabGraficosController, rootPane);
     }
 
     //(Primeira função chamada pela aplicação)--------------------------------------------------------------------------
@@ -72,10 +76,21 @@ public class AppModel {
     private void inicializarGraficoAtual(){
         String anoAtual = String.valueOf(Year.now().getValue());
         if (graficoManager.getGrafico(anoAtual) == null) {
-            graficoManager.gerarGrafico(anoAtual, tipoGrafico);
-            tabGraficosController.adicionarGraficoNaTab(anoAtual,rootPane);
-            tabHomeController.selecionarGrafico(anoAtual);
-            graficoSelecionadoAtual = anoAtual;
+            UsuarioGraficoDAO.getDadosUsuarioGraficoDB(UsuarioService.getInstance().getUsuarioLogado().getCpf());
+            System.out.println(graficoManager.valores);
+            graficoManager.valores.forEach((key, value) -> {
+                graficoManager.gerarGrafico(key,tipoGrafico);
+                tabGraficosController.adicionarGraficoNaTab(key,rootPane);
+                tabHomeController.atualizarBoxGraficos();
+                tabHomeController.selecionarGrafico(key);
+                graficoSelecionadoAtual = key;
+            });
+            if(graficoManager.valores.isEmpty()) {
+                graficoManager.gerarGrafico(anoAtual, tipoGrafico);
+                tabGraficosController.adicionarGraficoNaTab(anoAtual,rootPane);
+                tabHomeController.selecionarGrafico(anoAtual);
+                graficoSelecionadoAtual = anoAtual;
+            }
         }
     }
     private void inicializarBoxAnos(){

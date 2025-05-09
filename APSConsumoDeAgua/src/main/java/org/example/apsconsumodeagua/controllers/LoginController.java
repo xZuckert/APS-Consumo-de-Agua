@@ -1,13 +1,11 @@
 package org.example.apsconsumodeagua.controllers;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -16,7 +14,6 @@ import javafx.stage.Stage;
 import org.example.apsconsumodeagua.Application;
 import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
 import org.example.apsconsumodeagua.database.UsuarioLoginDAO;
-import org.example.apsconsumodeagua.dtos.usuario.UsuarioGraficoDTO;
 import org.example.apsconsumodeagua.dtos.usuario.UsuarioRequestDTO;
 import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
 import org.example.apsconsumodeagua.services.UsuarioService;
@@ -27,9 +24,7 @@ import org.example.apsconsumodeagua.utils.enums.ToastEnum;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -87,9 +82,6 @@ public class LoginController implements Initializable {
                 int pessoas = usuario.getPessoasNaCasa();
 
                 //puxa os dados do gráfico no Banco de Dados------------------------------------------------------------
-                Map<String, ObservableList<XYChart.Data<String, Number>>> dadosGrafico = UsuarioGraficoDAO.dadosGraficoDB(objUsuarioRequestDTO.getCpf());
-                System.out.println(dadosGrafico);
-
                 //Executar login----------------------------------------------------------------------------------------
                 usuarioService.setUsuarioLogado(new UsuarioModel(nome, sobrenome, email, cpf, cep, bairro, rua, numero, cidade, estado, senha, pessoas));
                 FXMLLoader novaTela = new FXMLLoader(Application.class.getResource("/org/example/apsconsumodeagua/views/Aplicacao.fxml"));

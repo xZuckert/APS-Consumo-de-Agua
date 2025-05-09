@@ -1,21 +1,24 @@
 package org.example.apsconsumodeagua.database;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
-import org.example.apsconsumodeagua.dtos.usuario.UsuarioGraficoDTO;
+import org.example.apsconsumodeagua.core.AppModel;
+import org.example.apsconsumodeagua.managers.GraficoManager;
+import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UsuarioGraficoDAO {
+    private final static AppModel appModel = AppModel.getInstance();
+    private final static GraficoManager manager = appModel.getGraficoManager();
     public static final Map<String, ObservableList<XYChart.Data<String,Number>>> valores = new HashMap<>();
     public static Map<String,double[]> dados = new HashMap<>();
-    public static Map<String, ObservableList<XYChart.Data<String, Number>>> dadosGraficoDB(String cpf) {
+    public static void getDadosUsuarioGraficoDB(String cpf) {
         try {
             Connection conexao = DatabaseConnection.getConexao();
             String sql = "SELECT grafico.ano, grafico.janeiro, grafico.fevereiro, grafico.março, grafico.abril, grafico.maio, grafico.junho,\n" +
@@ -28,6 +31,7 @@ public class UsuarioGraficoDAO {
 
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
+                manager.setGraficosCarregados(false);
                 String ano = rs.getString("ano");
                 double[] consumos = new double[] {
                         rs.getDouble("janeiro"), rs.getDouble("fevereiro"), rs.getDouble("março"),
@@ -35,14 +39,23 @@ public class UsuarioGraficoDAO {
                         rs.getDouble("julho"), rs.getDouble("agosto"),rs.getDouble("setembro"),
                         rs.getDouble("outubro"), rs.getDouble("novembro"), rs.getDouble("dezembro")
                 };
-                ObservableList<XYChart.Data<String, Number>> dados = UsuarioGraficoDTO.gerarDados(consumos);
-                UsuarioGraficoDAO.valores.put(ano,dados);
+                ObservableList<XYChart.Data<String, Number>> dados = gerarDados(consumos);
+                manager.valores.put(ano, dados);
+                manager.gerarGrafico(ano, appModel.getTipoGrafico());
             }
+            manager.setGraficosCarregados(true);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
-        return valores;
+    }
+    private static ObservableList<XYChart.Data<String, Number>> gerarDados(double... consumos) {
+        ObservableList<XYChart.Data<String, Number>> dados = FXCollections.observableArrayList();
+        String[] MESES = AppConstantes.MESES;
+        for (int i = 0; i < MESES.length && i < consumos.length; i++) {
+            dados.add(new XYChart.Data<>(MESES[i], consumos[i]));
+        }
+        return dados;
     }
     /*Connectio conexao = DatabaseConnection.getConexao();
     String sql = "insert into graphic (cpfUsuarioAno, ano, Janeiro, fevereiro, março, abril, maio, junho,

@@ -7,6 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import org.example.apsconsumodeagua.core.AppModel;
+import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
+import org.example.apsconsumodeagua.services.UsuarioService;
+
 import java.net.URL;
 import java.util.*;
 //(Classe que controla a view Aplicacao)--------------------------------------------------------------------------------

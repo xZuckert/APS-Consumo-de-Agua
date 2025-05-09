@@ -3,6 +3,8 @@ package org.example.apsconsumodeagua.managers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
+import javafx.scene.layout.AnchorPane;
+import org.example.apsconsumodeagua.controllers.TabGraficosController;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
 import org.example.apsconsumodeagua.services.UsuarioService;
@@ -15,16 +17,25 @@ import java.util.*;
 public class GraficoManager {
     private final Map<String, GraficoModel> graficos = new HashMap<>();
     public final Map<String, ObservableList<XYChart.Data<String,Number>>> valores = new HashMap<>();
+    private boolean graficosCarregados;
 
     GraficoFactory factory;
+    TabGraficosController tabGraficosController;
+    AnchorPane rootPane;
 
-    public GraficoManager(GraficoFactory factory) {
+
+    public GraficoManager(GraficoFactory factory, TabGraficosController tabGraficosController, AnchorPane rootPane) {
         this.factory = factory;
+        this.tabGraficosController = tabGraficosController;
+        this.rootPane = rootPane;
+        graficosCarregados = true;
     }
 
     //(função chamada para gerar novos graficos e vincular com os dados)------------------------------------------------
     public void gerarGrafico(String ano, TipoGrafico tipoGrafico) {
-        valores.put(ano, gerarValoresIniciais(tipoGrafico));
+        if (graficosCarregados && !valores.containsKey(ano)) {
+            valores.put(ano, gerarValoresIniciais(tipoGrafico));
+        }
         graficos.put(ano, factory.criarGrafico(ano,valores.get(ano),tipoGrafico));
         graficos.get(ano).getData().add(gerarDadosConsumoIdeal());
     }
@@ -134,6 +145,9 @@ public class GraficoManager {
     }
     public GraficoModel getGrafico(String ano) {
         return graficos.get(ano);
+    }
+    public void setGraficosCarregados(boolean carregar) {
+        this.graficosCarregados = carregar;
     }
 }
 
