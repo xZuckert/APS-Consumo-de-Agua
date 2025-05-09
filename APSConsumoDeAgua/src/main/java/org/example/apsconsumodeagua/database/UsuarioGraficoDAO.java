@@ -41,7 +41,6 @@ public class UsuarioGraficoDAO {
                 };
                 ObservableList<XYChart.Data<String, Number>> dados = gerarDados(consumos);
                 manager.valores.put(ano, dados);
-                manager.gerarGrafico(ano, appModel.getTipoGrafico());
             }
             manager.setGraficosCarregados(true);
         } catch (Exception e) {
