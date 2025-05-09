@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import org.example.apsconsumodeagua.controllers.TabGraficosController;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.models.base.GraficoModel;
+import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
 import org.example.apsconsumodeagua.services.UsuarioService;
 import org.example.apsconsumodeagua.utils.constantes.AppConstantes;
 import org.example.apsconsumodeagua.utils.enums.TipoGrafico;
@@ -15,8 +16,9 @@ import java.util.*;
 
 //(Classe para manipular os dados dos graficos)--------------------------------------------------------------------------
 public class GraficoManager {
-    private final Map<String, GraficoModel> graficos = new HashMap<>();
     public final Map<String, ObservableList<XYChart.Data<String,Number>>> valores = new HashMap<>();
+    private final Map<String, GraficoModel> graficos = new HashMap<>();
+    private final UsuarioModel usuario;
     private boolean graficosCarregados;
 
     GraficoFactory factory;
@@ -25,6 +27,7 @@ public class GraficoManager {
 
 
     public GraficoManager(GraficoFactory factory, TabGraficosController tabGraficosController, AnchorPane rootPane) {
+        usuario = UsuarioService.getInstance().getUsuarioLogado();
         this.factory = factory;
         this.tabGraficosController = tabGraficosController;
         this.rootPane = rootPane;
@@ -89,8 +92,17 @@ public class GraficoManager {
     private XYChart.Series<String,Number> gerarDadosConsumoIdeal() {
         XYChart.Series<String,Number> series = new XYChart.Series<>();
         List<XYChart.Data<String, Number>> dados = new ArrayList<>();
-        for (String mes : AppConstantes.MESES) {
-            dados.add(new XYChart.Data<>(mes, UsuarioService.getInstance().getUsuarioLogado().getConsumoIdeal()));
+        switch (UsuarioService.getInstance().getTipoGrafico()){
+            case BARRA:
+                dados.add(new XYChart.Data<>("Consumo Ideal", usuario.getConsumoIdeal()));
+                for (String mes : AppConstantes.MESES) {
+                    dados.add(new XYChart.Data<>(mes, 0));
+                }
+                break;
+                default:
+                    for (String mes : AppConstantes.MESES) {
+                        dados.add(new XYChart.Data<>(mes, usuario.getConsumoIdeal()));
+                    }
         }
         series.getData().addAll(dados);
         series.setName("Consumo Ideal");

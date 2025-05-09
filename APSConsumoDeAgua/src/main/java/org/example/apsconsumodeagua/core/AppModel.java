@@ -11,6 +11,7 @@ import org.example.apsconsumodeagua.database.UsuarioGraficoDAO;
 import org.example.apsconsumodeagua.factory.GraficoFactory;
 import org.example.apsconsumodeagua.managers.TabManager;
 import org.example.apsconsumodeagua.managers.GraficoManager;
+import org.example.apsconsumodeagua.models.usuario.UsuarioModel;
 import org.example.apsconsumodeagua.services.UsuarioService;
 import org.example.apsconsumodeagua.utils.Toast;
 import org.example.apsconsumodeagua.utils.constantes.CaminhoFxml;
@@ -35,7 +36,7 @@ public class AppModel {
     //(Pane principal da aplicação)-------------------------------------------------------------------------------------
     private AnchorPane rootPane;
 
-    private TipoGrafico tipoGrafico;
+    private final UsuarioService usuarioService = UsuarioService.getInstance();
     private String graficoSelecionadoAtual;
     private final GraficoManager graficoManager;
 
@@ -48,7 +49,7 @@ public class AppModel {
 
     //(Construtor da classe, ela está privada para não ser possível criar novas instancias)-----------------------------
     private AppModel() {
-        setTipoGrafico(TipoGrafico.AREA);
+        usuarioService.setTipoGrafico(TipoGrafico.AREA);
         //(Instancias das classes de manipulação dos graficos)----------------------------------------------------------
         GraficoFactory graficoFactory = new GraficoFactory();
         graficoManager = new GraficoManager(graficoFactory, tabGraficosController, rootPane);
@@ -76,14 +77,14 @@ public class AppModel {
         if (graficoManager.getGrafico(anoAtual) == null) {
             UsuarioGraficoDAO.getDadosUsuarioGraficoDB(UsuarioService.getInstance().getUsuarioLogado().getCpf());
             if(graficoManager.valores.isEmpty()) {
-                graficoManager.gerarGrafico(anoAtual, tipoGrafico);
+                graficoManager.gerarGrafico(anoAtual, usuarioService.getTipoGrafico());
                 tabGraficosController.adicionarGraficoNaTab(anoAtual,rootPane);
                 tabHomeController.selecionarGrafico(anoAtual);
                 graficoSelecionadoAtual = anoAtual;
                 return;
             }
             graficoManager.valores.forEach((key, value) -> {
-                graficoManager.gerarGrafico(key,tipoGrafico);
+                graficoManager.gerarGrafico(key,usuarioService.getTipoGrafico());
                 tabGraficosController.adicionarGraficoNaTab(key,rootPane);
                 tabHomeController.atualizarBoxGraficos();
                 tabHomeController.selecionarGrafico(key);
@@ -105,7 +106,7 @@ public class AppModel {
             }
         });
         tabGraficosController.tipoGrafico.valueProperty().addListener((obs, valorAntigo, valorNovo) -> {
-            setTipoGrafico(valorNovo);
+            usuarioService.setTipoGrafico(valorNovo);
             graficoManager.trocarTipoGrafico(valorNovo);
             tabGraficosController.atualizarGraficoNaTab();
             tabHomeController.selecionarGrafico(graficoSelecionadoAtual);
@@ -167,12 +168,7 @@ public class AppModel {
     public void setRootPane(AnchorPane rootPane) {
         this.rootPane = rootPane;
     }
-
-    public TipoGrafico getTipoGrafico() {
-        return tipoGrafico;
-    }
-
-    public void setTipoGrafico(TipoGrafico tipoGrafico) {
-        this.tipoGrafico = tipoGrafico;
+    public UsuarioService getUsuarioService() {
+        return usuarioService;
     }
 }
